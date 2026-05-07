@@ -1,0 +1,58 @@
+{
+    "key": "taxonomy_ath_event_status",
+    "title": "Event Statuses",
+    "menu_order": 0,
+    "active": true,
+    "taxonomy": "ath_event_status",
+    "object_type": [
+        "product"
+    ],
+    "advanced_configuration": true,
+    "import_source": "",
+    "import_date": "",
+    "labels": {
+        "name": "Event Statuses",
+        "singular_name": "Event Status",
+        "menu_name": "Event Statuses",
+        "all_items": "All Event Statuses",
+        "edit_item": "Edit Event Status",
+        "view_item": "View Event Status",
+        "update_item": "Update Event Status",
+        "add_new_item": "Add New Event Status",
+        "new_item_name": "New Event Status Name",
+        "search_items": "Search Event Statuses",
+        "popular_items": "Popular Event Statuses",
+        "separate_items_with_commas": "Separate event statuses with commas",
+        "add_or_remove_items": "Add or remove event statuses",
+        "choose_from_most_used": "Choose from the most used",
+        "not_found": "No event statuses found"
+    },
+    "description": "",
+    "public": true,
+    "hierarchical": true,
+    "show_ui": true,
+    "show_in_menu": true,
+    "show_in_nav_menus": true,
+    "show_tagcloud": false,
+    "show_in_quick_edit": true,
+    "show_admin_column": true,
+    "show_in_rest": true,
+    "rest_base": "",
+    "rest_namespace": "wp/v2",
+    "rest_controller_class": "WP_REST_Terms_Controller",
+    "rewrite": {
+        "permalink_rewrite": "event-status",
+        "with_front": "1",
+        "hierarchical": "0"
+    },
+    "query_var": "ath_event_status",
+    "query_var_name": "",
+    "default_term": {
+        "default_term_enabled": "0"
+    },
+    "sort": false,
+    "meta_box": "default",
+    "meta_box_cb": "",
+    "meta_box_sanitize_cb": "",
+    "modified": 1762380000
+}

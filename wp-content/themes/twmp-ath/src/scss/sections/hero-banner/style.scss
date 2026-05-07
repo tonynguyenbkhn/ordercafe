@@ -1,0 +1,110 @@
+/* Hero Banner section styles (desktop: left = description+button, right = title) */
+.hero-banner {
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.hero-banner__media {
+    @include ratio(1068/1440);
+    overflow: hidden;
+
+    .hero-banner__img {
+        object-fit: cover;
+        z-index: 1;
+    }
+}
+
+// .hero-banner__img {
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//     display: block;
+// }
+
+.hero-banner__content {
+    z-index: 2;
+    position: absolute;
+    z-index: 2;
+    bottom: 75px;
+    top: unset;
+    width: 100%;
+    display: flex;
+    // align-items: center;
+}
+
+.hero-banner__desc {
+    margin-bottom: 60px;
+    max-width: 380px;
+}
+
+.hero-banner__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: end;
+}
+
+.hero-banner__left,
+.hero-banner__right {
+    width: 100%;
+}
+
+.hero-banner__title {}
+
+.hero-banner__desc {}
+
+.hero-banner__cta {
+    margin-top: 1rem;
+}
+
+.hero-banner__overlay {
+    position: absolute;
+    background: linear-gradient(to right,
+            rgba(9, 8, 8, 0) 0%,
+            rgba(9, 8, 8, 0.9) 72%);
+    z-index: 1;
+    width: 100%;
+    height: calc(1068px/3);
+    bottom: 0;
+}
+
+@media (min-width: 768px) {
+    .hero-banner__content {}
+
+    .hero-banner__grid {
+        flex-direction: row;
+    }
+
+    .hero-banner__left {
+        flex: 1.5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .hero-banner__right {
+        flex: 2;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .hero-banner__title {
+        text-align: left;
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-banner__content {
+        // padding: 120px 20px;
+    }
+
+    // .hero-banner__title {
+    //     font-size: 4rem;
+    // }
+}
+
+/* Note: Import this file into your main scss entry so it gets compiled into theme CSS. */

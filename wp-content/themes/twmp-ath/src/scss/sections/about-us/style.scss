@@ -1,0 +1,104 @@
+.about-us {
+  background: #090808;
+  color: #ffffff;
+  overflow: unset;
+  position: relative;
+  padding-bottom: 120px;
+}
+
+.about-us__grid {
+  display: block;
+
+  @include clearfix();
+}
+
+.about-us__header {
+  flex-direction: column;
+  text-align: left;
+  margin-top: -50px;
+}
+
+.about-us__title {
+  margin-bottom: 64px;
+}
+
+.about-us__light {
+  position: absolute;
+  top: -190px;
+  left: 0;
+  z-index: 0;
+  transform: scale(1);
+
+  @media (min-width: 1440px) {
+    transform: scale(1.5);
+  }
+}
+
+.about-us__description {
+  @include content-style();
+}
+
+.about-us__stats {
+  display: block;
+  margin-top: 50px;
+  @include clearfix();
+}
+
+.about-us__stat {
+  float: left;
+  width: 25%;
+}
+
+.about-us__stat-value {
+  font-family: 'Beautique Display';
+  @include typo-token(48, 48, 500);
+  margin-bottom: 10px;
+}
+
+.about-us__stat-label {
+  @include typo-text-md(400);
+  color: var(--system-content-2);
+}
+
+.about-us__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 60px;
+}
+
+.about-us__button {}
+
+.about-us__button--primary {}
+
+.about-us__button--secondary {
+  background-color: transparent;
+  border: 1px solid var(--system-white);
+}
+
+.about-us__content {
+  float: left;
+  width: 100%;
+
+  @media (min-width: 992px) {
+    width: 50%;
+  }
+}
+
+.about-us__media {
+  float: right;
+  width: 100%;
+  padding-top: 20px;
+
+  @media (min-width: 992px) {
+    width: 50%;
+  }
+}
+
+.about-us__content-wrapper {
+  padding-right: 0;
+
+  @media (min-width: 992px) {
+    padding-right: 80px;
+  }
+}

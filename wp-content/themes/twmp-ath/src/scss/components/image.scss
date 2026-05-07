@@ -1,0 +1,19 @@
+.image--cover {
+	& .image__img {
+		object-fit: cover;
+	}
+}
+
+.image--contain {
+	& .image__img {
+		object-fit: contain;
+	}
+}
+
+.image--default {
+	& .image__img {
+		position: static;
+		max-width: 100%;
+		height: auto;
+	}
+}

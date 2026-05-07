@@ -1,0 +1,109 @@
+/*----------------------------------------*/
+/*  01. Single Main
+/*----------------------------------------*/
+.page-single-tin-tuc {
+	margin-top: 30px;
+	padding-bottom: 30px;
+
+	/*----------------------------------------*/
+	/* 02. Customize share icon
+	/*----------------------------------------*/
+	.share-icon__wrapper {
+		justify-content: flex-end;
+		border-top: 1px solid #dddddd;
+		border-bottom: 1px solid #dddddd;
+		padding: 10px 0;
+	}
+}
+/*----------------------------------------*/
+/* 03. Post Meta
+/*----------------------------------------*/
+.single__post-meta {
+	justify-content: center;
+	width: 100%;
+	margin-bottom: 0;
+
+	.post-meta__item {
+		margin-right: 0;
+	}
+}
+/*----------------------------------------*/
+/* 04. 
+/*----------------------------------------*/
+.single__page-title {
+	.page__title {
+		font-size: 30px;
+		color: var(--title);
+		text-align: center;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+
+	.breadcrumbs ul {
+		justify-content: center;
+	}
+}
+/*----------------------------------------*/
+/* 05. Share Icon
+/*----------------------------------------*/
+.share-icon {
+	&__wrapper {
+		justify-content: center;
+	}
+
+	svg {
+		@include icon(16px)
+	}
+
+	&__facebook {
+		background-color: #3b5998;
+	}
+
+	&__twitter {
+		background-color: #1da1f2;
+	}
+
+	&__linkedin {
+		background-color: #0077b5;
+	}
+
+	a {
+		width: 40px;
+		height: 40px;
+
+		@include flex-center;
+
+		margin: 0 5px;
+	}
+}
+/*----------------------------------------*/
+/* 06. Relate Post
+/*----------------------------------------*/
+.related-posts {
+	margin-top: 20px;
+
+	.image--default .image__img {
+		position: absolute;
+	}
+
+	.related-posts__title {
+		margin-bottom: 20px;
+	}
+
+	.post-row__wrapper {
+		.col-lg-4 {
+			width: 25%;
+		}
+
+		.col-lg-8 {
+			width: 75%;
+		}
+	}
+
+	.row {
+		article:not(:last-child) {
+			border-bottom: 1px solid #dddddd;
+			padding-bottom: 10px;
+		}
+	}
+}

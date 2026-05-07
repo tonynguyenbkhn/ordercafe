@@ -1,0 +1,169 @@
+.woocommerce-cart {
+	.entry-title {
+		text-align: center;
+	}
+
+	.shop_table.cart {
+		@include table-border;
+		width: 100%;
+
+		thead {
+			background-color: var(--primary);
+		}
+
+		th {
+			color: var(--white);
+		}
+
+		td {
+			padding: 0.5em;
+		}
+
+		.product-thumbnail {
+			&>a {
+				display: block;
+				width: 50px;
+
+				@media (min-width: 1024px) {
+					width: 100px;
+				}
+			}
+		}
+
+		.product-quantity {
+			display: none;
+
+			@media (min-width: 1024px) {
+				display: table-cell;
+			}
+		}
+
+		.product-price {
+			display: none;
+
+			@media (min-width: 1024px) {
+				display: table-cell;
+			}
+
+			.product-price-wrapper {
+				@include style-price;
+				width: 100%;
+				justify-content: center;
+			}
+		}
+
+		.product-subtotal {
+			.amount {
+				color: var(--primary);
+				font-weight: bold;
+
+				@include flex-center;
+			}
+		}
+
+		.actions {
+			.coupon {
+				float: left;
+				width: 100%;
+				margin-bottom: 1em;
+				display: flex;
+
+				@media (min-width: 1024px) {
+					width: 75%;
+					margin-bottom: 0;
+				}
+
+				input {
+					max-width: calc(100% - 130px);
+					width: 100%;
+
+					@media (min-width: 1024px) {
+						max-width: 350px;
+					}
+
+					@include input-field;
+
+					border-radius: 0;
+				}
+
+				.button {
+					padding: 10px 20px;
+					@include button-style-primary;
+
+					&:hover {
+						padding: 10px 20px;
+					}
+				}
+			}
+
+			&>.button {
+				float: left;
+				@include button-style-dark;
+
+				@media (min-width: 1024px) {
+					float: right;
+				}
+			}
+		}
+	}
+
+	.page-block__flex {
+		margin-top: 0;
+		flex-flow: row wrap;
+		justify-content: end;
+
+		@media (min-width: 1024px) {
+			margin-top: 1.5em;
+		}
+
+		.woocommerce-cart-form {
+			width: 100%;
+		}
+
+		.cart-collaterals {
+			width: 100%;
+
+			@media (min-width: 1024px) {
+				width: 33%;
+			}
+
+			.cart_totals  {
+				width: 100%;
+			}
+
+			.checkout-button {
+				@include button-style-dark;
+			}
+
+			.shop_table {
+				@include table-border;
+				width: 100%;
+
+				th {
+					width: 110px;
+				}
+			}
+
+			.wc-proceed-to-checkout {
+				padding: 10px 0;
+				margin-top: 20px;
+
+				a {
+					@include button-style-dark;
+					padding: 10px 20px;
+				}
+			}
+		}
+	}
+
+	.page-block--cart-empty {
+		.page-block__flex {
+			text-align: center;
+			flex-direction: column;
+
+			.wc-empty-cart-message {
+				margin-bottom: 1em;
+			}
+		}
+	}
+}

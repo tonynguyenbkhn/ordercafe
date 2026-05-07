@@ -1,0 +1,75 @@
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/blocks/footer-link/main.css ***!
+  \*************************************************************************************************************************************************************************************/
+
+.widget-link {
+  display: flex;
+  flex-direction: column;
+}
+
+.widget-link__item svg {
+  width: 20px;
+  height: 20px;
+}
+
+.add-link-item {
+  text-decoration: none;
+  color: #ffffff;
+  width: 20px;
+  height: 20px;
+  background-color: #000000;
+  padding: 2px;
+}
+
+.add-link-item:hover {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+.add-link-item span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-link-item span::before {
+  font-size: 14px;
+}
+
+.link-edit {
+  margin-top: 1em;
+}
+
+.link-edit .remove-link-item {
+  background-color: black;
+  color: white !important;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.link-edit .remove-link-item:hover {
+  background-color: transparent;
+  border: 1px solid #000000;
+  color: #000000 !important;
+  transition: all 0.3s ease;
+}
+
+.link-box_text {
+  display: block;
+  color: #788094;
+  margin: 0;
+  padding: 0;
+}
+
+.widget-link__item {
+  display: flex;
+  align-items: center;
+  color: #017d03;
+  text-decoration: none;
+}
+
+.link-box_icon {
+  margin-right: 1em;
+}
+
+/*# sourceMappingURL=index.css.map*/

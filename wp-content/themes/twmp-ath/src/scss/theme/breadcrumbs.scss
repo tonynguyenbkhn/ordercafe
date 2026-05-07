@@ -1,0 +1,39 @@
+.breadcrumbs {
+	display: block;
+
+	& ul {
+		@include list-reset;
+
+		display: flex;
+		flex-wrap: wrap;
+
+		& li {
+			display: inline-flex;
+			@include typo-token(16, 28, 400);
+
+			&::after {
+				content: ' / ';
+				display: flex;
+				padding: 0 3px;
+			}
+
+			&.breadcrumbs__item--end {
+				&::after {
+					content: none;
+				}
+			}
+		}
+	}
+
+	& a {
+		color: var(--primary);
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.breadcrumbs__item--end span {
+	color: var(--primary-500);
+}

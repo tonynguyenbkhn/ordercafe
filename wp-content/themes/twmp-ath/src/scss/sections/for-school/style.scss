@@ -1,0 +1,75 @@
+.for-school {
+  background: #090808;
+  color: #ffffff;
+  position: relative;
+  padding: 160px 0;
+}
+
+.for-school__grid {
+  display: block;
+
+  @include clearfix();
+}
+
+.for-school__header {
+  flex-direction: column;
+  text-align: left;
+  padding-right: 0;
+
+  @media (min-width: 992px) {
+    padding-right: 120px;
+  }
+}
+
+.for-school__title {
+  margin-bottom: 64px;
+}
+
+.for-school__light {
+  position: absolute;
+  left: 0;
+  z-index: 0;
+  top: 0;
+
+  @media (min-width: 1440px) {
+    transform: scale(1.5);
+  }
+}
+
+.for-school__description {
+  @include content-style();
+}
+
+.for-school__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.for-school__button {}
+
+.for-school__button--primary {}
+
+.for-school__button--secondary {
+  background-color: transparent;
+  border: 1px solid var(--system-white);
+}
+
+.for-school__content {
+  float: left;
+  width: 50%;
+}
+
+.for-school__media {
+  float: right;
+  width: 50%;
+
+  &-primary {
+    padding-left: 0;
+
+    @media (min-width: 992px) {
+      padding-left: 60px;
+    }
+  }
+}

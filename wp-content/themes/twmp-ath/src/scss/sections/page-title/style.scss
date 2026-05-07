@@ -1,0 +1,21 @@
+.page__title-content {
+    margin-top: 44px;
+    margin-bottom: 30px;
+
+    .page__title-area {
+        margin-bottom: 80px;
+    }
+
+    .page__description {
+        color: var(--system-content-1);
+        @include typo-display-xs(400);
+        text-align: center;
+    }
+}
+
+.page__title {
+    font-family: var(--font-beautique-display);
+    color: var(--system-black);
+    @include typo-token(80, 120, 400);
+    text-align: center;
+}

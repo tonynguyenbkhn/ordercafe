@@ -1,0 +1,81 @@
+
+header {
+	&.header--visible {
+		@media (min-width: 1024px) {
+			position: fixed;
+			left: 0;
+			width: 100%;
+			top: 0;
+			background-color: black;
+			color: white;
+			animation: 300ms ease-in-out 0s 1 normal none running fadeInDown;
+			box-shadow: rgba(8, 0, 42, 0.08) 0px 10px 20px 0px;
+			z-index: 99;
+		}
+
+		// .header__logo,
+		// .header__banner {
+		// 	display: none;
+		// }
+
+		// .header__top {
+		// 	display: none;
+		// }
+
+		.header__nav {
+			margin-top: 0;
+		}
+
+		.header__row {
+			padding-top: 0;
+		}
+
+		.buy-online__wrapper {
+			padding: 6px 20px 6px 20px;
+
+			h2 {
+				display: none;
+			}
+
+			svg {
+				@include icon(24px)
+			}
+		}
+
+		// .main-menu {
+		// 	display: none !important;
+		// }
+
+		.header__bottom-container {
+			max-width: 100%;
+			padding: 0;
+			overflow-x: auto;
+			white-space: nowrap;
+		}
+
+		.category-grid {
+			margin: 0;
+		}
+
+		.category-grid__wrapper {
+			border-radius: 0;
+			padding: 5px;
+		}
+
+		.category-grid__item a {
+			display: flex;
+			align-items: center;
+			font-weight: bold;
+		}
+
+		.image {
+			width: 20px;
+			height: 20px;
+
+			&__img {
+				height: auto;
+				max-width: 100%;
+			}
+		}
+	}
+}

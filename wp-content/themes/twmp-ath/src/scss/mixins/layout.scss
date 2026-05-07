@@ -1,0 +1,98 @@
+/*-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+
+    CSS LAYOUT
+    ===================
+
+	  01. Absolute full
+    02. Absolute Center
+    03. Flex Center
+    04. Container
+    05. Row
+    06. Col
+ 
+-----------------------------------------------------------------------------------*/
+
+/*----------------------------------------*/
+/*  01. Absolute full
+/*----------------------------------------*/
+@mixin abs-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*----------------------------------------*/
+/*  02. Absolute Center
+/*----------------------------------------*/
+@mixin abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/*----------------------------------------*/
+/*  03. Flex Center
+/*----------------------------------------*/
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*----------------------------------------*/
+/*  04. Container
+/*----------------------------------------*/
+@mixin container {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+
+  @media (min-width: 782px) {
+    max-width: var(--container-max-sm);
+  }
+
+  @media (--md) {
+    max-width: var(--container-max-md);
+  }
+
+  @media (--lg) {
+    max-width: var(--container-max-lg);
+  }
+
+  @media (min-width: 1600px) {
+    max-width: var(--container-max-xl);
+  }
+
+  @media (--xxl) {
+    max-width: var(--container-max-xxl);
+  }
+}
+
+/*----------------------------------------*/
+/*  05. Row
+/*----------------------------------------*/
+@mixin row ($space) {
+  display: flex;
+  flex-flow: row wrap;
+  margin-left: $space;
+  margin-right: $space;
+}
+
+/*----------------------------------------*/
+/*  06. Col
+/*----------------------------------------*/
+@mixin col ($size, $space) {
+  flex: 0 0 calc(100%*$size/12);
+  max-width: calc(100%*$size/12);
+  padding-left: $space;
+  padding-right: $space;
+}

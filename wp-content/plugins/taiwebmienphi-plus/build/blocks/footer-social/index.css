@@ -1,0 +1,72 @@
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/blocks/footer-social/main.css ***!
+  \***************************************************************************************************************************************************************************************/
+.social-links {
+  display: flex;
+  align-items: center;
+}
+
+.social-links__item {
+  background-color: black;
+  margin-right: 0.625em;
+  width: 46px;
+  height: 46px;
+  display: inline-block;
+  position: relative;
+  border-radius: 4px;
+}
+
+.social-links__item svg {
+  width: 20px;
+  height: 20px;
+  fill: #ffffff;
+  color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.add-social-item {
+  text-decoration: none;
+  color: #ffffff;
+  width: 20px;
+  height: 20px;
+  background-color: #000000;
+  padding: 2px;
+}
+
+.add-social-item:hover {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+.add-social-item span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-social-item span::before {
+  font-size: 14px;
+}
+
+.social-edit {
+  margin-top: 1em;
+}
+
+.social-edit .remove-social-item {
+  background-color: black;
+  color: white !important;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.social-edit .remove-social-item:hover {
+  background-color: transparent;
+  border: 1px solid #000000;
+  color: #000000 !important;
+  transition: all 0.3s ease;
+}
+
+/*# sourceMappingURL=index.css.map*/

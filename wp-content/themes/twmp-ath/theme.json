@@ -1,0 +1,252 @@
+{
+    "version": 2,
+    "settings": {
+        "color": {
+            "palette": [
+                {
+                    "slug": "bg",
+                    "color": "#F6F4ED",
+                    "name": "Background"
+                },
+                {
+                    "slug": "primary-900",
+                    "color": "#3B0C00",
+                    "name": "Primary 900"
+                },
+                {
+                    "slug": "primary-800",
+                    "color": "#741801",
+                    "name": "Primary 800"
+                },
+                {
+                    "slug": "primary-700",
+                    "color": "#A82809",
+                    "name": "Primary 700"
+                },
+                {
+                    "slug": "primary-600",
+                    "color": "#E6431C",
+                    "name": "Primary 600"
+                },
+                {
+                    "slug": "primary-500",
+                    "color": "#F04C26",
+                    "name": "Primary 500"
+                },
+                {
+                    "slug": "primary-400",
+                    "color": "#FF8467",
+                    "name": "Primary 400"
+                },
+                {
+                    "slug": "primary-300",
+                    "color": "#FFB3A1",
+                    "name": "Primary 300"
+                },
+                {
+                    "slug": "primary-200",
+                    "color": "#FFD8CE",
+                    "name": "Primary 200"
+                },
+                {
+                    "slug": "primary-100",
+                    "color": "#FFE9E4",
+                    "name": "Primary 100"
+                },
+                {
+                    "slug": "secondary-blue",
+                    "color": "#047FFC",
+                    "name": "Secondary Blue"
+                },
+                {
+                    "slug": "secondary-yellow",
+                    "color": "#047FFC",
+                    "name": "Secondary Yellow"
+                },
+                {
+                    "slug": "secondary-green",
+                    "color": "#047FFC",
+                    "name": "Secondary Green"
+                },
+                {
+                    "slug": "secondary-bg1",
+                    "color": "#047FFC",
+                    "name": "Secondary BG1"
+                },
+                {
+                    "slug": "secondary-bg2",
+                    "color": "#047FFC",
+                    "name": "Secondary BG2"
+                },
+                {
+                    "slug": "secondary-bg3",
+                    "color": "#047FFC",
+                    "name": "Secondary BG3"
+                },
+                {
+                    "slug": "secondary-bg4",
+                    "color": "#047FFC",
+                    "name": "Secondary BG4"
+                },
+                {
+                    "slug": "system-black",
+                    "color": "#000A2C",
+                    "name": "System Black"
+                },
+                {
+                    "slug": "system-content-1",
+                    "color": "#6F7273",
+                    "name": "Content 1"
+                },
+                {
+                    "slug": "system-content-2",
+                    "color": "#FFFFFF",
+                    "name": "Content 2"
+                },
+                {
+                    "slug": "system-white",
+                    "color": "#FFFFFF",
+                    "name": "White"
+                },
+                {
+                    "slug": "system-inactive",
+                    "color": "#CCD0D4",
+                    "name": "Inactive"
+                },
+                {
+                    "slug": "system-border",
+                    "color": "#E0E1E3",
+                    "name": "Border"
+                },
+                {
+                    "slug": "system-placeholder",
+                    "color": "#BFCFD1",
+                    "name": "Placeholder"
+                },
+                {
+                    "slug": "system-disabled",
+                    "color": "#E6E8EB",
+                    "name": "Disabled"
+                }
+            ]
+        },
+        "typography": {
+            "fontFamilies": [
+                {
+                    "slug": "playfair-display",
+                    "name": "Playfair Display",
+                    "fontFamily": "'Playfair Display', serif"
+                },
+                {
+                    "slug": "archivo",
+                    "name": "Archivo",
+                    "fontFamily": "'Archivo', sans-serif"
+                },
+                {
+                    "slug": "beautique-display",
+                    "name": "Beautique Display",
+                    "fontFamily": "'Beautique Display', serif"
+                },
+                {
+                    "slug": "inter",
+                    "name": "Inter",
+                    "fontFamily": "'Inter', sans-serif"
+                }
+            ]
+        },
+        "appearanceTools": true,
+        "spacing": {
+            "margin": true,
+            "padding": true,
+            "blockGap": true,
+            "units": [
+                "px",
+                "rem",
+                "em",
+                "%",
+                "vw",
+                "vh"
+            ]
+        },
+        "border": {
+            "color": true,
+            "radius": true,
+            "style": true,
+            "width": true
+        },
+        "layout": {
+            "contentSize": "1280px",
+            "wideSize": "1440px"
+        }
+    },
+    "styles": {
+        "blocks": {
+            "core/group": {
+                "spacing": {
+                    "padding": {
+                        "top": "0",
+                        "right": "0",
+                        "bottom": "0",
+                        "left": "0"
+                    },
+                    "margin": {
+                        "top": "0",
+                        "right": "0",
+                        "bottom": "0",
+                        "left": "0"
+                    },
+                    "blockGap": "0"
+                }
+            },
+            "core/columns": {
+                "spacing": {
+                    "padding": {
+                        "top": "0",
+                        "right": "0",
+                        "bottom": "0",
+                        "left": "0"
+                    },
+                    "margin": {
+                        "top": "0",
+                        "right": "0",
+                        "bottom": "0",
+                        "left": "0"
+                    },
+                    "blockGap": "0"
+                }
+            },
+            "core/column": {
+                "spacing": {
+                    "padding": {
+                        "top": "0",
+                        "right": "0",
+                        "bottom": "0",
+                        "left": "0"
+                    },
+                    "margin": {
+                        "top": "0",
+                        "right": "0",
+                        "bottom": "0",
+                        "left": "0"
+                    }
+                }
+            },
+            "core/paragraph": {
+                "spacing": {
+                    "padding": {
+                        "top": "0",
+                        "right": "0",
+                        "bottom": "0",
+                        "left": "0"
+                    },
+                    "margin": {
+                        "top": "0",
+                        "right": "0",
+                        "bottom": "0",
+                        "left": "0"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+.back-to-top {
+	@include flex-center;
+
+	position: fixed;
+	bottom: 1em;
+	left: 1em;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	background-color: var(--primary);
+	box-shadow: var(--shadow);
+	border-radius: var(--border-radius);
+	z-index: 10;
+	border: 0;
+	opacity: 0;
+
+	@media (min-width: 1024px) {
+		left: unset;
+		right: 1em;
+	}
+
+	@include transition(background-color);
+
+    background-color: var(--primary-500);
+
+	&:focus,
+	&:hover {
+		cursor: pointer;
+	}
+
+	&.back-to-top--visible {
+		opacity: 1;
+	}
+}
+
+.back-to-top__icon {
+	@include icon(24px);
+
+	& svg {
+		@include flex-center;
+
+		stroke: var(--system-white);
+	}
+}

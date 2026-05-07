@@ -1,0 +1,27 @@
+.recenlty_viewed_page {
+    .woocommerce.yith-similar-products {
+        overflow: unset;
+
+        * {
+            min-width: unset;
+            min-height: unset;
+        }
+
+        .remove-product {
+            text-align: right;
+        }
+    }
+
+    .yith-wrvp-filters-cat {
+        display: none;
+    }
+
+    .site-main .entry-content ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .woocommerce ul.products.columns-5 li.product div.woocommerce-loop-product__link span.price {
+        width: 100%;
+    }
+}

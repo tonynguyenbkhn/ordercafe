@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 2,
+  "name": "taiwebmienphi-plus/footer-link",
+  "title": "[Footer] - Link",
+  "category": "twmp-plus-category",
+  "textdomain": "taiwebmienphi-plus",
+  "attributes": {
+    "infoHandles": {
+      "type": "array",
+      "default": [
+        {
+          "url": "#",
+          "icon": "map",
+          "text": "Đông Anh, Hà Nội"
+        },
+        {
+          "url": "#",
+          "icon": "phone",
+          "text": "0867.888.159"
+        }
+      ],
+      "source": "query",
+      "selector": ".widget-link a",
+      "query": {
+        "url": {
+          "source": "attribute",
+          "attribute": "href"
+        },
+        "icon": {
+          "source": "attribute",
+          "attribute": "data-icon"
+        },
+        "text": {
+          "source": "attribute",
+          "attribute": "data-text"
+        }
+      }
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./index.css"
+}

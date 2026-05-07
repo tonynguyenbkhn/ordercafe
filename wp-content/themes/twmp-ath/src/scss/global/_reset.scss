@@ -1,0 +1,38 @@
+body {
+	background-color: var(--bg-body);
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+}
+
+ul,
+ol {
+	@include list-reset;
+}
+
+a {
+	color: inherit;
+	text-decoration: unset !important;
+	transition: color 0.3s ease;
+
+	&:hover {
+		color: var(--primary);
+	}
+}
+
+p,
+.wp-block-image,
+figure {
+	margin: 0;
+}
+
+p {
+	font-size: 16px;
+	line-height: 26px;
+}
+
+.section {
+	overflow: hidden;
+}

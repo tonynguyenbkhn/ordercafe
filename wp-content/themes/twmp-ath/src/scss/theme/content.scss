@@ -1,0 +1,29 @@
+.woocommerce .woocommerce-Tabs-panel--description.entry-content {
+	& > * {
+		margin: 12px 0;
+		font-size: 14px;
+		color: var(--body-text-color);
+	}
+
+	& > h2,
+	& > h3 {
+		color: var(--title);
+	}
+
+	& > h2 {
+		font-size: var(--h3);
+	}
+
+	& > h3 {
+		font-size: var(--h3);
+	}
+
+	& > ol,
+	ul {
+		padding-left: 2rem;
+	}
+
+	& > ul {
+		list-style: disc;
+	}
+}

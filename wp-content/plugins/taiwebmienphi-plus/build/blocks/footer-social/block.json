@@ -1,0 +1,37 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 2,
+  "name": "taiwebmienphi-plus/footer-social",
+  "title": "[Footer] - Socical",
+  "category": "twmp-plus-category",
+  "textdomain": "taiwebmienphi-plus",
+  "attributes": {
+    "socialHandles": {
+      "type": "array",
+      "default": [
+        {
+          "url": "https://facebook.com",
+          "icon": "facebook"
+        },
+        {
+          "url": "https://instagram.com",
+          "icon": "instagram"
+        }
+      ],
+      "source": "query",
+      "selector": ".social-links a",
+      "query": {
+        "url": {
+          "source": "attribute",
+          "attribute": "href"
+        },
+        "icon": {
+          "source": "attribute",
+          "attribute": "data-icon"
+        }
+      }
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./index.css"
+}

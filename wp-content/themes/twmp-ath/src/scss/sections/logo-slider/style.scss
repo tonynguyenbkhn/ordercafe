@@ -1,0 +1,10 @@
+.logo-slider {
+    background-color: #191919;
+    padding: 50px 0;
+
+    .swiper-slide {
+        padding: 20px 60px;
+        border: 1px solid rgba($color: #ffffff, $alpha: 0.3);
+        @include flex-center;
+    }
+}

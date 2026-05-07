@@ -1,0 +1,31 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 2,
+  "name": "taiwebmienphi-plus/widget-related-posts",
+  "title": "[Widget] - Related Posts",
+  "category": "twmp-plus-category",
+  "textdomain": "taiwebmienphi-plus",
+  "attributes": {
+    "showDescription": {
+      "type": "boolean",
+      "default": true
+    },
+    "showDate": {
+      "type": "boolean",
+      "default": true
+    },
+    "showAuthor": {
+      "type": "boolean",
+      "default": true
+    },
+    "showCategory": {
+      "type": "boolean",
+      "default": true
+    },
+    "showViewMore": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "editorScript": "file:./index.js"
+}

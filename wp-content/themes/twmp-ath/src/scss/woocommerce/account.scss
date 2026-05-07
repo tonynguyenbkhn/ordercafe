@@ -1,0 +1,325 @@
+.woocommerce-MyAccount-navigation {
+	margin-bottom: 1em;
+	@media (min-width: 1024px) {
+		margin-bottom: 0;
+	}
+	ul {
+		li {
+			a {
+				display: inline-block;
+				@include button-style-outline-dark;
+				padding: 0.5em 1em;
+				color: var(--title);
+				width: 100%;
+				text-transform: uppercase;
+				font-weight: bold;
+
+				&:hover {
+					padding: 0.5em 1em;
+				}
+			}
+
+			&:not(:first-child) {
+				a {
+					margin-top: -1px;
+				}
+			}
+
+			&.is-active {
+				a {
+					border-color: var(--primary);
+					background-color: var(--primary);
+					color: var(--white);
+				}
+			}
+		}
+	}
+}
+
+.page-block--account {
+	@include row(-1em);
+
+	& > .woocommerce-MyAccount-navigation {
+		@include col(12, 1em);
+
+		@media (min-width: 1024px) {
+			@include col(3, 1em);
+		}
+	}
+
+	& > .woocommerce-MyAccount-content {
+		@include col(12, 1em);
+
+		@media (min-width: 1024px) {
+			@include col(8, 1em);
+		}
+
+		.woocommerce-info {
+			color: var(--primary);
+			margin-bottom: 1em;
+		}
+
+		.shop_table {
+			@include table-border;
+
+			margin: 0;
+		}
+
+		.woocommerce-customer-details .woocommerce-columns,
+		.woocommerce-Addresses {
+			@include row(-1em);
+
+			.col-1 {
+				@include col(6, 1em);
+				width: 100%;
+			}
+
+			.col-2 {
+				@include col(6, 1em);
+				width: 100%;
+			}
+		}
+
+		.edit-account {
+			display: flex;
+			flex-direction: column;
+			flex-flow: row wrap;
+			justify-content: space-between;
+			align-items: center;
+
+			fieldset {
+				width: 100%;
+			}
+
+			p.form-row {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-end;
+				position: relative;
+
+				input[name='rememberme'] {
+					@include custom-checkbox(var(--primary), var(--title));
+				}
+
+				&.form-row-first,
+				&.form-row-last {
+					display: flex;
+					flex-direction: column;
+					align-items: start;
+					width: 100%;
+
+					@media (min-width: 1024px) {
+						width: 49%;
+					}
+				}
+
+				label {
+					width: 100%;
+					font-weight: bold;
+
+					&.woocommerce-form-login__rememberme {
+						position: relative;
+						padding-left: 1.875rem;
+					}
+				}
+
+				span {
+					color: var(--title);
+					width: 100%;
+				}
+
+				input.input-text {
+					@include input-field;
+				}
+
+				.password-input {
+					position: relative;
+				}
+
+				.show-password-input {
+					position: absolute;
+					right: 10px;
+					top: 7px;
+					background-color: transparent;
+					padding: 0;
+
+					&::after {
+						content: '👁️';
+					}
+				}
+			}
+
+			.woocommerce-Button {
+				width: 150px;
+				@include button-style-primary;
+			}
+		}
+	}
+}
+
+.page-block--login {
+	max-width: 600px;
+	margin: 0 auto;
+
+	.lost_reset_password,
+	.woocommerce-form-login {
+		p {
+			width: 100%;
+
+			&.lost_password {
+				order: 3;
+				width: 50%;
+			}
+		}
+
+		p.form-row {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-end;
+			position: relative;
+
+			&.woocommerce-form-row {
+				flex-direction: column;
+			}
+
+			input[name='rememberme'] {
+				@include custom-checkbox(var(--primary), var(--title));
+			}
+
+			label {
+				width: 100%;
+				font-weight: bold;
+
+				&.woocommerce-form-login__rememberme {
+					position: relative;
+					padding-left: 1.875rem;
+				}
+			}
+
+			span {
+				color: var(--title);
+				width: 100%;
+			}
+
+			input.input-text {
+				@include input-field;
+			}
+
+			.password-input {
+				position: relative;
+			}
+
+			.show-password-input {
+				position: absolute;
+				right: 10px;
+				top: 7px;
+				background-color: transparent;
+				padding: 0;
+
+				&::after {
+					content: '👁️';
+				}
+			}
+
+			.button {
+				width: 200px;
+				@include button-style-primary;
+			}
+		}
+	}
+}
+
+.page-block--download {
+	.woocommerce-info {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+}
+
+.woocommerce-address-fields {
+	& > div {
+		display: flex;
+		flex-direction: column;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		align-items: center;
+
+		fieldset {
+			width: 100%;
+		}
+
+		p.form-row {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: flex-end;
+			position: relative;
+
+			input[name='rememberme'] {
+				@include custom-checkbox(var(--primary), var(--title));
+			}
+
+			&.form-row-first,
+			&.form-row-last {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				width: 100%;
+
+				@media (min-width: 1024px) {
+					width: 49%;
+				}
+			}
+
+			label {
+				width: 100%;
+				font-weight: bold;
+
+				&.woocommerce-form-login__rememberme {
+					position: relative;
+					padding-left: 1.875rem;
+				}
+			}
+
+			span {
+				color: var(--title);
+				width: 100%;
+			}
+
+			input.input-text {
+				@include input-field;
+			}
+
+			.password-input {
+				position: relative;
+			}
+
+			.show-password-input {
+				position: absolute;
+				right: 10px;
+				top: 7px;
+				background-color: transparent;
+				padding: 0;
+
+				&::after {
+					content: '👁️';
+				}
+			}
+
+			.select2-selection {
+				@include input-field;
+			}
+		}
+	}
+
+	.button {
+		width: 150px;
+		@include button-style-primary;
+	}
+}

@@ -1,0 +1,104 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Taiwebmienphi Plus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-28 09:57+0000\n"
+"PO-Revision-Date: 2025-06-28 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Tiếng Việt\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.8.1; php-7.4.33\n"
+"X-Domain: taiwebmienphi-plus"
+
+#. Description of the plugin
+msgid "A plugin for adding blocks to a theme."
+msgstr ""
+
+#: inc/helpers/helpers.php:192 inc/helpers/helpers.php:211
+msgid "Check"
+msgstr "Kiểm tra"
+
+#: inc/helpers/helpers.php:141 inc/helpers/helpers.php:143
+#: inc/helpers/helpers.php:151 inc/helpers/helpers.php:153
+#: inc/helpers/helpers.php:161
+msgid "Color"
+msgstr "Màu sắc"
+
+#: templates/category.php:2 templates/danh-muc.php:2
+msgid "Danh mục"
+msgstr ""
+
+#: inc/helpers/helpers.php:191 inc/helpers/helpers.php:210
+msgid "Enter phone number"
+msgstr "Nhập số điện thoại"
+
+#: inc/helpers/helpers.php:140
+msgid "Filter"
+msgstr "Bộ lọc"
+
+#: inc/helpers/helpers.php:96 inc/helpers/helpers.php:100
+msgid "High to low"
+msgstr "Cao xuống thấp"
+
+#. URI of the plugin
+msgid "https://taiwebmienphi.com/plugins/taiwewbmienphi-plus"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://taiwebmienphi.com/taiwebmienphi"
+msgstr ""
+
+#: inc/helpers/helpers.php:85 inc/helpers/helpers.php:89
+#: inc/helpers/helpers.php:89
+msgid "Low to high"
+msgstr "Thấp đến cao"
+
+#: templates/platform.php:2
+msgid "Nền tảng"
+msgstr ""
+
+#: inc/helpers/helpers.php:77 inc/helpers/helpers.php:80
+msgid "Price"
+msgstr "Giá"
+
+#: inc/helpers/helpers.php:96 inc/helpers/helpers.php:100
+msgid "Price high to low"
+msgstr "Giá cao xuống thấp"
+
+#: inc/helpers/helpers.php:71 inc/helpers/helpers.php:73
+msgid "Promotion"
+msgstr "Khuyến mãi"
+
+#. Author of the plugin
+msgid "taiwebmienphi"
+msgstr ""
+
+#. Name of the plugin
+msgid "Taiwebmienphi Plus"
+msgstr ""
+
+#: inc/helpers/helpers.php:188
+msgid ""
+"To check the status of your order, please enter your phone number in the box "
+"below and press the “Check” button."
+msgstr ""
+"Để kiểm tra trạng thái đơn hàng của bạn, vui lòng nhập số điện thoại vào ô "
+"bên dưới và nhấn nút “Kiểm tra”."
+
+#: inc/helpers/helpers.php:207
+msgid ""
+"To check your warranty status, please enter your phone number in the box "
+"below and press the “Check” button."
+msgstr ""
+"Để kiểm tra tình trạng bảo hành, vui lòng nhập số điện thoại của bạn vào ô "
+"bên dưới và nhấn nút “Kiểm tra”."
+
+#: templates/recent-posts.php:10 templates/related-posts.php:10
+#: inc/helpers/helpers.php:65 inc/helpers/helpers.php:67
+msgid "View more"
+msgstr "Xem thêm"

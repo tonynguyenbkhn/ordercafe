@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 2,
+  "name": "taiwebmienphi-plus/widget-product-detail",
+  "title": "[Widget] - Product Detail",
+  "category": "twmp-plus-category",
+  "textdomain": "taiwebmienphi-plus",
+  "attributes": {},
+  "editorScript": "file:./index.js"
+}

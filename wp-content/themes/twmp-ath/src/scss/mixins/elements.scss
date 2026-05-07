@@ -1,0 +1,968 @@
+/*-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+
+    CSS MIXIN
+    ===================
+
+    01. Video Wrapper
+    02. Image Overlay & Ratio
+    03. Select
+    04. Ul Reset
+    05. Icon Size
+    06. ScrollBar
+    07. Animation
+    08. Input Default
+    09. Modal
+    10. Table Border
+    11. Editor
+    12. Bottom
+    13. CheckBox Style
+    14. Transition
+    15. Ratio Style
+ 
+-----------------------------------------------------------------------------------*/
+
+/*----------------------------------------*/
+/*  01. Video Wrapper
+/*----------------------------------------*/
+
+@mixin video-wrapper {
+  position: relative;
+  width: 100%;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
+  }
+
+  & img,
+  & iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+}
+
+/*----------------------------------------*/
+/*  02. Image Overlay & Ratio
+/*----------------------------------------*/
+@mixin image-overlay ($value) {
+  &::after {
+    content: '';
+
+    @include abs-full;
+
+    background: rgba(0, 0, 0, $value);
+    z-index: 1;
+    transition: background-color 0.3s;
+  }
+}
+
+@mixin ratio ($ratio) {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-top: calc($ratio * 100%);
+  }
+
+  & img {
+    @include abs-full;
+    z-index: 1;
+  }
+}
+
+/*----------------------------------------*/
+/*  03. Select
+/*----------------------------------------*/
+@mixin select-in-wrapper {
+  appearance: none;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  padding: 0 .625em;
+  border: 0;
+  background: none;
+  line-height: 44px;
+  color: var(--system-black);
+
+  &:focus {
+    outline: var(--system-white);
+  }
+}
+
+@mixin select-wrapper {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  padding-right: 1em;
+  border: 1px solid var(--system-border);
+  border-radius: 6px;
+  background-color: var(--system-white);
+  background-image: url("data:image/svg+xml;utf8,<svg width='12' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490.688 490.688'><path fill='gray' d='M472.328 120.529L245.213 347.665 18.098 120.529c-4.237-4.093-10.99-3.975-15.083.262-3.992 4.134-3.992 10.687 0 14.82l234.667 234.667c4.165 4.164 10.917 4.164 15.083 0l234.667-234.667c4.237-4.093 4.354-10.845.262-15.083-4.093-4.237-10.845-4.354-15.083-.262-.089.086-.176.173-.262.262l-.021.001z'/><path d='M245.213 373.415a10.663 10.663 0 01-7.552-3.115L2.994 135.633c-4.093-4.237-3.975-10.99.262-15.083 4.134-3.992 10.687-3.992 14.82 0l227.136 227.115 227.115-227.136c4.093-4.237 10.845-4.354 15.083-.262 4.237 4.093 4.354 10.845.262 15.083-.086.089-.173.176-.262.262L252.744 370.279a10.672 10.672 0 01-7.531 3.136z'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: 15px;
+}
+
+/*----------------------------------------*/
+/*  04. Ul Reset
+/*----------------------------------------*/
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
+/*----------------------------------------*/
+/*  05. Icon Size
+/*----------------------------------------*/
+@mixin icon ($size) {
+  width: $size;
+  height: $size;
+
+  & svg {
+    width: $size;
+    height: $size;
+  }
+}
+
+/*----------------------------------------*/
+/*  06. ScrollBar
+/*----------------------------------------*/
+@mixin scrollbar {
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar {
+    width: 12px;
+    background-color: var(--primary-500);
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: var(--system-white);
+  }
+}
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--system-white);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-left: 1px solid var(--primary-500);
+  }
+}
+
+/*----------------------------------------*/
+/*  07. Animation
+/*----------------------------------------*/
+@mixin fade-in {
+  opacity: 1;
+  visibility: visible;
+}
+
+@mixin fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@mixin fade-up {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+@mixin fade-down {
+  opacity: 0;
+  transform: translateY(50px);
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+/*----------------------------------------*/
+/*  08. Input Default
+/*----------------------------------------*/
+@mixin input-field {
+  width: calc( 100% - 40px );
+  height: 44px;
+  padding: 10px 20px;
+  border: 1px solid var(--system-border);
+  border-radius: 0;
+  color: var(--system-black);
+
+  &::-webkit-input-placeholder {
+    color: var(--system-placeholder);
+  }
+}
+
+/*----------------------------------------*/
+/*  09. Modal
+/*----------------------------------------*/
+@mixin modal {
+  @include fade-out;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--system-white);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+/*----------------------------------------*/
+/*  10. Table Border
+/*----------------------------------------*/
+@mixin table-border {
+  margin-top: 1em;
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+  border: 1px solid var(--system-border);
+
+  & tbody th {
+    background: var(--system-white);
+    z-index: 1001;
+  }
+
+  & th,
+  & td {
+    padding: 0.5em 1em;
+    border-left: 1px solid var(--system-border);
+    border-bottom: 1px solid var(--system-border);
+    border-right-width: 0;
+    border-top-width: 0;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible;
+
+    & p {
+      margin: 0;
+    }
+  }
+}
+
+/*----------------------------------------*/
+/*  11. Editor
+/*----------------------------------------*/
+@mixin wysiwyg {
+
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6,
+  & blockquote,
+  & ul,
+  & figure,
+  & .wp-block-image,
+  & p {
+    @include typo-token(18, 28, 400);
+    font-family: var(--font-archivo);
+    color: var(--system-content-1);
+  }
+
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6 {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  & a {
+    color: var(--primary);
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      color: var(--system-black);
+    }
+  }
+
+  & img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  & ol {
+    margin-left: 1em;
+    padding-left: 0.5em;
+    list-style-type: square;
+
+    & ol {
+      margin-top: 0.25em;
+
+      &>li {
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  & ul {
+    list-style-type: disc;
+    margin-left: 1em;
+    padding-left: 0.5em;
+
+    & ul {
+      margin-top: 0.25em;
+
+      &>li {
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  & li {
+    margin-top: 0.25em;
+    line-height: 24px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &::marker {
+      color: var(--primary-500);
+    }
+  }
+
+  & .gform_wrapper {
+    margin-top: 1em;
+  }
+
+  & table {
+    @include table-border;
+  }
+
+  & blockquote {
+    background: linear-gradient(145deg, #f3f3f3, #ffffff);
+    padding: 1.5em 2em;
+    border-left: 8px solid var(--primary-500);
+    font-style: italic;
+    position: relative;
+    font-size: 1.2em;
+    color: var(--system-content-1);
+    box-shadow: 10px 5px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  blockquote::before {
+    content: "“";
+    font-size: 3em;
+    color: var(--primary-500);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+  }
+
+  & .video-response {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  & code {
+    background-color: var(--system-border);
+    color: var(--system-content-1);
+    font-family: 'Fira Code', 'Courier New', monospace;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.95em;
+  }
+
+  & pre {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+    padding: 1em;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.95em;
+    line-height: 1.5;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  & pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  & .wp-block-list.navheading {
+    list-style: none;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: #f9f9f9;
+    border-left: 4px solid #0073aa;
+    border-radius: 8px;
+  }
+
+  & .wp-block-list.navheading li {
+    margin-bottom: 0.5rem;
+  }
+
+  & .wp-block-list.navheading li a {
+    text-decoration: none;
+    color: #0073aa;
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  & .wp-block-list.navheading li a:hover {
+    color: #005177;
+    padding-left: 5px;
+  }
+}
+
+/*----------------------------------------*/
+/*  12. Bottom
+/*----------------------------------------*/
+@mixin button-reset {
+  background: none;
+  border: 0;
+}
+
+@mixin button-default {
+  display: inline-block;
+  height: auto;
+  padding: 15px 20px;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+@mixin button-small {
+  padding: 15px 20px;
+}
+
+@mixin button-normal {
+  padding: 15px 40px;
+}
+
+@mixin button-medium {
+  padding: 15px 60px;
+}
+
+@mixin button-large {
+  padding: 15px 80px;
+}
+
+@mixin button-style-primary {
+  background: var(--primary-500);
+  color: var(--system-black);
+  transition: background 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    @media (min-width: 1024px) {
+      color: white;
+      background: var(--system-black);
+    }
+  }
+}
+
+// @mixin button-style-secondary {
+//   background: var(--secondary);
+//   color: var(--white);
+//   transition: background 0.3s ease, color 0.3s ease;
+
+//   &:hover {
+//     @media (min-width: 1024px) {
+//       background: var(--primary);
+//       color: var(--white);
+//     }
+//   }
+// }
+
+@mixin button-style-dark {
+  background: var(--system-black);
+  color: var(--system-white);
+  transition: background 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    @media (min-width: 1024px) {
+      background: var(--primary-500);
+      color: var(--system-white);
+    }
+  }
+}
+
+@mixin button-style-white {
+  background: var(--system-white);
+  color: var(--system-black);
+  transition: background 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    @media (min-width: 1024px) {
+      background: var(--primary-500);
+      color: var(--system-white);
+    }
+  }
+}
+
+@mixin button-style-outline-primary {
+  border: 1px solid var(--primary-500);
+  background: none;
+  transition: background 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    @media (min-width: 1024px) {
+      border-color: var(--system-black);
+    }
+  }
+}
+
+@mixin button-style-outline-dark {
+  border: 1px solid var(--system-black);
+  background: none;
+  transition: background 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    @media (min-width: 1024px) {
+      border-color: var(--primary-500);
+    }
+  }
+}
+
+@mixin button-style-outline-white {
+  border: 1px solid var(--system-white);
+  background: none;
+  transition: background 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    @media (min-width: 1024px) {
+      border-color: var(--primary-500);
+    }
+  }
+}
+
+@mixin button-link {
+  position: relative;
+  padding: 0 0 .25em 0;
+  background: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    transition: all 0.3s;
+  }
+}
+
+/*----------------------------------------*/
+/*  13. CheckBox Style
+/*----------------------------------------*/
+@mixin custom-checkbox ($color: var(--primary), $border: #f0f0f0) {
+  @include abs-full;
+
+  appearance: none;
+  opacity: 0;
+
+  &:checked {
+
+    &~span::before,
+    &~label::before {
+      border-color: $color;
+    }
+
+    &~span,
+    &~label {
+      color: $color;
+    }
+
+    &~span::after,
+    &~label::after {
+      opacity: 1;
+    }
+  }
+
+  &~span,
+  &~label {
+    pointer-events: none;
+    line-height: 48px;
+    transition: color 0.3s cubic-bezier(0.1, 0.1, 0.25, 1);
+
+    @media (min-width: 1024px) {
+      line-height: 36px;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 19px;
+      height: 19px;
+      top: 13px;
+      border: 1px solid $border;
+      transition: border-color 0.3s cubic-bezier(0.1, 0.1, 0.25, 1);
+
+      @media (min-width: 1024px) {
+        top: 7px;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 3px;
+      width: 13px;
+      height: 13px;
+      background: $color;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      opacity: 0;
+
+      @media (min-width: 1024px) {
+        top: 10px;
+      }
+    }
+  }
+}
+
+/*----------------------------------------*/
+/*  14. Transition
+/*----------------------------------------*/
+@mixin transition ($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+/*----------------------------------------*/
+/*  15. Ratio Style
+/*----------------------------------------*/
+@mixin custom-radio ($color: var(--primary), $border: #f0f0f0) {
+  @include abs-full;
+
+  appearance: none;
+  opacity: 0;
+
+  &:checked {
+
+    &~span::before,
+    &~label::before {
+      border-color: $color;
+    }
+
+    &~span,
+    &~label {
+      color: $color;
+    }
+
+    &~span::after,
+    &~label::after {
+      opacity: 1;
+    }
+  }
+
+  &~span,
+  &~label {
+    pointer-events: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 0;
+      width: 18px;
+      height: 18px;
+      border: 1px solid $border;
+      border-radius: 50%;
+      transition: border-color 0.3s cubic-bezier(0.1, 0.1, 0.25, 1);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 3px;
+      width: 13px;
+      height: 13px;
+      background: $color;
+      clip-path: circle(50% at 50% 50%);
+      opacity: 0;
+    }
+  }
+}
+
+@mixin radio-wrapper-standard {
+  display: inline-block;
+  position: relative;
+  padding: 0 0.25em;
+
+  & input[type='radio'] {
+    display: none;
+  }
+
+  & label {
+    color: var(--dark-3);
+  }
+
+  & label::before {
+    content: ' ';
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    margin: 0 10px 0 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--border-light);
+    background-color: transparent;
+  }
+
+  & input[type='radio']:checked+label::after {
+    @include radio-wrapper-standard-check;
+  }
+}
+
+@mixin item-with-line ($border) {
+  margin-top: 0.5em;
+  padding-top: 0.5em;
+  border-top: 1px solid $border;
+
+  &:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+@mixin line-clamp($lines: 3) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin typo-token($size, $line-height, $weight: 400) {
+  font-size: #{$size}px;
+  line-height: #{$line-height}px;
+  font-weight: $weight;
+}
+
+// Clearfix
+@mixin clearfix {
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+// Typo
+
+$bold: 700;
+$semibold: 600;
+$medium: 500;
+$regular: 400;
+
+html {
+  font-size: var(--html);
+}
+
+body,
+input,
+button,
+option,
+textarea,
+label,
+select,
+legend,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  color: var(--body-text-color);
+  line-height: 24px;
+  font-weight: $regular;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  color: var(--title);
+}
+
+@mixin typo-token($size, $line-height, $weight: 400) {
+  font-size: #{$size}px;
+  line-height: #{$line-height}px;
+  font-weight: $weight;
+}
+
+$theme-font-family-typo: (
+  default: --font-default,
+  playfair-display: --font-playfair-display,
+  archivo: --font-archivo,
+  beautique-display: --font-beautique-display,
+  inter: --font-inter
+);
+
+// Generic typography token mixin
+@mixin typography-style($size, $line-height, $weight, $font-family) {
+  @include typo-token($size, $line-height, $weight);
+  font-family: $font-family;
+}
+
+// Display XL
+@mixin typo-display-xl($weight) {
+  @include typography-style(96, 100, $weight, var(--font-playfair-display));
+}
+
+// Display LG
+@mixin typo-display-lg($weight) {
+  @include typography-style(80, 120, $weight, var(--font-playfair-display));
+}
+
+// Display MD
+@mixin typo-display-md($weight, $line-height) {
+  @include typography-style(60, $line-height, $weight, var(--font-playfair-display));
+}
+
+// Display SM
+@mixin typo-display-sm($weight, $line-height) {
+  @include typography-style(36, $line-height, $weight, var(--font-playfair-display));
+}
+
+// Display XS
+@mixin typo-display-xs($weight) {
+  @include typography-style(22, 30, $weight, var(--font-archivo));
+}
+
+// Text LG
+@mixin typo-text-lg($weight) {
+  @include typography-style(18, 28, $weight, var(--font-archivo));
+}
+
+// Text MD
+@mixin typo-text-md($weight) {
+  @include typography-style(16, 24, $weight, var(--font-archivo));
+}
+
+// Text SM
+@mixin typo-text-sm($weight) {
+  @include typography-style(14, 20, $weight, var(--font-archivo));
+}
+
+// Mobile
+@mixin typo-mobile-title {
+  @include typography-style(40, 48, $regular, var(--font-beautique-display));
+}
+
+@mixin typo-mobile-header {
+  @include typography-style(30, 48, $regular, var(--font-beautique-display));
+}
+
+// System
+@mixin typo-system-money {
+  @include typography-style(32, 48, $regular, var(--font-archivo));
+}
+
+@mixin typo-system-button {
+  @include typography-style(18, 24, $regular, var(--font-archivo));
+}
+
+@mixin typo-system-button-2 {
+  @include typography-style(18, 24, $regular, var(--font-archivo));
+}
+
+@mixin typo-system-description-1 {
+  @include typography-style(12, 20, $regular, var(--font-archivo));
+}
+
+@mixin typo-system-description-2 {
+  @include typography-style(12, 20, $regular, var(--font-archivo));
+}
+
+/*----------------------------------------*/
+/*  15. Ratio Style
+/*----------------------------------------*/
+
+@mixin content-style($color: var(--system-content-2), $heading-color: #fff) {
+  color: $color;
+  @include typo-text-lg(400);
+
+  h2,
+  h3,
+  h4,
+  strong {
+    color: $heading-color;
+    @include typo-display-xs(500);
+  }
+
+  h2,
+  h3,
+  h4 {
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    @include typo-text-lg(400);
+  }
+
+  ul {
+    margin-bottom: 16px;
+    list-style-type: disc;
+    margin-left: 33px;
+
+    li {
+      margin-bottom: 10px;
+      @include typo-text-lg(400);
+    }
+  }
+}
+
+// Column Grid
+@mixin float-grid($columns, $gap, $margin-bottom: 0) {
+	float: left;
+	width: calc((100% - (#{$gap} * (#{$columns} - 1))) / #{$columns});
+	margin-bottom: $margin-bottom;
+
+	&:not(:nth-child(#{$columns}n)) {
+		margin-right: $gap;
+	}
+}

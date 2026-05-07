@@ -1,0 +1,58 @@
+{
+    "key": "taxonomy_ath_schedule_day",
+    "title": "Schedule Days",
+    "menu_order": 0,
+    "active": true,
+    "taxonomy": "ath_schedule_day",
+    "object_type": [
+        "product"
+    ],
+    "advanced_configuration": true,
+    "import_source": "",
+    "import_date": "",
+    "labels": {
+        "name": "Schedule Days",
+        "singular_name": "Schedule Day",
+        "menu_name": "Schedule Days",
+        "all_items": "All Schedule Days",
+        "edit_item": "Edit Schedule Day",
+        "view_item": "View Schedule Day",
+        "update_item": "Update Schedule Day",
+        "add_new_item": "Add New Schedule Day",
+        "new_item_name": "New Schedule Day Name",
+        "search_items": "Search Schedule Days",
+        "popular_items": "Popular Schedule Days",
+        "separate_items_with_commas": "Separate schedule days with commas",
+        "add_or_remove_items": "Add or remove schedule days",
+        "choose_from_most_used": "Choose from the most used",
+        "not_found": "No schedule days found"
+    },
+    "description": "",
+    "public": true,
+    "hierarchical": true,
+    "show_ui": true,
+    "show_in_menu": true,
+    "show_in_nav_menus": true,
+    "show_tagcloud": false,
+    "show_in_quick_edit": true,
+    "show_admin_column": true,
+    "show_in_rest": true,
+    "rest_base": "",
+    "rest_namespace": "wp/v2",
+    "rest_controller_class": "WP_REST_Terms_Controller",
+    "rewrite": {
+        "permalink_rewrite": "schedule-day",
+        "with_front": "1",
+        "hierarchical": "0"
+    },
+    "query_var": "ath_schedule_day",
+    "query_var_name": "",
+    "default_term": {
+        "default_term_enabled": "0"
+    },
+    "sort": false,
+    "meta_box": "default",
+    "meta_box_cb": "",
+    "meta_box_sanitize_cb": "",
+    "modified": 1762380000
+}

@@ -1,0 +1,149 @@
+.sticky-contact {
+	left: auto;
+	right: 15px;
+	bottom: 80px;
+	z-index: 100;
+	/* pointer-events: none; */
+	display: none;
+
+	&.is-active {
+		pointer-events: inherit;
+	}
+
+	@media (min-width: 1080px) {
+		pointer-events: inherit;
+		display: block;
+	}
+
+	&.sticky-contact__right {
+		right: 10px;
+		left: auto;
+
+		& .sticky-contact__title {
+			right: 95%;
+			left: auto;
+		}
+	}
+
+	& .sticky-contact__items {
+		list-style: none;
+		opacity: 1;
+		/* pointer-events: none; */
+
+		li {
+			margin-top: 15px;
+		}
+
+		@media (min-width: 1080px) {
+			opacity: 1;
+			pointer-events: inherit;
+		}
+	}
+
+	& .sticky-contact__item {
+		&.active {
+			& .sticky-contact__title {
+				display: block;
+			}
+		}
+
+		&:hover {
+			& .sticky-contact__title {
+				display: block;
+			}
+		}
+	}
+
+	& .sticky-contact__item--zalo {
+		& .sticky-contact__icon {
+			background-color: var(--zalo);
+		}
+	}
+
+	& .sticky-contact__item--messenger {
+		& .sticky-contact__icon {
+			background-color: var(--messenger);
+		}
+	}
+
+	& .sticky-contact__item--phone {
+		& .sticky-contact__icon {
+			background: var(--phone);
+		}
+	}
+
+	& .sticky-contact__icon {
+		width: 56px;
+		height: 56px;
+		animation: ring 1s linear infinite;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: transparent !important;
+
+		& svg {
+			width: 56px;
+			height: 56px;
+			fill: var(--white);
+		}
+	}
+
+	& .sticky-contact__title {
+		padding-top: 0.25em;
+		padding-bottom: 0.25em;
+		left: 95%;
+		top: 50%;
+		transform: translateY(-40%);
+		font-size: 0.875rem;
+		display: none;
+		background-color: var(--secondary);
+		border: 2px solid var(--white);
+		box-shadow: var(--shadow);
+	}
+
+	& .sticky-contact__items-open {
+		opacity: 1;
+		transition: 1s;
+		pointer-events: inherit;
+	}
+
+	& .sticky-contact__toggle {
+		pointer-events: visible;
+
+		& .sticky-contact__icon {
+			background-color: var(--phone);
+
+			& svg {
+				color: var(--white);
+			}
+		}
+	}
+}
+
+@keyframes ring {
+	0% {
+		transform: scale3d(1, 1, 1);
+	}
+
+	10%,
+	20% {
+		transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+	}
+
+	30%,
+	50%,
+	70%,
+	90% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+	}
+
+	40%,
+	60%,
+	80% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+	}
+
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 2,
+  "name": "taiwebmienphi-plus/widget-danh-muc",
+  "title": "[Widget] - Danh mục",
+  "category": "twmp-plus-category",
+  "textdomain": "taiwebmienphi-plus",
+  "attributes": {},
+  "editorScript": "file:./index.js",
+  "style": "file:./index.css"
+}

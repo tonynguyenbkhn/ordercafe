@@ -1,0 +1,47 @@
+/*----------------------------------------*/
+/*  01. Pagination
+/*----------------------------------------*/
+.woocommerce-pagination,
+.nav-links {
+	@include flex-center;
+	margin-top: 20px;
+	margin-bottom: 30px;
+
+	& .page-numbers {
+		margin: 0 5px;
+		width: 30px;
+		height: 30px;
+		background-color: white;
+		color: var(--title);
+		text-decoration: none;
+		border-radius: 5px;
+		@include flex-center;
+		transition: background-color 0.3s ease, color 0.3s ease;
+		cursor: pointer;
+	}
+
+	& .page-numbers.current {
+		background-color: var(--primary);
+		color: white;
+		border-color: var(--primary);
+	}
+
+	// & .page-numbers:hover {
+	// 	background-color: var(--primary);
+	// 	color: white;
+	// }
+
+	& .prev.page-numbers,
+	& .next.page-numbers {
+		// background-color: var(--secondary);
+		// color: white;
+		border-radius: 5px;
+		text-decoration: none;
+		margin-left: 5px;
+		white-space: nowrap;
+	}
+
+	// & .next.page-numbers:hover {
+	// 	background-color: var(--secondary);
+	// }
+}

@@ -1,0 +1,413 @@
+/*-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+
+    CSS COMMON
+    ===================
+
+	01. Entry Content
+	02. Post Meta
+
+-----------------------------------------------------------------------------------*/
+
+/*----------------------------------------*/
+/*  01. Entry Content
+/*----------------------------------------*/
+
+.archive-shop-page-seo__content,
+.page-blog__description,
+.site-main .entry-content {
+  @include wysiwyg;
+
+  margin-bottom: 30px;
+}
+
+/*----------------------------------------*/
+/*  02. Post Meta
+/*----------------------------------------*/
+.post-meta {
+  font-size: 14px;
+  margin: 15px 0;
+
+  & li:not(:last-child) {
+    margin-right: 5px;
+  }
+
+  & .icon {
+    display: flex;
+  }
+
+  & svg {
+    @include icon(16px);
+  }
+
+  & .by,
+  & .in {
+    margin-right: 5px;
+  }
+}
+
+/*----------------------------------------*/
+/*  06. Hover Image Zoom
+/*----------------------------------------*/
+
+.image__overlay-zoom {
+  display: block;
+  overflow: hidden;
+  border-radius: 10px;
+
+  &>.image {
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+
+  &>img {
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+
+  &:hover {
+    &>.image {
+      transform: scale(1.2);
+    }
+  }
+
+  &:hover {
+    &>img {
+      transform: scale(1.2);
+    }
+  }
+}
+
+/*----------------------------------------*/
+/*  07. Hover Image Blur
+/*----------------------------------------*/
+.image__blur-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    transition: filter 0.3s ease;
+  }
+
+  &:hover>.image {
+    filter: blur(3px);
+  }
+}
+
+/*----------------------------------------*/
+/*  08. Hover Image Grayscale
+/*----------------------------------------*/
+.image__grayscale-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+  }
+
+  &:hover>.image {
+    filter: grayscale(0%);
+  }
+}
+
+/*----------------------------------------*/
+/*  09. Hover Image Rotate
+/*----------------------------------------*/
+.image__rotate-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    transition: transform 0.5s ease;
+  }
+
+  &:hover>.image {
+    transform: rotate(5deg) scale(1.05);
+  }
+}
+
+/*----------------------------------------*/
+/*  10. Hover Image Fade
+/*----------------------------------------*/
+.image__fade-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover>.image {
+    opacity: 0.5;
+  }
+}
+
+/*----------------------------------------*/
+/*  11. Hover Image Slide Up
+/*----------------------------------------*/
+.image__slide-up-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    transition: transform 0.4s ease;
+  }
+
+  &:hover>.image {
+    transform: translateY(-10px);
+  }
+}
+
+/*----------------------------------------*/
+/*  12. Hover Image Zoom Out
+/*----------------------------------------*/
+.image__zoom-out-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover>.image {
+    transform: scale(0.9);
+  }
+}
+
+/*----------------------------------------*/
+/*  13. Hover Image Tilt
+/*----------------------------------------*/
+.image__tilt-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+
+  &:hover>.image {
+    transform: perspective(600px) rotateY(10deg);
+  }
+}
+
+/*----------------------------------------*/
+/*  14. Hover Image Sepia
+/*----------------------------------------*/
+.image__sepia-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    filter: sepia(0%);
+    transition: filter 0.4s ease;
+  }
+
+  &:hover>.image {
+    filter: sepia(100%);
+  }
+}
+
+/*----------------------------------------*/
+/*  15. Hover Image Invert
+/*----------------------------------------*/
+.image__invert-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    transition: filter 0.4s ease;
+  }
+
+  &:hover>.image {
+    filter: invert(1);
+  }
+}
+
+/*----------------------------------------*/
+/*  16. Hover Image Flip
+/*----------------------------------------*/
+.image__flip-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    transition: transform 0.4s ease;
+  }
+
+  &:hover>.image {
+    transform: scaleX(-1);
+  }
+}
+
+/*----------------------------------------*/
+/*  17. Hover Image Saturate
+/*----------------------------------------*/
+.image__saturate-hover {
+  display: block;
+  overflow: hidden;
+
+  &>.image {
+    filter: saturate(0.5);
+    transition: filter 0.3s ease;
+  }
+
+  &:hover>.image {
+    filter: saturate(2);
+  }
+}
+
+.alignleft {
+  float: left;
+  margin-right: 1em;
+}
+
+.alignright {
+  float: right;
+  margin-left: 1em;
+}
+
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp-caption {
+  max-width: 100%;
+}
+
+.wp-caption-text,
+.gallery-caption {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.bypostauthor {
+  border-left: 2px solid #ccc;
+  padding-left: 1em;
+}
+
+/*----------------------------------------*/
+/*  17. Hover Image Saturate
+/*----------------------------------------*/
+.overlay-common {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+/*----------------------------------------*/
+/*  18. Reverse Title
+/*----------------------------------------*/
+.reverse-title {
+  .page__title-content {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .page__title {
+      font-size: 20px;
+      font-weight: 600;
+      -webkit-text-stroke-width: 0.5px;
+      stroke-width: 0.5px;
+      -webkit-text-stroke-color: #000;
+      stroke: #000;
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+      text-align: center;
+    }
+  }
+}
+
+/*----------------------------------------*/
+/*  Other Global Styles
+/*----------------------------------------*/
+
+.site-content {
+  flex-flow: row wrap;
+}
+
+table,
+th,
+td {
+  border: 0;
+}
+
+.screen-reader-text {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  clip: auto !important;
+  clip-path: none;
+  color: #21759b;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  height: auto;
+  left: 5px;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  width: auto;
+  z-index: 100000;
+}
+
+input:not([type='checkbox'], [type='submit'], [type='radio'], .not-default) {
+  @include input-field;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+textarea {
+  @include input-field;
+
+  &:focus {
+    outline: none;
+  }
+
+  height: 150px;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 150px;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+span[data-name="admin-email"],
+.wpcf7 input.hidden {
+  display: none;
+}
+
+*:focus-visible {
+  outline: none !important;
+}
+
+.clearfix::after {
+	content: "";
+	display: table;
+	clear: both;
+}
