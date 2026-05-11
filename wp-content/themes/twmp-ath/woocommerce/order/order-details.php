@@ -54,14 +54,14 @@ if ( $show_downloads ) {
 <section class="woocommerce-order-details">
 	<?php do_action( 'woocommerce_order_details_before_order_table', $order ); ?>
 
-	<h2 class="woocommerce-order-details__title"><?php esc_html_e( 'Order details', 'twmp-ath' ); ?></h2>
+	<h2 class="woocommerce-order-details__title"><?php esc_html_e( 'Order details', 'twmp-phonghoa' ); ?></h2>
 
 	<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
 
 		<thead>
 			<tr>
-				<th class="woocommerce-table__product-name product-name"><?php esc_html_e( 'Product', 'twmp-ath' ); ?></th>
-				<th class="woocommerce-table__product-table product-total"><?php esc_html_e( 'Total', 'twmp-ath' ); ?></th>
+				<th class="woocommerce-table__product-name product-name"><?php esc_html_e( 'Product', 'twmp-phonghoa' ); ?></th>
+				<th class="woocommerce-table__product-table product-total"><?php esc_html_e( 'Total', 'twmp-phonghoa' ); ?></th>
 			</tr>
 		</thead>
 
@@ -94,7 +94,7 @@ if ( $show_downloads ) {
 			?>
 		<tfoot>
 			<tr>
-				<th class="order-actions--heading"><?php esc_html_e( 'Actions', 'twmp-ath' ); ?>:</th>
+				<th class="order-actions--heading"><?php esc_html_e( 'Actions', 'twmp-phonghoa' ); ?>:</th>
 				<td>
 						<?php
 						$wp_button_class = wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '';
@@ -102,7 +102,7 @@ if ( $show_downloads ) {
 							if ( empty( $action['aria-label'] ) ) {
 								// Generate the aria-label based on the action name.
 								/* translators: %1$s Action name, %2$s Order number. */
-								$action_aria_label = sprintf( __( '%1$s order number %2$s', 'twmp-ath' ), $action['name'], $order->get_order_number() );
+								$action_aria_label = sprintf( __( '%1$s order number %2$s', 'twmp-phonghoa' ), $action['name'], $order->get_order_number() );
 							} else {
 								$action_aria_label = $action['aria-label'];
 							}
@@ -127,7 +127,7 @@ if ( $show_downloads ) {
 			?>
 			<?php if ( $order->get_customer_note() ) : ?>
 				<tr>
-					<th><?php esc_html_e( 'Note:', 'twmp-ath' ); ?></th>
+					<th><?php esc_html_e( 'Note:', 'twmp-phonghoa' ); ?></th>
 					<td><?php echo wp_kses( nl2br( wptexturize( $order->get_customer_note() ) ), array( 'br' => array() ) ); ?></td>
 				</tr>
 			<?php endif; ?>

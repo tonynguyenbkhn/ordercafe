@@ -1,7 +1,7 @@
 .modal--search-form {
 	align-items: flex-start;
 	z-index: 999;
-	top: 8px;
+	top: 15px;
 	background: transparent;
 
 	& .modal__wrapper {
@@ -32,9 +32,10 @@
 
 		position: absolute;
 		top: 10px;
-		right: 0;
+		right: 16px;
 		cursor: pointer;
 		width: 60px;
+		z-index: 9999;
 
 
 		& svg {
@@ -43,11 +44,12 @@
 		}
 	}
 }
-
+.admin-bar .modal--search-form {
+	top: 45px;
+}
 .modal--search-form {
-	.search-form {
+	.woocommerce-product-search {
 		position: relative;
-		background: var(--light);
 
 		&:hover {
 			& .search-submit svg {
@@ -79,13 +81,14 @@
 			color: var(--system-content-2);
 			background: transparent;
 			z-index: 1;
+			border: 0;
 			border-bottom: 1px solid #ffffff;
 			border-radius: 0;
 			@include typo-text-md(400);
 
 			@media (min-width: 1024px) {
 				height: 56px;
-				padding: 16px 16px 16px 40px;
+				padding: 16px 16px 16px 55px;
 			}
 		}
 
@@ -93,7 +96,7 @@
 			position: absolute;
 			top: 0;
 			right: auto;
-			left: -16px;
+			left: 0px;
 			width: 40px;
 			height: 40px;
 			background: transparent;
@@ -222,6 +225,13 @@
 	padding: 32px;
 
 	.relevanssi-live-search-result-status {
+		display: none;
+	}
+}
+
+.rlv-has-spinner {
+	border-color: var(--primary-500);
+	&::after {
 		display: none;
 	}
 }

@@ -59,61 +59,11 @@
             ]
         },
         {
-            "key": "field_ath_event_category_type",
-            "label": "Event Type",
-            "name": "ath_event_type",
-            "type": "select",
-            "instructions": "Dùng cho filter top: Show/Event/Festival, Class/Workshop, For School, For Company.",
-            "required": 0,
-            "choices": {
-                "show_event_festival": "Show / Event / Festival",
-                "class_workshop": "Class / Workshop",
-                "for_school": "For School",
-                "for_company": "For Company"
-            },
-            "default_value": false,
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 1,
-            "ui": 1,
-            "ajax": 0,
-            "placeholder": "",
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            }
-        },
-        {
-            "key": "field_ath_status",
-            "label": "Status",
-            "name": "ath_status",
-            "type": "select",
-            "instructions": "Dùng cho filter Status.",
-            "choices": {
-                "coming_soon": "Coming Soon",
-                "available": "Available",
-                "almost_full": "Almost Full",
-                "happening": "Happening",
-                "completed": "Completed"
-            },
-            "default_value": "available",
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 1,
-            "ui": 1,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            }
-        },
-        {
             "key": "field_ath_start_datetime",
             "label": "Start Date Time",
             "name": "ath_start_datetime",
             "type": "date_time_picker",
-            "instructions": "Dùng cho Date time filter và single product.",
+            "instructions": "Ngày bắt đầu sự kiện",
             "required": 1,
             "display_format": "d/m/Y H:i",
             "return_format": "Y-m-d H:i:s",
@@ -129,91 +79,11 @@
             "label": "End Date Time",
             "name": "ath_end_datetime",
             "type": "date_time_picker",
-            "required": 0,
+            "instructions": "Ngày kết thúc sự kiện",
+            "required": 1,
             "display_format": "d/m/Y H:i",
             "return_format": "Y-m-d H:i:s",
             "first_day": 1,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            }
-        },
-        {
-            "key": "field_ath_day_of_week",
-            "label": "Day of the Week",
-            "name": "ath_day_of_week",
-            "type": "select",
-            "instructions": "Có thể auto fill bằng code từ Start Date Time, hoặc nhập tay để filter nhanh.",
-            "choices": {
-                "monday": "Monday",
-                "tuesday": "Tuesday",
-                "wednesday": "Wednesday",
-                "thursday": "Thursday",
-                "friday": "Friday",
-                "saturday": "Saturday",
-                "sunday": "Sunday"
-            },
-            "default_value": false,
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 1,
-            "ui": 1,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            }
-        },
-        {
-            "key": "field_ath_age_groups",
-            "label": "Age Groups",
-            "name": "ath_age_groups",
-            "type": "checkbox",
-            "instructions": "Dùng cho filter Age.",
-            "choices": {
-                "kid_4_12": "Kid (4-12)",
-                "teen_13_18": "Teen (13-18)",
-                "adult_over_18": "Adult (Over 18)"
-            },
-            "return_format": "value",
-            "layout": "horizontal",
-            "toggle": 0,
-            "allow_custom": 0,
-            "save_custom": 0,
-            "wrapper": {
-                "width": "100",
-                "class": "",
-                "id": ""
-            }
-        },
-        {
-            "key": "field_ath_age_display",
-            "label": "Age Display",
-            "name": "ath_age_display",
-            "type": "text",
-            "instructions": "Text hiển thị ở single product, ví dụ: 16-18.",
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            }
-        },
-        {
-            "key": "field_ath_subject_type",
-            "label": "Subject Type",
-            "name": "ath_subject_type",
-            "type": "checkbox",
-            "instructions": "Dùng cho filter Subject Type.",
-            "choices": {
-                "dance": "Dance",
-                "drama": "Drama",
-                "improv": "Improv",
-                "music": "Music"
-            },
-            "return_format": "value",
-            "layout": "vertical",
-            "toggle": 0,
             "wrapper": {
                 "width": "50",
                 "class": "",
@@ -234,40 +104,6 @@
             "return_format": "value",
             "layout": "vertical",
             "toggle": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            }
-        },
-        {
-            "key": "field_ath_location",
-            "label": "Location",
-            "name": "ath_location",
-            "type": "select",
-            "instructions": "Dùng cho filter Location.",
-            "choices": {
-                "lfay": "LFAY",
-                "ath_theatre": "ATH theatre"
-            },
-            "default_value": false,
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 1,
-            "ui": 1,
-            "ajax": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            }
-        },
-        {
-            "key": "field_ath_location_detail",
-            "label": "Location Detail",
-            "name": "ath_location_detail",
-            "type": "text",
-            "instructions": "Text hiển thị single product, ví dụ: ATH Theatre.",
             "wrapper": {
                 "width": "50",
                 "class": "",
@@ -466,12 +302,12 @@
             }
         },
         {
-            "key": "field_ath_gallery",
-            "label": "Event Gallery",
-            "name": "ath_gallery",
-            "type": "gallery",
-            "instructions": "Ảnh thumbnail/gallery dưới video.",
-            "return_format": "array",
+            "key": "field_ath_image_video",
+            "label": "Event Image Video",
+            "name": "ath_image_video",
+            "type": "image",
+            "instructions": "Ảnh thumbnail video.",
+            "return_format": "id",
             "library": "all",
             "min": "",
             "max": "",

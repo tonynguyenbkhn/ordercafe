@@ -1,0 +1,109 @@
+@mixin top-level-nav-item {
+	display: inline-block;
+	padding: 8px 0;
+	margin: 0;
+	font-size: 1.1em;
+}
+
+.wc-restaurant-navigation {
+	width: 100%;
+	margin: 10px 0 35px;
+
+	a {
+		text-decoration: none !important;
+		border: none;
+		color: #555555;
+		display: block;
+		text-align: left;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	.wc-restaurant-navigation-holder {
+		border-bottom: 1px solid #dddddd;
+		padding-bottom: 5px;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+
+		&.sticky {
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 100;
+			border-top: 0;
+			margin: 0;
+		}
+	}
+
+	.wc-restaurant-navigation-items {
+		flex: 1;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		height: calc(1.9em + 16px);
+		display: block;
+
+		li {
+			@include top-level-nav-item;
+			list-style: none;
+			margin-right: 28px;
+			font-weight: bold;
+		}
+
+	}
+
+	.wc-restaurant-navigation-more {
+		position: relative;
+
+		&.hidden {
+			visibility: hidden;
+		}
+
+		.more-button {
+			@include top-level-nav-item;
+			color: #555555;
+			padding-right: 20px;
+			background: transparent url('../images/chevron-down.svg') no-repeat right 52%/auto 8px;
+			text-decoration: none;
+			font-weight: normal;
+			text-transform: none;
+			border: none;
+			box-shadow: none;
+
+			&:focus {
+				outline: none;
+			}
+		}
+
+		.more-dropdown {
+			display: none;
+			position: absolute;
+			background-color: #fbfbfb;
+			min-width: 160px;
+			right: 10px;
+			border: 1px solid #e0e0e0;
+			box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.08);
+			border-radius: 4px;
+			max-height: 220px;
+			overflow-y: auto;
+			line-height: 1.4;
+			margin: 0 !important; // TO
+			padding: 0 !important; // TO
+			list-style: none !important; // TO
+
+			a {
+				padding: 10px 16px;
+
+				&:hover {
+					background-color: #f1f1f1;
+				}
+			}
+		}
+
+	}
+
+}

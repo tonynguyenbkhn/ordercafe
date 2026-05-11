@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
 					<div class="flex-auto header__col header__logo">
 						<?php get_template_part('template-parts/headers/logo', null, []); ?>
 					</div>
-					<div class="flex-auto header__col header__nav fw-medium">
+					<div class="flex-auto header__col header__nav fw-normal">
 						<?php get_template_part('template-parts/headers/main-nav', null, []); ?>
 					</div>
 					<div class="flex-auto header__col header__actions">

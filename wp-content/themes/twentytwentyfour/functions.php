@@ -14,7 +14,7 @@
 
 if ( ! function_exists( 'twentytwentyfour_block_styles' ) ) :
 	/**
-	 * Registers custom block styles.
+	 * Register custom block styles
 	 *
 	 * @since Twenty Twenty-Four 1.0
 	 * @return void
@@ -152,7 +152,7 @@ add_action( 'init', 'twentytwentyfour_block_styles' );
 
 if ( ! function_exists( 'twentytwentyfour_block_stylesheets' ) ) :
 	/**
-	 * Enqueues custom block stylesheets.
+	 * Enqueue custom block stylesheets
 	 *
 	 * @since Twenty Twenty-Four 1.0
 	 * @return void
@@ -186,7 +186,7 @@ add_action( 'init', 'twentytwentyfour_block_stylesheets' );
 
 if ( ! function_exists( 'twentytwentyfour_pattern_categories' ) ) :
 	/**
-	 * Registers pattern categories.
+	 * Register pattern categories
 	 *
 	 * @since Twenty Twenty-Four 1.0
 	 * @return void

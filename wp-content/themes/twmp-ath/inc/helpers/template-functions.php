@@ -5,6 +5,9 @@ function twmp_get_svg_icon($name)
 	$svg_icon = '';
 
 	switch ($name):
+		case 'play':
+			$svg_icon = '<svg width="54" height="54" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 43.727V10.274c0-1.885 0-2.827.394-3.358a2 2 0 011.446-.8c.66-.054 1.458.446 3.056 1.444l26.762 16.727c1.44.9 2.16 1.35 2.407 1.925a2 2 0 010 1.576c-.247.576-.967 1.026-2.407 1.926L16.146 46.44c-1.598.999-2.397 1.498-3.056 1.445a2 2 0 01-1.446-.8c-.394-.532-.394-1.474-.394-3.358z" fill="#fff"/></svg>';
+			break;
 		case 'caret-down':
 			$svg_icon = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g> <path fill-rule="evenodd" clip-rule="evenodd" d="M7.00003 8.5C6.59557 8.5 6.23093 8.74364 6.07615 9.11732C5.92137 9.49099 6.00692 9.92111 6.29292 10.2071L11.2929 15.2071C11.6834 15.5976 12.3166 15.5976 12.7071 15.2071L17.7071 10.2071C17.9931 9.92111 18.0787 9.49099 17.9239 9.11732C17.7691 8.74364 17.4045 8.5 17 8.5H7.00003Z" fill="#000000"></path> </g></svg>';
 			break;
@@ -226,9 +229,231 @@ function twmp_get_svg_icon($name)
 		case 'contact-section-phone':
 			$svg_icon = '<svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.527 2.25c.361 0 .636-.003.889.042.9.159 1.662.754 2.034 1.588.105.234.168.502.256.852l.535 2.141c.163.652.298 1.151.253 1.646a2.75 2.75 0 01-.378 1.16c-.255.427-.658.751-1.174 1.182l-1.996 1.67a13.896 13.896 0 005.523 5.522l1.67-1.995c.43-.516.755-.92 1.181-1.174.354-.212.751-.34 1.161-.378.495-.045.994.09 1.646.253l2.14.535c.35.088.619.151.853.256a2.752 2.752 0 011.588 2.034c.045.253.042.528.042.889 0 .414.004.734-.067 1.049-.242 1.083-1.245 1.994-2.347 2.13-.317.038-.587.009-.933-.025-2.64-.258-5.015-.917-7.084-1.957-3.074-1.545-5.444-3.915-6.989-6.99-1.04-2.068-1.7-4.444-1.957-7.083-.034-.346-.063-.616-.024-.933.135-1.102 1.046-2.105 2.13-2.348.314-.07.634-.066 1.048-.066z" fill="#F04C26"/></svg>';
 			break;
+		case 'upload':
+			$svg_icon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.25C12.4142 2.25 12.75 2.58579 12.75 3C12.75 3.41421 12.4142 3.75 12 3.75H9.40039C8.26798 3.75 7.46335 3.75034 6.83398 3.80176C6.21336 3.85247 5.82889 3.94936 5.52441 4.10449C4.91304 4.41605 4.41605 4.91304 4.10449 5.52441C3.94936 5.82889 3.85247 6.21336 3.80176 6.83398C3.75035 7.46335 3.75 8.26798 3.75 9.40039V14.5996C3.75 15.5132 3.75222 16.2133 3.7793 16.7803L7.24121 13.585C8.03464 12.8526 8.43155 12.4865 8.87988 12.3545C9.27451 12.2384 9.69527 12.2472 10.085 12.3789C10.5278 12.5287 10.9101 12.9101 11.6738 13.6738L14 16L14.8828 15.1172C15.6285 14.3715 16.0019 13.9982 16.4355 13.8477C16.8173 13.7152 17.2304 13.7018 17.6201 13.8086C18.0628 13.93 18.4595 14.2774 19.2529 14.9717L20.2441 15.8389C20.2478 15.474 20.25 15.0644 20.25 14.5996V12C20.25 11.5858 20.5858 11.25 21 11.25C21.4142 11.25 21.75 11.5858 21.75 12V14.5996C21.75 15.7072 21.7509 16.5835 21.6934 17.2881C21.6351 18.0014 21.5132 18.6051 21.2324 19.1562C20.777 20.05 20.05 20.777 19.1562 21.2324C18.6051 21.5132 18.0014 21.6351 17.2881 21.6934C16.5835 21.7509 15.7072 21.75 14.5996 21.75H9.40039C8.29277 21.75 7.41651 21.7509 6.71191 21.6934C5.99862 21.6351 5.39486 21.5132 4.84375 21.2324C3.94998 20.777 3.22298 20.05 2.76758 19.1562C2.48682 18.6051 2.36492 18.0014 2.30664 17.2881C2.24909 16.5835 2.25 15.7072 2.25 14.5996V9.40039C2.25 8.29277 2.24909 7.41651 2.30664 6.71191C2.36492 5.99862 2.48682 5.39487 2.76758 4.84375C3.22298 3.94998 3.94998 3.22298 4.84375 2.76758C5.39487 2.48682 5.99862 2.36492 6.71191 2.30664C7.41651 2.24909 8.29277 2.25 9.40039 2.25H12ZM17.5264 2.41797C17.8209 2.17766 18.2557 2.19512 18.5303 2.46973L21.0303 4.96973C21.3232 5.26262 21.3232 5.73738 21.0303 6.03027C20.7374 6.32317 20.2626 6.32317 19.9697 6.03027L18.75 4.81055V9C18.75 9.41421 18.4142 9.75 18 9.75C17.5858 9.75 17.25 9.41421 17.25 9V4.81055L16.0303 6.03027C15.7374 6.32317 15.2626 6.32317 14.9697 6.03027C14.6768 5.73738 14.6768 5.26262 14.9697 4.96973L17.4697 2.46973L17.5264 2.41797Z" fill="#F04C26"/></svg>';
+			break;
+		case 'copy':
+			$svg_icon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.2002 1.25C12.0278 1.25 12.6936 1.24903 13.2314 1.29297C13.7781 1.33763 14.2579 1.43286 14.7021 1.65918C15.4078 2.0187 15.9813 2.59224 16.3408 3.29785C16.5671 3.74205 16.6624 4.22195 16.707 4.76855C16.751 5.30638 16.75 5.97222 16.75 6.7998V7.25H17.2002C18.0278 7.25 18.6936 7.24903 19.2314 7.29297C19.7781 7.33763 20.2579 7.43286 20.7021 7.65918C21.4078 8.0187 21.9813 8.59224 22.3408 9.29785C22.5671 9.74205 22.6624 10.2219 22.707 10.7686C22.751 11.3064 22.75 11.9722 22.75 12.7998V17.2002C22.75 18.0278 22.751 18.6936 22.707 19.2314C22.6624 19.7781 22.5671 20.2579 22.3408 20.7021C21.9813 21.4078 21.4078 21.9813 20.7021 22.3408C20.2579 22.5671 19.7781 22.6624 19.2314 22.707C18.6936 22.751 18.0278 22.75 17.2002 22.75H12.7998C11.9722 22.75 11.3064 22.751 10.7686 22.707C10.2219 22.6624 9.74205 22.5671 9.29785 22.3408C8.59224 21.9813 8.0187 21.4078 7.65918 20.7021C7.43286 20.2579 7.33763 19.7781 7.29297 19.2314C7.24903 18.6936 7.25 18.0278 7.25 17.2002V16.75H6.7998C5.97222 16.75 5.30638 16.751 4.76855 16.707C4.22195 16.6624 3.74205 16.5671 3.29785 16.3408C2.59224 15.9813 2.0187 15.4078 1.65918 14.7021C1.43286 14.2579 1.33763 13.7781 1.29297 13.2314C1.24903 12.6936 1.25 12.0278 1.25 11.2002V6.7998C1.25 5.97222 1.24903 5.30638 1.29297 4.76855C1.33763 4.22195 1.43286 3.74205 1.65918 3.29785C2.0187 2.59224 2.59224 2.0187 3.29785 1.65918C3.74205 1.43286 4.22195 1.33763 4.76855 1.29297C5.30638 1.24903 5.97222 1.25 6.7998 1.25H11.2002ZM16.75 11.2002C16.75 12.0278 16.751 12.6936 16.707 13.2314C16.6624 13.7781 16.5671 14.2579 16.3408 14.7021C15.9813 15.4078 15.4078 15.9813 14.7021 16.3408C14.2579 16.5671 13.7781 16.6624 13.2314 16.707C12.6936 16.751 12.0278 16.75 11.2002 16.75H8.75V17.2002C8.75 18.0525 8.75029 18.6468 8.78809 19.1094C8.82517 19.5632 8.89449 19.824 8.99512 20.0215C9.21083 20.4448 9.55515 20.7892 9.97852 21.0049C10.176 21.1055 10.4368 21.1748 10.8906 21.2119C11.3532 21.2497 11.9475 21.25 12.7998 21.25H17.2002C18.0525 21.25 18.6468 21.2497 19.1094 21.2119C19.5632 21.1748 19.824 21.1055 20.0215 21.0049C20.4448 20.7892 20.7892 20.4448 21.0049 20.0215C21.1055 19.824 21.1748 19.5632 21.2119 19.1094C21.2497 18.6468 21.25 18.0525 21.25 17.2002V12.7998C21.25 11.9475 21.2497 11.3532 21.2119 10.8906C21.1748 10.4368 21.1055 10.176 21.0049 9.97852C20.7892 9.55515 20.4448 9.21083 20.0215 8.99512C19.824 8.89449 19.5632 8.82517 19.1094 8.78809C18.6468 8.75029 18.0525 8.75 17.2002 8.75H16.75V11.2002ZM6.7998 2.75C5.94745 2.75 5.35322 2.75029 4.89062 2.78809C4.4368 2.82517 4.17602 2.89449 3.97852 2.99512C3.55515 3.21083 3.21083 3.55515 2.99512 3.97852C2.89449 4.17602 2.82517 4.4368 2.78809 4.89062C2.75029 5.35322 2.75 5.94745 2.75 6.7998V11.2002C2.75 12.0525 2.75029 12.6468 2.78809 13.1094C2.82517 13.5632 2.89449 13.824 2.99512 14.0215C3.21083 14.4448 3.55515 14.7892 3.97852 15.0049C4.17602 15.1055 4.4368 15.1748 4.89062 15.2119C5.35322 15.2497 5.94745 15.25 6.7998 15.25H11.2002C12.0525 15.25 12.6468 15.2497 13.1094 15.2119C13.5632 15.1748 13.824 15.1055 14.0215 15.0049C14.4448 14.7892 14.7892 14.4448 15.0049 14.0215C15.1055 13.824 15.1748 13.5632 15.2119 13.1094C15.2497 12.6468 15.25 12.0525 15.25 11.2002V6.7998C15.25 5.94745 15.2497 5.35322 15.2119 4.89062C15.1748 4.4368 15.1055 4.17602 15.0049 3.97852C14.7892 3.55515 14.4448 3.21083 14.0215 2.99512C13.824 2.89449 13.5632 2.82517 13.1094 2.78809C12.6468 2.75029 12.0525 2.75 11.2002 2.75H6.7998Z" fill="#F04C26"/></svg>';
+			break;
 	endswitch;
 
 	return $svg_icon;
+}
+
+function twmp_get_cart_url()
+{
+	return wc_get_page_permalink('cart');
+}
+
+function twmp_redirect_to_cart()
+{
+	wp_safe_redirect(twmp_get_cart_url());
+	exit;
+}
+
+function twmp_render_cart_button($product_id = 0, $button_text = '', $button_classes = '', $icon_name = 'book-ticket')
+{
+	global $product;
+
+	if (! $product_id && $product instanceof WC_Product) {
+		$product_id = $product->get_id();
+	}
+
+	$product_id = absint($product_id);
+
+	if (! $product_id) {
+		return;
+	}
+
+	if (! twmp_is_event_bookable($product_id)) {
+		return;
+	}
+
+	if ('' === $button_text) {
+		$button_text = __('Book Ticket', 'twmp-ath');
+	}
+
+	if ('' === $button_classes) {
+		$button_classes = 'bg-primary-500 text-system-white typo-system-button button-default cart-redirect-btn';
+	}
+
+	$button_html = function_exists('twmp_get_svg_icon') ? twmp_get_svg_icon($icon_name) : '';
+
+	printf(
+		'<form class="twmp-buy-now-form swiper-no-swiping" action="%1$s" method="post"><input type="hidden" name="add-to-cart" value="%2$d"><input type="hidden" name="twmp_buy_now" value="1"><button type="submit" class="%3$s"><span class="text pe-none">%4$s</span>%5$s</button></form>',
+		esc_url(get_permalink($product_id)),
+		absint($product_id),
+		esc_attr($button_classes),
+		esc_html($button_text),
+		$button_html ? '<span class="icon pe-none" aria-hidden="true">' . $button_html . '</span>' : ''
+	);
+}
+
+function twmp_parse_site_datetime($value)
+{
+	$value = trim((string) $value);
+
+	if ('' === $value) {
+		return 0;
+	}
+
+	$timezone = function_exists('wp_timezone') ? wp_timezone() : new DateTimeZone('UTC');
+	$formats = ['Y-m-d H:i:s', 'Y-m-d H:i'];
+
+	foreach ($formats as $format) {
+		$dt = DateTimeImmutable::createFromFormat($format, $value, $timezone);
+
+		if ($dt instanceof DateTimeImmutable) {
+			return $dt->getTimestamp();
+		}
+	}
+
+	$timestamp = strtotime($value);
+
+	return $timestamp ? absint($timestamp) : 0;
+}
+
+function twmp_get_event_start_timestamp($product_id = 0)
+{
+	$product_id = absint($product_id);
+
+	if (! $product_id || ! function_exists('get_field')) {
+		return 0;
+	}
+
+	return twmp_parse_site_datetime(get_field('ath_start_datetime', $product_id));
+}
+
+function twmp_is_event_bookable($product_id = 0)
+{
+	$start_timestamp = twmp_get_event_start_timestamp($product_id);
+
+	if (! $start_timestamp || ! function_exists('current_datetime')) {
+		return false;
+	}
+
+	return $start_timestamp >= current_datetime()->getTimestamp();
+}
+
+function twmp_format_event_datetime_range($start_value = '', $end_value = '')
+{
+	$start_timestamp = twmp_parse_site_datetime($start_value);
+
+	if (! $start_timestamp) {
+		return '';
+	}
+
+	$start_text = wp_date('l j M Y - G:i', $start_timestamp);
+	$end_timestamp = twmp_parse_site_datetime($end_value);
+
+	if (! $end_timestamp) {
+		return $start_text;
+	}
+
+	return $start_text . ' - ' . wp_date('l j M Y - G:i', $end_timestamp);
+}
+
+function twmp_get_taxonomy_term_names($post_id = 0, $taxonomy = '', $separator = ', ')
+{
+	$post_id = absint($post_id);
+	$taxonomy = sanitize_key((string) $taxonomy);
+
+	if (! $post_id || '' === $taxonomy) {
+		return '';
+	}
+
+	$terms = wp_get_post_terms($post_id, $taxonomy, ['fields' => 'names']);
+
+	if (is_wp_error($terms) || empty($terms)) {
+		return '';
+	}
+
+	$terms = array_filter(array_map('trim', array_map('strval', $terms)));
+
+	return implode($separator, $terms);
+}
+
+function twmp_get_product_video_gallery_data($product_id = 0)
+{
+	$product_id = absint($product_id);
+
+	if (! $product_id || ! function_exists('get_field')) {
+		return [];
+	}
+
+	$video_url = trim((string) get_field('ath_video_url', $product_id));
+	$image_id  = absint(get_field('ath_image_video', $product_id));
+
+	if ('' === $video_url || ! $image_id) {
+		return [];
+	}
+
+	$image_size = function_exists('apply_filters') ? apply_filters('woocommerce_gallery_thumbnail_size', 'woocommerce_thumbnail') : 'woocommerce_thumbnail';
+
+	return [
+		'video_url' => esc_url_raw($video_url),
+		'image_id'  => $image_id,
+		'image_size' => $image_size,
+	];
+}
+
+function twmp_render_product_video_gallery_item($product_id = 0, $context = 'main')
+{
+	$data = twmp_get_product_video_gallery_data($product_id);
+
+	if (empty($data)) {
+		return;
+	}
+
+	$product_id = absint($product_id);
+	$video_url  = $data['video_url'];
+	$image_id   = $data['image_id'];
+	$image_size = 'thumb' === $context ? 'woocommerce_gallery_thumbnail' : 'woocommerce_single';
+	$wrapper_class = 'woocommerce-product-gallery__image woocommerce-product-gallery__image--video';
+	$label = __('Video', 'twmp-ath');
+	$thumb_src = wp_get_attachment_image_url($image_id, 'woocommerce_gallery_thumbnail');
+	$large_src = wp_get_attachment_image_url($image_id, 'full');
+	$large_meta = wp_get_attachment_image_src($image_id, 'full');
+	$large_width = is_array($large_meta) && ! empty($large_meta[1]) ? absint($large_meta[1]) : 0;
+	$large_height = is_array($large_meta) && ! empty($large_meta[2]) ? absint($large_meta[2]) : 0;
+	$thumb_alt = esc_attr($label);
+
+?>
+	<div
+		class="<?php echo esc_attr($wrapper_class); ?>"
+		data-product-id="<?php echo esc_attr($product_id); ?>"
+		data-thumb="<?php echo esc_url($thumb_src ? $thumb_src : $large_src); ?>"
+		data-thumb-alt="<?php echo $thumb_alt; ?>"
+		data-large_image="<?php echo esc_url($large_src); ?>"
+		data-large_image_width="<?php echo esc_attr((string) $large_width); ?>"
+		data-large_image_height="<?php echo esc_attr((string) $large_height); ?>">
+		<a
+			class="product-video-badge"
+			href="<?php echo esc_url($video_url); ?>"
+			data-fancybox="product-gallery"
+			data-type="iframe"
+			aria-label="<?php echo esc_attr($label); ?>"
+			style="display:block;position:relative;text-decoration:none;">
+			<figure class="image image--cover image--default product-video-badge__figure">
+				<?php
+				echo wp_get_attachment_image(
+					$image_id,
+					$image_size,
+					false,
+					[
+						'class' => 'image__img product-video-badge__image',
+						'alt'   => $label,
+					]
+				);
+				?>
+			</figure>
+			<span class="product-video-badge__overlay" aria-hidden="true" style="position:absolute;inset:0;background:rgba(0,0,0,.35);pointer-events:none;"></span>
+			<span class="product-video-badge__content" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;z-index:2;pointer-events:none;">
+				<span class="product-video-badge__play" aria-hidden="true" style="width: 53px;height:54px;line-height:1;"><?php echo twmp_get_svg_icon('play'); ?></span>
+			</span>
+		</a>
+	</div>
+<?php
 }
 
 function twmp_get_flexible_content_data($array)
@@ -466,7 +691,7 @@ function twmp_resolve_flexible_layout_data($layout, $base_fields = [])
 	}
 
 	$data = twmp_get_flexible_content_data($fields);
-	$data['class'] = sprintf('section %s mb-3', sanitize_html_class($layout));
+	$data['class'] = sprintf('section %s', sanitize_html_class($layout) . '-' . esc_attr('section'));
 
 	if (!empty($config['extra_fields']) && is_array($config['extra_fields'])) {
 		foreach ($config['extra_fields'] as $key => $value) {

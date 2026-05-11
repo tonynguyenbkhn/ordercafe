@@ -24,7 +24,7 @@ if ($related_products) : ?>
 	<section class="related products">
 		<div class="related-wrapper">
 			<?php
-			$heading = apply_filters('woocommerce_product_related_products_heading', __('Related products', 'twmp-ath'));
+			$heading = apply_filters('woocommerce_product_related_products_heading', __('Related products', 'twmp-phonghoa'));
 
 			if ($heading) :
 			?>

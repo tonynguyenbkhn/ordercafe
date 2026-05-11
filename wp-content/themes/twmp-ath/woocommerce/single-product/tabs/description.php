@@ -20,22 +20,18 @@ defined('ABSPATH') || exit;
 
 global $post;
 
-$heading = apply_filters('woocommerce_product_description_heading', __('Description', 'twmp-ath'));
+$heading = apply_filters('woocommerce_product_description_heading', __('Description', 'twmp-phonghoa'));
 
 ?>
 
 <?php if ($heading) : ?>
 	<h2><?php echo esc_html($heading); ?></h2>
 <?php endif; ?>
-<div class="tab-description-wrapper">
+<div class="tab-description-wrapper" data-block="show-less">
 	<div class="js-content-toggle has-toggle">
 		<div class="single__content">
-			<div class="d-flex items-center gap-8">
-				<?php echo twmp_get_svg_icon('cpny-name'); ?>
-				<span style="color: black;" class="typo-display-xs-bold"><?php echo esc_html__('Conpany Name', 'twmp-ath'); ?></span>
-			</div>
 			<?php the_content(); ?>
-			<?php get_template_part('templates/woocommerces/single-product/artists', null, []); ?>
 		</div>
+		<?php get_template_part('templates/blocks/show-less', null, []); ?>
 	</div>
 </div>

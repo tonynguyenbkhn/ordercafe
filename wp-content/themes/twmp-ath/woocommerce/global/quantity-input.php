@@ -22,7 +22,7 @@
 defined('ABSPATH') || exit;
 
 /* translators: %s: Quantity. */
-$label = ! empty($args['product_name']) ? sprintf(esc_html__('%s quantity', 'twmp-ath'), wp_strip_all_tags($args['product_name'])) : esc_html__('Quantity', 'twmp-ath');
+$label = ! empty($args['product_name']) ? sprintf(esc_html__('%s quantity', 'twmp-phonghoa'), wp_strip_all_tags($args['product_name'])) : esc_html__('Quantity', 'twmp-phonghoa');
 
 ?>
 <div class="quantity">
@@ -34,7 +34,7 @@ $label = ! empty($args['product_name']) ? sprintf(esc_html__('%s quantity', 'twm
 	 */
 	do_action('woocommerce_before_quantity_input_field');
 	?>
-	<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html__( 'Quantity', 'twmp-ath' ); ?></label>
+	<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html__( 'Quantity', 'twmp-phonghoa' ); ?></label>
 	<div class="quantity-selector">
 		<input type="button" value="-" class="qty_button minus">
 		<input
@@ -46,7 +46,7 @@ $label = ! empty($args['product_name']) ? sprintf(esc_html__('%s quantity', 'twm
 			class="<?php echo esc_attr(join(' ', (array) $classes)); ?>"
 			name="<?php echo esc_attr($input_name); ?>"
 			value="<?php echo esc_attr($input_value); ?>"
-			aria-label="<?php esc_attr_e('Product quantity', 'twmp-ath'); ?>"
+			aria-label="<?php esc_attr_e('Product quantity', 'twmp-phonghoa'); ?>"
 			<?php if (in_array($type, array('text', 'search', 'tel', 'url', 'email', 'password'), true)) : ?>
 			size="4"
 			<?php endif; ?>

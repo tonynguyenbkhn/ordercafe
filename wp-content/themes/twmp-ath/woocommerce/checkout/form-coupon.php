@@ -21,14 +21,14 @@ defined('ABSPATH') || exit;
 ?>
 
 <form class="checkout_coupon woocommerce-form-coupon" method="post" style="display:none">
-	<label for="coupon_code" class="screen-reader-text"><?php esc_html_e( 'Coupon:', 'twmp-ath' ); ?></label>
+	<label for="coupon_code" class="screen-reader-text"><?php esc_html_e( 'Coupon:', 'twmp-phonghoa' ); ?></label>
 	<p class="form-row form-row-first">
-		<label for="coupon_code" class="screen-reader-text"><?php esc_html_e('Coupon:', 'twmp-ath'); ?></label>
-		<input type="text" name="coupon_code" class="input-text" placeholder="<?php esc_attr_e('Coupon code', 'twmp-ath'); ?>" value="" />
+		<label for="coupon_code" class="screen-reader-text"><?php esc_html_e('Coupon:', 'twmp-phonghoa'); ?></label>
+		<input type="text" name="coupon_code" class="input-text" placeholder="<?php esc_attr_e('Coupon code', 'twmp-phonghoa'); ?>" value="" />
 	</p>
 
 	<p class="form-row form-row-last">
-		<button type="submit" class="button<?php echo esc_attr(wc_wp_theme_get_element_class_name('button') ? ' ' . wc_wp_theme_get_element_class_name('button') : ''); ?>" name="apply_coupon" value="<?php esc_attr_e('Apply coupon', 'twmp-ath'); ?>"><?php esc_html_e('Apply coupon', 'twmp-ath'); ?></button>
+		<button type="submit" class="button<?php echo esc_attr(wc_wp_theme_get_element_class_name('button') ? ' ' . wc_wp_theme_get_element_class_name('button') : ''); ?>" name="apply_coupon" value="<?php esc_attr_e('Apply coupon', 'twmp-phonghoa'); ?>"><?php esc_html_e('Apply coupon', 'twmp-phonghoa'); ?></button>
 	</p>
 
 	<div class="clear"></div>

@@ -1,0 +1,364 @@
+$modal-footer-height: 90px;
+$modal-footer-height-xs: 90px;
+
+.wc-restaurant-product-modal {
+
+	& > .cart {
+		margin: 0; // TO
+		padding: 0; // TO
+		height: 100%;
+	}
+
+	.wc-restaurant-product {
+		height: 100%;
+	}
+
+	.details,
+	.order {
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+
+	header.image {
+		width: 100%;
+		height: 220px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
+
+		@media screen and (min-width: $small-breakpoint) {
+			height: 300px;
+		}
+	}
+
+	.details {
+		padding-top: 25px;
+		padding-bottom: 25px;
+
+		&:first-child {
+			padding-top: 65px;
+		}
+
+		p {
+			margin: 0 0 1em;
+			padding: 0; // TO
+		}
+	}
+
+	.gallery {
+		// For WordPress galleries in product description.
+		margin: 1.5em 0;
+	}
+
+	.name {
+		margin: 0 0 0.6em;
+		padding: 0; // TO
+	}
+
+	.price {
+		margin: 0.5em 0 0.8em;
+		font-size: 1.4em;
+	}
+
+	.description {
+		margin-bottom: 1.2em;
+
+		&:last-child {
+			margin-bottom: 0.8em;
+		}
+
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.options {
+		margin-top: 1.5em;
+
+		// For variable products only.
+		.variations {
+			margin-bottom: 0.9em;
+			overflow: hidden; // TO
+
+			select {
+				margin-right: 6px;
+				width: auto; // TO
+				display: inline; // TO
+			}
+			.screen-reader-text {
+				border: 0;
+				clip: rect(1px, 1px, 1px, 1px);
+				clip-path: inset(50%);
+				height: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+				width: 1px;
+				word-wrap: normal !important;
+			}
+		}
+
+		.variations-data {
+			p {
+				margin-bottom: 0.6em;
+			}
+		}
+
+	}
+
+	// Error popup message above footer (e.g. variation out of stock)
+	.order-error {
+		position: absolute;
+		bottom: $modal-footer-height-xs + 5;
+		left: 50%;
+		text-align: center;
+		width: 300px;
+		margin: 0 0 0 -150px;
+		background: #f4caca;
+		color: #d50e0e;
+		font-weight: 600;
+		border-radius: 3px;
+		padding: 5px;
+		display: none;
+
+		@media screen and (min-width: $tiny-breakpoint) {
+			bottom: $modal-footer-height + 5;
+		}
+	}
+
+	.product-content {
+		overflow: auto;
+		overflow-x: hidden;
+		max-height: 85%; // fallback
+		max-height: calc(100% - #{$modal-footer-height-xs + 3});
+
+		@media screen and (min-width: $tiny-breakpoint) {
+			max-height: calc(100% - #{$modal-footer-height + 3});
+		}
+
+		@media screen and (min-width: $small-breakpoint) {
+			max-height: calc(#{$max-modal-height} - #{$modal-footer-height + 3});
+		}
+	}
+
+	.wc-restaurant-product {
+		position: relative;
+
+		@media screen and (min-width: $small-breakpoint) {
+			padding-bottom: $modal-footer-height;
+		}
+	}
+
+	// Footer section (quantity, buy button).
+	.order {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 100;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: space-between;
+		align-content: flex-start;
+		box-sizing: border-box;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		background: #fcfcfc;
+		box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, .08);
+		min-height: 80px;
+		height: $modal-footer-height-xs;
+
+		@media screen and (max-width: $very-tiny-breakpoint) {
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+
+		@media screen and (min-width: $tiny-breakpoint) {
+			align-content: center;
+			height: $modal-footer-height;
+		}
+
+		@include buttons;
+
+		button {
+			font-weight: 600;
+		}
+
+		// Error message in modal footer
+		&.not-purchasable {
+			color: #d12929;
+			padding-left: 35px;
+			padding-right: 35px;
+
+			p {
+				margin: 0;
+				padding: 0; // TO
+				flex-grow: 1;
+				text-align: center;
+				font-weight: 600;
+				font-size: 1.1em;
+				line-height: 1.45;
+			}
+
+		}
+
+		.quantity {
+			flex: 0.2 1 120px;
+			border: none; // TO
+			width: auto; // TO
+			display: flex;
+			flex-wrap: nowrap;
+			margin-right: 10px;
+
+			button {
+				border-radius: 50%;
+				font-size: $modal-quantity-button-font-size;
+				padding: 0;
+				width: 40px;
+				height: 40px;
+				line-height: 40px;
+
+				@media screen and (min-width: $tiny-breakpoint) {
+					width: 48px;
+					height: 48px;
+					line-height: 48px;
+				}
+			}
+
+
+			.add {
+				margin-left: 1px;
+			}
+
+			.remove {
+				margin-right: 3px;
+			}
+
+			@media screen and (min-width: $small-breakpoint) {
+				.add {
+					margin-left: 3px;
+				}
+
+				.remove {
+					margin-right: 5px;
+				}
+			}
+
+			.qty {
+				border: none !important; // TO
+				box-shadow: none;
+				background-color: transparent;
+				-webkit-appearance: textfield;
+				-moz-appearance: textfield;
+				appearance: textfield;
+				width: 40px;
+				padding: 0;
+				font-size: 20px !important; // TO
+				font-family: inherit !important; // TO
+				margin: 0; // TO
+				color: inherit; // TO
+				text-align: center; // TO
+				vertical-align: initial; // TO
+
+				@media screen and (min-width: $tiny-breakpoint) {
+					width: 45px;
+				}
+
+				// Hide up/down arrow on quantity input.
+				&::-webkit-outer-spin-button,
+				&::-webkit-inner-spin-button {
+					-webkit-appearance: none;
+					margin: 0;
+				}
+
+				&.disabled {
+					opacity: 0.5;
+				}
+
+			}
+
+		}
+
+		.buy {
+			font-size: 1em !important; // TO
+			letter-spacing: 0;
+			min-width: 45%;
+			border-radius: 4px;
+			padding: 12px 15px;
+			text-transform: none;
+
+			@media screen and (max-width: $very-tiny-breakpoint) {
+				font-size: 0.9em !important;
+			}
+
+			@media screen and (min-width: $small-breakpoint) {
+				font-size: 1.1em !important;
+			}
+
+			span {
+				color: inherit;
+			}
+		}
+
+	}
+
+	// WooCommerce Product Addons
+	.options {
+
+		.wc-pao-addons-container {
+			margin-top: 1.5em;
+		}
+
+		.wc-pao-addon {
+			margin-bottom: 1.2em;
+
+			p.form-row {
+				margin-bottom: 3px !important;
+			}
+
+			.form-row > label {
+				margin: 0; // TO
+				font-weight: normal; // TO
+				display: inline-block;
+			}
+
+			select, input, textarea {
+				margin-bottom: 0; // TO
+			}
+
+			input[type="checkbox"], input[type="radio"] {
+				margin: 0 6px 0 0;
+				width: auto;
+				display: inline-block;
+			}
+		}
+
+		.wc-pao-addon-name {
+			display: block;
+			font-size: 1.1em;
+			line-height: normal;
+			font-family: inherit;
+			font-weight: 700;
+			margin: 0 0 7px;
+			padding: 0; // TO
+			text-decoration: none; // TO
+			color: #333;
+		}
+
+		.wc-pao-addon-description p {
+			margin-bottom: 10px;
+		}
+
+		.wc-pao-addon-select {
+			width: auto;
+		}
+
+	}
+
+	#product-addons-total {
+		display: none;
+	}
+
+}

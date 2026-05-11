@@ -24,17 +24,18 @@ $_description_class .= !empty($data['description_class']) ? esc_attr(' ' . $data
 
 ?>
 
-<?php if (!empty($data['title'])) : ?>
-    <div class="<?php echo esc_attr($_class) ?>">
-        <h2 <?php echo !empty($data['link']) ? '' : 'class="'.esc_attr($_title_class).'"' ?>>
+
+<div class="<?php echo esc_attr($_class) ?>">
+    <?php if (!empty($data['title'])) : ?>
+        <h2 <?php echo !empty($data['link']) ? '' : 'class="' . esc_attr($_title_class) . '"' ?>>
             <?php if (!empty($data['link'])) : ?><a class="<?php echo esc_attr($_title_class); ?>" href="<?php echo esc_url($data['link']); ?>"><?php endif; ?>
                 <?php echo esc_html($data['title']); ?>
-            <?php if (!empty($data['link'])) : ?></a><?php endif; ?>
+                <?php if (!empty($data['link'])) : ?></a><?php endif; ?>
         </h2>
-        <?php if (!empty($data['description'])) : ?>
-            <div class="<?php echo esc_attr($_description_class); ?>">
-                <?php echo wp_kses_post($data['description']); ?>
-            </div>
-        <?php endif; ?>
-    </div>
-<?php endif; ?>
+    <?php endif; ?>
+    <?php if (!empty($data['description'])) : ?>
+        <div class="<?php echo esc_attr($_description_class); ?>">
+            <?php echo wp_kses_post($data['description']); ?>
+        </div>
+    <?php endif; ?>
+</div>

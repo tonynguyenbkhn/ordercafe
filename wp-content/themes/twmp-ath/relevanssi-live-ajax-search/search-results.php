@@ -70,7 +70,7 @@ if (!defined('ABSPATH')) {
         $product_id = $product->get_id();
 
         $badges = function_exists('get_field') ? get_field('ath_badges', $product_id) : [];
-        $location_detail = function_exists('get_field') ? (string) get_field('ath_location_detail', $product_id) : '';
+        $location_detail = function_exists('twmp_get_taxonomy_term_names') ? twmp_get_taxonomy_term_names($product_id, 'ath_venue') : '';
         $location = function_exists('get_field') ? (string) get_field('ath_location', $product_id) : '';
         $start_datetime = function_exists('get_field') ? (string) get_field('ath_start_datetime', $product_id) : '';
         ?>

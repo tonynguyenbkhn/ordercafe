@@ -1,0 +1,945 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Restaurant Ordering\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-restaurant-ordering\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Andy Keith <support@barn2.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-03-23 15:00+0100\n"
+"PO-Revision-Date: 2025-09-09 08:46+0000\n"
+"Language: es-ES\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Domain: woocommerce-restaurant-ordering\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: woocommerce-restaurant-ordering.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+"X-Poedit-SearchPathExcluded-2: node_modules\n"
+
+#. Plugin Name of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "WooCommerce Restaurant Ordering"
+msgstr "WooCommerce Pedido en Restaurante"
+
+#. Plugin URI of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "https://barn2.com/wordpress-plugins/woocommerce-restaurant-ordering/"
+msgstr "https://barn2.com/wordpress-plugins/woocommerce-restaurant-ordering/"
+
+#. Description of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "A restaurant ordering plugin for WooCommerce."
+msgstr "Un plugin de pedidos para restaurantes para WooCommerce."
+
+#. Author of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "Barn2 Plugins"
+msgstr "Barn2 Plugins"
+
+#. Author URI of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "https://barn2.com"
+msgstr "https://barn2.com"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_API_Helper.php:154
+msgid "[View page]"
+msgstr "[Ver página]"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_API_Helper.php:615
+#: dependencies/barn2/barn2-lib/src/WooCommerce/Admin/Custom_Settings_Fields.php:138
+msgid "Size"
+msgstr "Tamaño"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_Util.php:70
+msgid "Documentation"
+msgstr "Documentación"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_Util.php:70
+msgid "Support"
+msgstr "Soporte"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:38
+msgid "Settings"
+msgstr "Configuraciones"
+
+#. translators: %s: The plugin name
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:54
+msgid "View %s documentation"
+msgstr "Ver documentación de %s"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:55
+msgid "Docs"
+msgstr "Docs"
+
+#. translators: 1: licence key link start, 2: license key link end
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Plugin_Updater.php:155
+msgid "Activate %1$syour license key%2$s to enable updates."
+msgstr "Activa %1$stú clave de licencia%2$s para habilitar actualizaciones."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Plugin_Updater.php:210
+msgid "Auto-updates unavailable."
+msgstr "Actualizaciones automáticas no disponibles."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:59
+msgid "License key successfully activated."
+msgstr "Clave de licencia activada con éxito."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:59
+msgid "There was an error activating your license key."
+msgstr "Hubo un error al activar tu clave de licencia."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:63
+msgid "License key successfully deactivated."
+msgstr "Clave de licencia desactivada con éxito."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:63
+msgid "There was an error deactivating your license key, please try again."
+msgstr "Hubo un error al desactivar tu clave de licencia, por favor intenta de nuevo."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:66
+msgid "The license key looks good!"
+msgstr "¡La clave de licencia parece estar bien!"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:66
+msgid "There's a problem with your license key."
+msgstr "Hay un problema con tu clave de licencia."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:108
+msgid "License key"
+msgstr "Clave de licencia"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:110
+msgid "The licence key is contained in your order confirmation email."
+msgstr "La clave de licencia está contenida en su correo electrónico de confirmación de pedido."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:113
+msgid "License Key"
+msgstr "Clave de licencia"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Check"
+msgstr "Comprobar"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Activate"
+msgstr "Activar"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Deactivate"
+msgstr "Desactivar"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:140
+msgid "License key deactivated."
+msgstr "Clave de licencia desactivada."
+
+#. translators: 1: the plugin name, 2: settings link start, 3: settings link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:84
+msgid "Thank you for installing %1$s. To get started, please %2$s enter your license key%3$s."
+msgstr "Gracias por instalar %1$s. Para empezar, por favor %2$s introduzca su clave de licencia%3$s."
+
+#. translators: 1: the plugin name, 2: renewal link start, 3: renewal link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:109
+msgid "Your license key for %1$s has expired. %2$sClick here to renew for 20%% discount%3$s."
+msgstr "Su clave de licencia para %1$s ha expirado. %2$sHaga clic aquí para renovar con un 20%% de descuento%3$s."
+
+#. translators: 1: the plugin name, 2: renewal link start, 3: renewal link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:134
+msgid "You no longer have a valid license for %1$s. Please %2$spurchase a new license key%3$s to continue using the plugin."
+msgstr "Ya no tiene una licencia válida para %1$s. Por favor %2$scompre una nueva clave de licencia%3$s para continuar usando el complemento."
+
+#. translators: 1: the plugin name, 2: settings link start, 3: settings link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:162
+msgid "%1$s - your site has moved to a new domain. Please %2$sreactivate your license key%3$s."
+msgstr "%1$s - su sitio se ha movido a un nuevo dominio. Por favor %2$sreactive su clave de licencia%3$s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/EDD_Licensing.php:168
+msgid "An error has occurred, please try again."
+msgstr "Ha ocurrido un error, por favor inténtelo de nuevo."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:91
+msgid "Your license key is active."
+msgstr "Su clave de licencia está activa."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:111
+msgid "Please enter your license key."
+msgstr "Por favor introduzca su clave de licencia."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:113
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:391
+msgid "Your license key is invalid."
+msgstr "Su clave de licencia es inválida."
+
+#. translators: 1: account page link start, 2: account page link end
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:335
+msgid "Invalid license key - please check your order confirmation email or %1$sAccount%2$s."
+msgstr "Clave de licencia inválida - por favor revise su correo electrónico de confirmación de pedido o %1$sCuenta%2$s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:341
+msgid "No URL was supplied for activation, please contact support."
+msgstr "No se proporcionó ninguna URL para la activación, por favor contacte con soporte."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:344
+msgid "License key mismatch, please contact support."
+msgstr "Desajuste de clave de licencia, por favor contacte con soporte."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:347
+msgid "This license is for a bundled product and cannot be activated."
+msgstr "Esta licencia es para un producto empaquetado y no se puede activar."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:351
+msgid "Your license key is not valid for this plugin."
+msgstr "Su clave de licencia no es válida para este complemento."
+
+#. translators: %s: The number of sites the license is activated on
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:357
+msgid "%s site active"
+msgid_plural "%s sites active"
+msgstr[0] "%s sitio activo"
+msgstr[1] "%s sitios activos"
+
+#. translators: %s: The sites active description, e.g. '2 sites active'
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:360
+msgid "Your license key has reached its activation limit (%s)."
+msgstr "Su clave de licencia ha alcanzado su límite de activación (%s)."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:361
+#: dependencies/barn2/barn2-lib/src/Util.php:35
+msgid "Read more"
+msgstr "Leer más"
+
+#. translators: support for RTL, 1: the license error, 2: a link
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:363
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:381
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#. translators: %s: The license expiry date
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:376
+msgid "Your license key expired on %s."
+msgstr "Su clave de licencia expiró el %s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:379
+msgid "Renew now for 20% discount."
+msgstr "Renueva ahora con un 20% de descuento."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:582
+msgid "Your license key is not active. Please reactivate or save the settings."
+msgstr "Su clave de licencia no está activa. Por favor, reactívala o guarda la configuración."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:586
+msgid "Your license key has expired."
+msgstr "Su clave de licencia ha expirado."
+
+#. translators: 1: purchase link start, 2: purchase link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:592
+msgid "Your license key has been disabled. Please %1$spurchase a new license key%2$s to continue using the plugin."
+msgstr "Su clave de licencia ha sido desactivada. Por favor, %1$spregunte una nueva clave de licencia%2$s para continuar usando el plugin."
+
+#. translators: %1$s: Plugin name. %2$s: PHP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:103
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:112
+msgid "%1$s requires PHP %2$s or greater. Please update the PHP version used by your web server."
+msgstr "%1$s requiere PHP %2$s o superior. Por favor, actualice la versión de PHP utilizada por su servidor web."
+
+#. translators: %1$s: Plugin name. %2$s: WP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:136
+msgid "%1$s requires WordPress %2$s or greater. Please update your WordPress installation."
+msgstr "%1$s requiere WordPress %2$s o superior. Por favor, actualice su instalación de WordPress."
+
+#. translators: %1$s: Plugin name. %2$s: Update Core <a> tag open. %3$s: <a> tag close. %4$s: WP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:146
+msgid "%1$s requires WordPress %4$s or greater. Please %2$supdate%3$s your WordPress installation."
+msgstr "%1$s requiere WordPress %4$s o superior. Por favor, %2$sactualice%3$s su instalación de WordPress."
+
+#. translators: %1$s: Plugin name.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:169
+msgid "%1$s requires WooCommerce to be installed and active."
+msgstr "%1$s requiere que WooCommerce esté instalado y activo."
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce link. %3$s Install/Upgrade/Activate WooCommerce link.
+#. translators: %1$s: Plugin name. %2$s: EDD link. %3$s Install/Upgrade/Activate EDD link.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:175
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:224
+msgid "%1$s requires %2$s to be installed and active.%3$s"
+msgstr "%1$s requiere que %2$s esté instalado y activo.%3$s"
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:189
+msgid "%1$s requires WooCommerce %2$s or greater. Please update your WooCommerce setup first."
+msgstr "%1$s requiere WooCommerce %2$s o superior. Por favor, actualice primero su configuración de WooCommerce."
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce link. %3$s WooCommerce version required. %4$s Install/Upgrade/Activate WooCommerce link.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:195
+msgid "%1$s requires %2$s %3$s or greater. Please %4$s your WooCommerce setup first."
+msgstr "%1$s requiere %2$s %3$s o superior. Por favor, %4$s su configuración de WooCommerce primero."
+
+#. translators: %1$s: Plugin name.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:218
+msgid "%1$s requires Easy Digital Downloads to be installed and active."
+msgstr "%1$s requiere que Easy Digital Downloads esté instalado y activo."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Simple_Plugin.php:102
+msgid "%1$s could not complete its first activation because the following error occurred:<br>%2$s"
+msgstr "%1$s no pudo completar su primera activación porque ocurrió el siguiente error:<br>%2$s"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update required"
+msgstr "%1$s actualización de base de datos requerida"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s has been updated! To keep things running smoothly, we have to update your database to the newest version. The database update process runs in the background and may take a little while, so please be patient.</p>"
+msgstr "<p>%1$s ha sido actualizado! Para mantener las cosas funcionando sin problemas, tenemos que actualizar su base de datos a la versión más nueva. El proceso de actualización de la base de datos se ejecuta en segundo plano y puede tardar un poco, así que por favor, tenga paciencia.</p>"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update"
+msgstr "%1$s actualización de la base de datos"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s is updating the database in the background. The database update process may take a little while, so please be patient.</p>"
+msgstr "<p>%1$s está actualizando la base de datos en segundo plano. El proceso de actualización de la base de datos puede tardar un poco, así que por favor, sea paciente.</p>"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update done"
+msgstr "%1$s actualización de la base de datos completada"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s database update complete. Thank you for updating to the latest version!</p>"
+msgstr "<p>%1$s actualización de la base de datos completa. ¡Gracias por actualizar a la última versión!</p>"
+
+#: dependencies/barn2/barn2-lib/src/Util.php:552
+msgid "Unable to connect to the filesystem. Please confirm your credentials."
+msgstr "No se puede conectar al sistema de archivos. Por favor, confirme sus credenciales."
+
+#: dependencies/barn2/barn2-lib/src/Util.php:580
+msgid "You don't have permission to activate the plugin."
+msgstr "No tiene permiso para activar el plugin."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:151
+msgid "Could not find the appropriate step."
+msgstr "No se pudo encontrar el paso apropiado."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:196
+msgid "Please enter a license key."
+msgstr "Por favor, introduzca una clave de licencia."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:199
+msgid "Invalid action requested."
+msgstr "Acción solicitada no válida."
+
+#. translators: %s: The name of the plugin.
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:344
+msgid "%s setup wizard"
+msgstr "%s asistente de configuración"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:434
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:507
+msgid "Warning: This will overwrite your existing settings for %s. Are you sure you want to continue?"
+msgstr "Advertencia: Esto sobrescribirá su configuración existente para %s. ¿Está seguro de que desea continuar?"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:484
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:492
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:541
+msgid "Setup wizard"
+msgstr "Asistente de configuración"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:487
+msgid "If you need to access the setup wizard again, please click on the button below."
+msgstr "Si necesita acceder al asistente de configuración nuevamente, haga clic en el botón de abajo."
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:23
+#: src/Admin/Wizard/Steps/Upsell.php:11
+#: templates/menu/navigation.php:16
+#: templates/restaurant-info/restaurant-info.php:6
+msgid "More"
+msgstr "Más"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:24
+#: src/Admin/Wizard/Steps/Upsell.php:19
+msgid "Extra features"
+msgstr "Funciones extra"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:25
+msgid "Enhance your site with these fantastic plugins from Barn2."
+msgstr "Mejore su sitio con estos fantásticos plugins de Barn2."
+
+#: dependencies/barn2/setup-wizard/src/Steps/Ready.php:23
+#: src/Admin/Wizard/Steps/Completed.php:17
+msgid "Ready"
+msgstr "Listo"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Ready.php:24
+msgid "Setup Complete"
+msgstr "Configuración completada"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Welcome.php:25
+#: dependencies/barn2/setup-wizard/src/Steps/Welcome_Free.php:24
+#: src/Admin/Wizard/Steps/License_Verification.php:17
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#: dependencies/barn2/setup-wizard/src/Util.php:28
+#: src/Admin/Wizard/Steps/Pages.php:38
+msgid "Select an option"
+msgstr "Seleccione una opción"
+
+#: src/Admin/Admin_Controller.php:48
+msgid "Restaurant Page"
+msgstr "Página del restaurante"
+
+#: src/Admin/Settings_Page.php:41
+#: src/Settings.php:212
+msgid "Restaurant Ordering"
+msgstr "Pedido en Restaurante"
+
+#: src/Admin/Wizard/Steps/Completed.php:18
+msgid "Complete Setup"
+msgstr "Configuración Completa"
+
+#: src/Admin/Wizard/Steps/Completed.php:21
+msgid "Congratulations, your restaurant ordering system is now set up! The food order forms will appear on the %s page."
+msgstr "¡Felicidades, su sistema de pedidos en restaurante ya está configurado! Los formularios de pedido de comida aparecerán en la página %s."
+
+#: src/Admin/Wizard/Steps/License_Verification.php:18
+msgid "Start taking food orders in no time"
+msgstr "Empiece a tomar pedidos de comida en un abrir y cerrar de ojos"
+
+#: src/Admin/Wizard/Steps/License_Verification.php:19
+msgid "Use this setup wizard to quickly configure the most popular options for your restaurant ordering system. You can change these options later on the plugin settings page or by relaunching the setup wizard. You can also override these options in the shortcode for individual food order forms."
+msgstr "Utilice este asistente de configuración para configurar rápidamente las opciones más populares para su sistema de pedidos en restaurante. Puede cambiar estas opciones más tarde en la página de configuración del plugin o relanzando el asistente de configuración. También puede anular estas opciones en el shortcode para formularios de pedido de comida individuales."
+
+#: src/Admin/Wizard/Steps/Order_Form.php:26
+#: src/Admin/Wizard/Steps/Order_Form.php:40
+#: src/Settings.php:279
+msgid "Order form"
+msgstr "Formulario de pedido"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:27
+msgid "Order form content"
+msgstr "Contenido del formulario de pedido"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:28
+msgid "Now, choose the information that will appear in your food order forms."
+msgstr "Ahora, elija la información que aparecerá en sus formularios de pedido de comida."
+
+#: src/Admin/Wizard/Steps/Order_Form.php:66
+#: src/Settings.php:280
+msgid "Show menu navigation bar"
+msgstr "Mostrar barra de navegación del menú"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:73
+#: src/Settings.php:288
+msgid "Show category names"
+msgstr "Mostrar nombres de categorías"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:79
+#: src/Settings.php:296
+msgid "Show category descriptions"
+msgstr "Mostrar descripciones de categorías"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:85
+#: src/Settings.php:304
+msgid "Show product images"
+msgstr "Mostrar imágenes de productos"
+
+#: src/Admin/Wizard/Steps/Pages.php:17
+#: src/Admin/Wizard/Steps/Pages.php:18
+msgid "Pages"
+msgstr "Páginas"
+
+#: src/Admin/Wizard/Steps/Pages.php:19
+msgid "First, set up your main restaurant ordering pages. You can also create food order forms manually by adding the [restaurant_ordering] shortcode to any page"
+msgstr "Primero, configure sus páginas principales de pedido en restaurante. También puede crear formularios de pedido de comida manualmente añadiendo el shortcode [restaurant_ordering] a cualquier página"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:16
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:17
+#: src/Settings.php:463
+msgid "Restaurant details"
+msgstr "Detalles del restaurante"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:18
+msgid "If you like, then you can display restaurant information above the food order form."
+msgstr "Si lo desea, puede mostrar la información del restaurante encima del formulario de pedido de comida."
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:65
+msgid "\"%1$s\" should not exceed the max length of %2$s characters."
+msgstr "\"%1$s\" no debe exceder la longitud máxima de %2$s caracteres."
+
+#: src/Admin/Wizard/Steps/Upsell.php:14
+msgid "Enhance your store with these fantastic plugins from Barn2, or get them all by upgrading to an <a href=\"%1$s\" target=\"_blank\">All Access Pass<a/>! <a href=\"%2$s\" target=\"_blank\">(learn how here)</a>"
+msgstr "Mejore su tienda con estos fantásticos plugins de Barn2, o consíguelos todos actualizando a un <a href=\"%1$s\" target=\"_blank\">Pase de Acceso Total<a/>! <a href=\"%2$s\" target=\"_blank\">(aprenda cómo aquí)</a>"
+
+#: src/Frontend_Scripts.php:104
+msgid "Sorry, this item cannot be loaded."
+msgstr "Lo sentimos, este artículo no se puede cargar."
+
+#: src/Frontend_Scripts.php:105
+msgid "Sorry, this item is out of stock."
+msgstr "Lo sentimos, este artículo está agotado."
+
+#: src/Frontend_Scripts.php:106
+#: src/Rest/Rest_Util.php:108
+msgid "Sorry, this item is not available."
+msgstr "Lo sentimos, este artículo no está disponible."
+
+#: src/Frontend_Scripts.php:107
+#: src/Rest/Rest_Util.php:23
+#: templates/cart-notice/cart-notice.php:22
+msgid "Sorry, there was a problem ordering this item."
+msgstr "Lo sentimos, hubo un problema al ordenar este artículo."
+
+#: src/Frontend_Scripts.php:108
+msgid "Please enter a quantity greater than 0."
+msgstr "Por favor, ingrese una cantidad mayor a 0."
+
+#: src/Frontend_Scripts.php:109
+msgid "Please select all required options."
+msgstr "Seleccione todas las opciones requeridas."
+
+#: src/Frontend_Scripts.php:110
+msgid "Copied!"
+msgstr "Copiado!"
+
+#: src/Info/Availability_Options.php:53
+msgid "Open until {close_time}"
+msgstr "Abierto hasta {close_time}"
+
+#: src/Info/Availability_Options.php:54
+msgid "The restaurant is currently closed"
+msgstr "El restaurante está actualmente cerrado"
+
+#: src/Menu/Restaurant_Menu.php:91
+msgid "There are no menu categories available."
+msgstr "No hay categorías de menú disponibles."
+
+#: src/Menu/Restaurant_Menu.php:128
+msgid "There are no products available for this menu."
+msgstr "No hay productos disponibles para este menú."
+
+#. translators: %s: The list of product categories
+#: src/Menu/Restaurant_Menu.php:160
+msgid "[categories: %s]"
+msgstr "[categorías: %s]"
+
+#. translators: %s: Plugin name.
+#: src/Plugin.php:77
+msgid "The %s plugin requires WordPress 5.2 or greater. Please update your WordPress installation first."
+msgstr "El plugin %s requiere WordPress 5.2 o superior. Por favor, actualiza primero tu instalación de WordPress."
+
+#. translators: %1$s: Plugin name. %2$s: Update Core <a> tag open. %3$s: <a> tag close.
+#: src/Plugin.php:88
+msgid "The %1$s plugin requires WordPress 5.2 or greater. Please %2$supdate%3$s your WordPress installation."
+msgstr "El plugin %1$s requiere WordPress 5.2 o superior. Por favor, %2$sactualiza%3$s tu instalación de WordPress."
+
+#: src/Plugin.php:114
+msgid "Please install WooCommerce in order to use WooCommerce Restaurant Ordering."
+msgstr "Por favor, instala WooCommerce para poder usar el pedido de restaurante de WooCommerce."
+
+#. translators: %1$s: Install WooCommerce <a> tag open. %2$s: <a> tag close.
+#: src/Plugin.php:122
+msgid "Please %1$sinstall WooCommerce%2$s in order to use WooCommerce Restaurant Ordering."
+msgstr "Por favor, %1$sinstala WooCommerce%2$s para poder usar el pedido de restaurante de WooCommerce."
+
+#. translators: %s: Plugin name.
+#: src/Plugin.php:139
+msgid "The %s plugin requires WooCommerce 5.9 or greater. Please update your WooCommerce setup first."
+msgstr "El plugin %s requiere WooCommerce 5.9 o superior. Por favor, actualiza primero tu configuración de WooCommerce."
+
+#. translators: %1$s: Plugin name.
+#: src/Plugin.php:147
+msgid "The %1$s plugin requires WooCommerce 5.9 or greater. Please update your WooCommerce setup first."
+msgstr "El plugin %1$s requiere WooCommerce 5.9 o superior. Por favor, actualiza primero tu configuración de WooCommerce."
+
+#: src/Plugin_Setup.php:79
+msgid "Restaurant Order"
+msgstr "Pedido de Restaurante"
+
+#: src/Rest/Rest_Util.php:55
+msgid "This product does not exist."
+msgstr "Este producto no existe."
+
+#: src/Rest/Rest_Util.php:64
+msgid "This product is not visible."
+msgstr "Este producto no es visible."
+
+#: src/Rest/Rest_Util.php:72
+msgid "This product cannot be purchased."
+msgstr "Este producto no se puede comprar."
+
+#: src/Rest/Rest_Util.php:80
+msgid "This product is password protected."
+msgstr "Este producto está protegido por contraseña."
+
+#: src/Rest/Routes/Cart_Route.php:40
+msgid "The unique identifier for the product."
+msgstr "El identificador único para el producto."
+
+#: src/Rest/Routes/Cart_Route.php:45
+msgid "The quantity of the product."
+msgstr "La cantidad del producto."
+
+#: src/Rest/Routes/Cart_Route.php:50
+msgid "Buy button style."
+msgstr "Estilo del botón de compra."
+
+#: src/Rest/Routes/Cart_Route.php:194
+msgid "Please choose the quantity of items you wish to add to your cart&hellip;"
+msgstr "Por favor, elige la cantidad de artículos que deseas agregar a tu carrito&hellip;"
+
+#: src/Rest/Routes/Cart_Route.php:408
+msgid "The quantity must be greater than 0."
+msgstr "La cantidad debe ser mayor que 0."
+
+#: src/Rest/Routes/Cart_Route.php:421
+msgid "A variation ID must be specified for variable products."
+msgstr "Se debe especificar un ID de variación para productos variables."
+
+#: src/Rest/Routes/Cart_Route.php:434
+msgid "At least one variation attribute must be specified for variable products."
+msgstr "Se debe especificar al menos un atributo de variación para productos variables."
+
+#: src/Rest/Routes/Order_Type_Route.php:38
+#: src/Rest/Routes/Product_Modal_Route.php:38
+msgid "The unique indentifier for the product."
+msgstr "El identificador único para el producto."
+
+#: src/Settings.php:140
+#: src/Settings.php:160
+msgid "Opening hours"
+msgstr "Horario de apertura"
+
+#: src/Settings.php:142
+msgid "Enter the opening hours for your restaurant. If used, the restaurant will be open or closed based on the hours entered below. Customers won't be able to order when the restaurant is closed."
+msgstr "Introduce el horario de apertura de tu restaurante. Si se utiliza, el restaurante estará abierto o cerrado según las horas ingresadas a continuación. Los clientes no podrán hacer pedidos cuando el restaurante esté cerrado."
+
+#: src/Settings.php:148
+msgid "Enable"
+msgstr "Habilitar"
+
+#: src/Settings.php:149
+msgid "Enable restaurant opening hours"
+msgstr "Habilitar horario de apertura del restaurante"
+
+#: src/Settings.php:167
+msgid "Open message"
+msgstr "Abrir mensaje"
+
+#. translators: %s: A merge tag that can be used in the message
+#: src/Settings.php:170
+msgid "Displayed when the restaurant is open. Use %s as a placeholder for the next closing time."
+msgstr "Mostrado cuando el restaurante está abierto. Utiliza %s como un marcador de posición para la próxima hora de cierre."
+
+#: src/Settings.php:183
+msgid "Closed message"
+msgstr "Mensaje cerrado"
+
+#. translators: %s: A merge tag that can be used in the message
+#: src/Settings.php:186
+msgid "Displayed when the restaurant is closed. Use %s as a placeholder for the next opening time."
+msgstr "Mostrado cuando el restaurante está cerrado. Utiliza %s como un marcador de posición para la próxima hora de apertura."
+
+#: src/Settings.php:222
+msgid "Restaurant order page"
+msgstr "Página de pedidos del restaurante"
+
+#. translators: %1$s: HTML for the shop page link, %2$s: HTML for the link close tag.
+#: src/Settings.php:225
+msgid "The restaurant ordering page. If you want your store homepage to use the restaurant order layout, select your main %1$sShop page%2$s here."
+msgstr "La página de pedidos del restaurante. Si deseas que la página de inicio de tu tienda utilice el diseño de pedidos del restaurante, selecciona aquí tu %1$sPágina de tienda%2$s principal."
+
+#: src/Settings.php:234
+#: src/Settings.php:238
+msgid "Categories"
+msgstr "Categorías"
+
+#: src/Settings.php:239
+msgid "Choose your menu categories&hellip;"
+msgstr "Elige tus categorías de menú&hellip;"
+
+#: src/Settings.php:241
+msgid "The categories to include in your restaurant order form."
+msgstr "Las categorías para incluir en tu formulario de pedido del restaurante."
+
+#: src/Settings.php:247
+msgid "Category pages"
+msgstr "Páginas de categorías"
+
+#: src/Settings.php:248
+msgid "Show the order form on WooCommerce category pages"
+msgstr "Mostrar el formulario de pedido en las páginas de categorías de WooCommerce"
+
+#: src/Settings.php:249
+msgid "The order form will show the current category, plus any child categories."
+msgstr "El formulario de pedido mostrará la categoría actual, además de cualquier categoría hija."
+
+#: src/Settings.php:271
+msgid "Order form options"
+msgstr "Opciones del formulario de pedido"
+
+#: src/Settings.php:316
+msgid "Show product descriptions"
+msgstr "Mostrar descripciones de productos"
+
+#: src/Settings.php:317
+msgid "Shows the short description if entered, otherwise shows the full product description."
+msgstr "Muestra la descripción corta si se ha introducido, de lo contrario muestra la descripción completa del producto."
+
+#: src/Settings.php:328
+msgid "Layout"
+msgstr "Diseño"
+
+#: src/Settings.php:330
+msgid "1 column"
+msgstr "1 columna"
+
+#: src/Settings.php:331
+msgid "2 columns"
+msgstr "2 columnas"
+
+#: src/Settings.php:332
+msgid "3 columns"
+msgstr "3 columnas"
+
+#: src/Settings.php:334
+msgid "How to arrange the items in your restaurant order form."
+msgstr "Cómo organizar los elementos en tu formulario de pedido del restaurante."
+
+#: src/Settings.php:341
+msgid "Sort products by"
+msgstr "Ordenar productos por"
+
+#: src/Settings.php:343
+msgid "WooCommerce default"
+msgstr "Predeterminado de WooCommerce"
+
+#: src/Settings.php:344
+msgid "Name"
+msgstr "Nombre"
+
+#: src/Settings.php:345
+msgid "Price"
+msgstr "Precio"
+
+#: src/Settings.php:346
+msgid "Popularity"
+msgstr "Popularidad"
+
+#: src/Settings.php:347
+msgid "Date"
+msgstr "Fecha"
+
+#: src/Settings.php:355
+msgid "Image position"
+msgstr "Posición de la imagen"
+
+#: src/Settings.php:357
+msgid "Left"
+msgstr "Izquierda"
+
+#: src/Settings.php:358
+msgid "Right"
+msgstr "Derecha"
+
+#: src/Settings.php:367
+msgid "Image size"
+msgstr "Tamaño de la imagen"
+
+#: src/Settings.php:380
+msgid "Product description"
+msgstr "Descripción del producto"
+
+#: src/Settings.php:382
+msgid "Limit the description length"
+msgstr "Limitar la longitud de la descripción"
+
+#: src/Settings.php:383
+msgid "Show full description"
+msgstr "Mostrar descripción completa"
+
+#: src/Settings.php:385
+msgid "The product description is limited to fit the available space. If you select 'Show full description', the product box will expand as required."
+msgstr "La descripción del producto está limitada para ajustarse al espacio disponible. Si seleccionas 'Mostrar descripción completa', la caja del producto se expandirá según sea necesario."
+
+#: src/Settings.php:394
+msgid "Product lightbox"
+msgstr "Lightbox del producto"
+
+#: src/Settings.php:395
+msgid "Show product image"
+msgstr "Mostrar imagen del producto"
+
+#: src/Settings.php:403
+msgid "Show product description"
+msgstr "Mostrar descripción del producto"
+
+#: src/Settings.php:404
+msgid "The full product description is displayed in the lightbox."
+msgstr "La descripción completa del producto se muestra en el lightbox."
+
+#: src/Settings.php:412
+msgid "Show stock status"
+msgstr "Mostrar estado de stock"
+
+#: src/Settings.php:419
+msgid "Order method"
+msgstr "Método de pedido"
+
+#: src/Settings.php:421
+msgid "Add items instantly where possible, otherwise show a lightbox"
+msgstr "Añadir elementos instantáneamente donde sea posible, de lo contrario mostrar un lightbox"
+
+#: src/Settings.php:422
+msgid "Always show a lightbox to select the quantity and options"
+msgstr "Mostrar siempre un lightbox para seleccionar la cantidad y opciones"
+
+#: src/Settings.php:429
+msgid "Buy button"
+msgstr "Botón de compra"
+
+#: src/Settings.php:432
+msgid "Order by clicking a buy button (+)"
+msgstr "Pedir haciendo clic en un botón de compra (+)"
+
+#: src/Settings.php:433
+msgid "Order by clicking anywhere in the product box"
+msgstr "Pedir haciendo clic en cualquier parte de la caja del producto"
+
+#: src/Settings.php:440
+msgid "Cart confirmation"
+msgstr "Confirmación del carrito"
+
+#: src/Settings.php:442
+msgid "Show a confirmation message when adding items to the cart"
+msgstr "Mostrar un mensaje de confirmación al añadir elementos al carrito"
+
+#: src/Settings.php:443
+msgid "We recommend you only disable this option if you provide a different way to confirm adding products to the cart. For example, using the popup cart in our WooCommerce Fast Cart plugin."
+msgstr "Te recomendamos desactivar esta opción solo si proporcionas una forma diferente de confirmar la adición de productos al carrito. Por ejemplo, utilizando el carrito emergente en nuestro plugin WooCommerce Fast Cart."
+
+#: src/Settings.php:465
+msgid "Enter some information about your restaurant."
+msgstr "Introduce información sobre tu restaurante."
+
+#: src/Settings.php:471
+msgid "Restaurant name"
+msgstr "Nombre del restaurante"
+
+#: src/Settings.php:472
+msgid "The restaurant name is shown in the 'More' popup which shows the restaurant opening hours."
+msgstr "El nombre del restaurante se muestra en el popup 'Más' que muestra el horario de apertura del restaurante."
+
+#: src/Settings.php:481
+msgid "Restaurant address"
+msgstr "Dirección del restaurante"
+
+#: src/Settings.php:490
+msgid "Delivery/collection info"
+msgstr "Información de entrega/recogida"
+
+#. translators: %s: "WooCommerce Restaurant Ordering"
+#: src/Settings.php:513
+msgid "The following options control the %s extension."
+msgstr "Las siguientes opciones controlan la extensión %s."
+
+#: src/Settings.php:602
+msgid "Uninstalling "
+msgstr "Desinstalando "
+
+#: src/Settings.php:610
+msgid "Delete data on uninstall\t"
+msgstr "Eliminar datos al desinstalar\t"
+
+#: src/Settings.php:611
+msgid "Permanently delete all "
+msgstr "Eliminar permanentemente todo "
+
+#: src/Util.php:85
+msgid "Sorry, the restaurant is now closed."
+msgstr "Lo sentimos, el restaurante ahora está cerrado."
+
+#: templates/admin/opening-hours/opening-hours.php:61
+msgid "Add more hours"
+msgstr "Añadir más horas"
+
+#: templates/admin/opening-hours/opening-hours.php:63
+msgid "Use fewer hours"
+msgstr "Usar menos horas"
+
+#: templates/admin/opening-hours/opening-period.php:8
+msgid "to"
+msgstr "a"
+
+#. translators: %s: The names of the products added to the cart.
+#: templates/cart-notice/cart-notice.php:9
+msgid "%s has been removed from your cart."
+msgstr "%s ha sido eliminado de su carrito."
+
+#. translators: %s: The names of the products added to the cart.
+#: templates/cart-notice/cart-notice.php:12
+msgid "%s have been added to your cart."
+msgstr "%s han sido añadidos a tu carrito."
+
+#. translators: %s: The name of the product added to the cart.
+#: templates/cart-notice/cart-notice.php:15
+msgid "%s has been added to your cart."
+msgstr "%s ha sido añadido a tu carrito."
+
+#: templates/cart-notice/cart-notice.php:17
+msgid "View cart"
+msgstr "Ver carrito"
+
+#: templates/menu/product/buy-button.php:6
+#: templates/modal/buy-button.php:4
+msgid "Add to order"
+msgstr "Añadir al pedido"
+
+#: templates/modal/buy-button.php:4
+msgid "Add for"
+msgstr "Añadir por"
+
+#: templates/modal/content.php:35
+msgid "Item out of stock"
+msgstr "Artículo agotado"
+
+#: templates/modal/content.php:37
+msgid "Item not available"
+msgstr "Artículo no disponible"
+
+#: templates/modal/content.php:40
+msgid "Decrease quantity"
+msgstr "Disminuir cantidad"
+
+#: templates/modal/content.php:41
+msgid "Enter item quantity"
+msgstr "Introducir cantidad de artículos"
+
+#: templates/modal/content.php:46
+msgid "Increase quantity"
+msgstr "Aumentar cantidad"
+
+#: templates/restaurant-info/modal-content.php:41
+msgid "Closed"
+msgstr "Cerrado"
+
+#. translators: %s: product quantity
+#: src/Rest/Routes/Cart_Route.php:333
+msgctxt "Quantity prefix for cart message"
+msgid "%s &times; "
+msgstr "%s &times; "
+
+#. translators: %s: product name
+#: src/Rest/Routes/Cart_Route.php:336
+msgctxt "Item name in quotes"
+msgid "&ldquo;%s&rdquo;"
+msgstr "&ldquo;%s&rdquo;"
+
+#: templates/restaurant-info/modal-content.php:45
+msgctxt "displayed between the open and close times"
+msgid "to"
+msgstr "a"

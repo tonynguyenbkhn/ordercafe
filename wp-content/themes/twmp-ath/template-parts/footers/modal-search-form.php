@@ -31,7 +31,7 @@ $_close_button_class = !empty($data['close_button_class']) ? $data['close_button
                 <span class="typo-text-md-medium text-system-content-2"><?php echo esc_html__('Cancel', 'twmp-ath'); ?></span>
             </button>
             <?php
-            get_search_form();
+            get_product_search_form();
             ?>
         </div>
         <button class="modal__close-button <?php echo esc_attr($_close_button_class); ?>" data-close-modal="modal-search-form" aria-label="<?php esc_attr_e('Close a modal', 'twmp-ath'); ?>">

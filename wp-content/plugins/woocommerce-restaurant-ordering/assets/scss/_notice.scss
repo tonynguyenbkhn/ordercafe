@@ -1,0 +1,54 @@
+
+.wc-restaurant-ordering-notice {
+	background-color: green;
+	color: #fff;
+	padding: 20px 20px 16px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 999999;
+	text-align: center;
+
+	&.error-notice {
+		background-color: red;
+	}
+
+	.view-cart {
+		color: inherit;
+		margin-left: 10px;
+		transition: opacity .2s;
+		white-space: nowrap;
+		text-decoration: none;
+		border: none;
+
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+
+	.view-cart-text {
+		text-decoration: underline;
+	}
+
+	.notice-text {
+		margin-top: 0;
+		margin-bottom: 4px;
+		padding: 0;
+		line-height: 1.5;
+
+		:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	#wpadminbar ~ & {
+		top: 32px;
+	}
+
+}
+
+// Shown when (for example) no products are found for the menu.
+.wc-restaurant-menu-error {
+	font-weight: bold;
+}

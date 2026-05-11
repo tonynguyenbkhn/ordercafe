@@ -3,8 +3,8 @@
 /*----------------------------------------*/
 .container {
 	width: 100%;
-	padding-right: 1.5rem;
-	padding-left: 1.5rem;
+	padding-right: 16px;
+	padding-left: 16px;
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -35,30 +35,8 @@
 
 @media (min-width: 1200px) {
 	.container {
-		max-width: 1280px;
+		max-width: 1312px;
 	}
-}
-
-.row {
-	--bs-gutter-x: 1.5rem;
-	--bs-gutter-y: 0;
-	display: flex;
-	margin-top: calc(-1 * var(--bs-gutter-y));
-	margin-right: calc(-0.5 * var(--bs-gutter-x));
-	margin-left: calc(-0.5 * var(--bs-gutter-x));
-}
-
-.row>* {
-	flex-shrink: 0;
-	width: 100%;
-	max-width: 100%;
-	padding-right: calc(var(--bs-gutter-x) * 0.5);
-	padding-left: calc(var(--bs-gutter-x) * 0.5);
-	margin-top: var(--bs-gutter-y);
-}
-
-.col {
-	flex: 1 0 0;
 }
 
 .position-relative {
@@ -120,8 +98,6 @@ $header--main-height-mobile: 60px;
 	}
 
 	.header__logo {
-		width: 17%;
-
 		float: left;
 		width: 15%;
 		height: 100%;
@@ -172,8 +148,31 @@ body:not(.home) {
 }
 
 /*----------------------------------------*/
-/*  Button Contact
+/*  Logo
 /*----------------------------------------*/
+.site-logo {
+	img {
+		width: 95px;
+		height: auto;
+	}
+}
+
+/*----------------------------------------*/
+/*  Header Icons
+/*----------------------------------------*/
+.header__menu-icons {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 16px;
+}
+
+/*----------------------------------------*/
+/*  Icon Search
+/*----------------------------------------*/
+.header__menu-icons__icon-search {
+	cursor: pointer;
+}
 
 /*----------------------------------------*/
 /*  Main Nav
@@ -254,48 +253,6 @@ body:not(.home) {
 
 		& li.active>a::after {
 			color: var(--black);
-		}
-	}
-}
-
-/*----------------------------------------*/
-/*  Logo
-/*----------------------------------------*/
-.site-logo {
-	img {
-		width: 95px;
-		height: auto;
-	}
-}
-
-/*----------------------------------------*/
-/*  Header Icons
-/*----------------------------------------*/
-.header__menu-icons {
-	display: flex;
-	align-items: center;
-
-	&>* {
-		margin: 0 5px;
-
-		@media (min-width: 1024px) {
-			margin: 0 10px;
-		}
-	}
-}
-
-/*----------------------------------------*/
-/*  Icon Search
-/*----------------------------------------*/
-.header__menu-icons__item--search {
-	display: inline-flex;
-	cursor: pointer;
-
-	span {
-		display: block;
-
-		& svg {
-			fill: white;
 		}
 	}
 }

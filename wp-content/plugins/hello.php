@@ -10,7 +10,6 @@ Description: This is not just a plugin, it symbolizes the hope and enthusiasm of
 Author: Matt Mullenweg
 Version: 1.7.2
 Author URI: http://ma.tt/
-Text Domain: hello-dolly
 */
 
 // Do not load directly.

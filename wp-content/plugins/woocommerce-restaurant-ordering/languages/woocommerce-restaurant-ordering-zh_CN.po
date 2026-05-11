@@ -1,0 +1,935 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Restaurant Ordering 2.1.10\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-restaurant-ordering\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-04-22T17:50:43+00:00\n"
+"PO-Revision-Date: 2025-09-09 08:52+0000\n"
+"Language: zh-CN\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: woocommerce-restaurant-ordering\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Plugin Name of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "WooCommerce Restaurant Ordering"
+msgstr "WooCommerce 餐厅订餐"
+
+#. Plugin URI of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "https://barn2.com/wordpress-plugins/woocommerce-restaurant-ordering/"
+msgstr "https://barn2.com/wordpress-plugins/woocommerce-restaurant-ordering/"
+
+#. Description of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "A restaurant ordering plugin for WooCommerce."
+msgstr "一个用于 WooCommerce 的餐厅订餐插件。"
+
+#. Author of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "Barn2 Plugins"
+msgstr "Barn2 插件"
+
+#. Author URI of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "https://barn2.com"
+msgstr "https://barn2.com"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_API_Helper.php:154
+msgid "[View page]"
+msgstr "[查看页面]"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_API_Helper.php:615
+#: dependencies/barn2/barn2-lib/src/WooCommerce/Admin/Custom_Settings_Fields.php:138
+msgid "Size"
+msgstr "大小"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_Util.php:70
+msgid "Documentation"
+msgstr "文档"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_Util.php:70
+msgid "Support"
+msgstr "支持"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:38
+msgid "Settings"
+msgstr "设置"
+
+#. translators: %s: The plugin name
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:54
+msgid "View %s documentation"
+msgstr "查看 %s 文档"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:55
+msgid "Docs"
+msgstr "文档"
+
+#. translators: 1: licence key link start, 2: license key link end
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Plugin_Updater.php:155
+msgid "Activate %1$syour license key%2$s to enable updates."
+msgstr "激活 %1$syour license key%2$s 以启用更新。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Plugin_Updater.php:210
+msgid "Auto-updates unavailable."
+msgstr "自动更新不可用。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:59
+msgid "License key successfully activated."
+msgstr "许可证密钥已成功激活。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:59
+msgid "There was an error activating your license key."
+msgstr "激活您的许可证密钥时出现错误。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:63
+msgid "License key successfully deactivated."
+msgstr "许可证密钥已成功停用。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:63
+msgid "There was an error deactivating your license key, please try again."
+msgstr "停用您的许可证密钥时出现错误，请重试。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:66
+msgid "The license key looks good!"
+msgstr "许可证密钥看起来不错！"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:66
+msgid "There's a problem with your license key."
+msgstr "您的许可证密钥存在问题。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:108
+msgid "License key"
+msgstr "许可证密钥"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:110
+msgid "The licence key is contained in your order confirmation email."
+msgstr "许可证密钥包含在您的订单确认电子邮件中。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:113
+msgid "License Key"
+msgstr "许可证密钥"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Check"
+msgstr "检查"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Activate"
+msgstr "激活"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Deactivate"
+msgstr "停用"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:140
+msgid "License key deactivated."
+msgstr "许可证密钥已停用。"
+
+#. translators: 1: the plugin name, 2: settings link start, 3: settings link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:84
+msgid "Thank you for installing %1$s. To get started, please %2$s enter your license key%3$s."
+msgstr "感谢您安装 %1$s。要开始，请 %2$s 输入您的许可证密钥%3$s。"
+
+#. translators: 1: the plugin name, 2: renewal link start, 3: renewal link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:109
+msgid "Your license key for %1$s has expired. %2$sClick here to renew for 20%% discount%3$s."
+msgstr "您对 %1$s 的许可证密钥已过期。 %2$s点击这里以享受20%%的折扣续订%3$s。"
+
+#. translators: 1: the plugin name, 2: renewal link start, 3: renewal link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:134
+msgid "You no longer have a valid license for %1$s. Please %2$spurchase a new license key%3$s to continue using the plugin."
+msgstr "您不再拥有 %1$s 的有效许可证。请 %2$s购买新的许可证密钥%3$s 以继续使用该插件。"
+
+#. translators: 1: the plugin name, 2: settings link start, 3: settings link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:162
+msgid "%1$s - your site has moved to a new domain. Please %2$sreactivate your license key%3$s."
+msgstr "%1$s - 您的网站已迁移到新域名。请 %2$s重新激活您的许可证密钥%3$s。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/EDD_Licensing.php:168
+msgid "An error has occurred, please try again."
+msgstr "发生错误，请重试。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:91
+msgid "Your license key is active."
+msgstr "您的许可证密钥是有效的。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:111
+msgid "Please enter your license key."
+msgstr "请输入您的许可证密钥。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:113
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:391
+msgid "Your license key is invalid."
+msgstr "您的许可证密钥无效。"
+
+#. translators: 1: account page link start, 2: account page link end
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:335
+msgid "Invalid license key - please check your order confirmation email or %1$sAccount%2$s."
+msgstr "无效的许可证密钥 - 请检查您的订单确认电子邮件或 %1$s帐户%2$s。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:341
+msgid "No URL was supplied for activation, please contact support."
+msgstr "未提供激活的 URL，请联系支持。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:344
+msgid "License key mismatch, please contact support."
+msgstr "许可证密钥不匹配，请联系支持。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:347
+msgid "This license is for a bundled product and cannot be activated."
+msgstr "此许可证适用于捆绑产品，无法激活。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:351
+msgid "Your license key is not valid for this plugin."
+msgstr "您的许可证密钥不适用于此插件。"
+
+#. translators: %s: The number of sites the license is activated on
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:357
+msgid "%s site active"
+msgid_plural "%s sites active"
+msgstr[0] "%s 个站点激活"
+
+#. translators: %s: The sites active description, e.g. '2 sites active'
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:360
+msgid "Your license key has reached its activation limit (%s)."
+msgstr "您的许可证密钥已达到激活限制 (%s)。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:361
+#: dependencies/barn2/barn2-lib/src/Util.php:35
+msgid "Read more"
+msgstr "阅读更多"
+
+#. translators: support for RTL, 1: the license error, 2: a link
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:363
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:381
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#. translators: %s: The license expiry date
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:376
+msgid "Your license key expired on %s."
+msgstr "您的许可证密钥在 %s 到期。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:379
+msgid "Renew now for 20% discount."
+msgstr "立即续订可享受 20% 折扣。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:582
+msgid "Your license key is not active. Please reactivate or save the settings."
+msgstr "您的许可证密钥未激活。请重新激活或保存设置。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:586
+msgid "Your license key has expired."
+msgstr "您的许可证密钥已过期。"
+
+#. translators: 1: purchase link start, 2: purchase link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:592
+msgid "Your license key has been disabled. Please %1$spurchase a new license key%2$s to continue using the plugin."
+msgstr "您的许可证密钥已被禁用。请 %1$spurchase a new license key%2$s 以继续使用插件。"
+
+#. translators: %1$s: Plugin name. %2$s: PHP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:103
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:112
+msgid "%1$s requires PHP %2$s or greater. Please update the PHP version used by your web server."
+msgstr "%1$s 需要 PHP %2$s 或更高版本。请更新您网站服务器使用的 PHP 版本。"
+
+#. translators: %1$s: Plugin name. %2$s: WP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:136
+msgid "%1$s requires WordPress %2$s or greater. Please update your WordPress installation."
+msgstr "%1$s 需要 WordPress %2$s 或更高版本。请更新您的 WordPress 安装。"
+
+#. translators: %1$s: Plugin name. %2$s: Update Core <a> tag open. %3$s: <a> tag close. %4$s: WP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:146
+msgid "%1$s requires WordPress %4$s or greater. Please %2$supdate%3$s your WordPress installation."
+msgstr "%1$s 需要 WordPress %4$s 或更高版本。请 %2$s更新%3$s 您的 WordPress 安装。"
+
+#. translators: %1$s: Plugin name.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:169
+msgid "%1$s requires WooCommerce to be installed and active."
+msgstr "%1$s 需要安装并激活 WooCommerce。"
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce link. %3$s Install/Upgrade/Activate WooCommerce link.
+#. translators: %1$s: Plugin name. %2$s: EDD link. %3$s Install/Upgrade/Activate EDD link.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:175
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:224
+msgid "%1$s requires %2$s to be installed and active.%3$s"
+msgstr "%1$s 需要 %2$s 安装并激活。%3$s"
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:189
+msgid "%1$s requires WooCommerce %2$s or greater. Please update your WooCommerce setup first."
+msgstr "%1$s 需要 WooCommerce %2$s 或更高版本。请先更新您的 WooCommerce 设置。"
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce link. %3$s WooCommerce version required. %4$s Install/Upgrade/Activate WooCommerce link.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:195
+msgid "%1$s requires %2$s %3$s or greater. Please %4$s your WooCommerce setup first."
+msgstr "%1$s 需要 %2$s %3$s 或更高版本。请 %4$s 先更新您的 WooCommerce 设置。"
+
+#. translators: %1$s: Plugin name.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:218
+msgid "%1$s requires Easy Digital Downloads to be installed and active."
+msgstr "%1$s 需要安装并激活 Easy Digital Downloads。"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Simple_Plugin.php:102
+msgid "%1$s could not complete its first activation because the following error occurred:<br>%2$s"
+msgstr "%1$s 无法完成首次激活，因为发生了以下错误：<br>%2$s"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update required"
+msgstr "%1$s 数据库更新需要"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s has been updated! To keep things running smoothly, we have to update your database to the newest version. The database update process runs in the background and may take a little while, so please be patient.</p>"
+msgstr "<p>%1$s 已更新！为了保持系统顺利运行，我们需要将您的数据库更新到最新版本。数据库更新过程在后台运行，可能需要一些时间，因此请耐心等待。</p>"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update"
+msgstr "%1$s 数据库更新"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s is updating the database in the background. The database update process may take a little while, so please be patient.</p>"
+msgstr "<p>%1$s 正在后台更新数据库。数据库更新过程可能需要一些时间，请耐心等待。</p>"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update done"
+msgstr "%1$s 数据库更新完成"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s database update complete. Thank you for updating to the latest version!</p>"
+msgstr "<p>%1$s 数据库更新完成。感谢您更新到最新版本！</p>"
+
+#: dependencies/barn2/barn2-lib/src/Util.php:552
+msgid "Unable to connect to the filesystem. Please confirm your credentials."
+msgstr "无法连接到文件系统。请确认您的凭据。"
+
+#: dependencies/barn2/barn2-lib/src/Util.php:580
+msgid "You don't have permission to activate the plugin."
+msgstr "您没有权限激活该插件。"
+
+#: dependencies/barn2/setup-wizard/src/Api.php:151
+msgid "Could not find the appropriate step."
+msgstr "找不到适当的步骤。"
+
+#: dependencies/barn2/setup-wizard/src/Api.php:196
+msgid "Please enter a license key."
+msgstr "请输入许可证密钥。"
+
+#: dependencies/barn2/setup-wizard/src/Api.php:199
+msgid "Invalid action requested."
+msgstr "请求的操作无效。"
+
+#. translators: %s: The name of the plugin.
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:344
+msgid "%s setup wizard"
+msgstr "%s 设置向导"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:434
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:507
+msgid "Warning: This will overwrite your existing settings for %s. Are you sure you want to continue?"
+msgstr "警告：这将覆盖您对 %s 的现有设置。您确定要继续吗？"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:484
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:492
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:541
+msgid "Setup wizard"
+msgstr "设置向导"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:487
+msgid "If you need to access the setup wizard again, please click on the button below."
+msgstr "如果您需要再次访问设置向导，请点击下面的按钮。"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:23
+#: src/Admin/Wizard/Steps/Upsell.php:11
+#: templates/menu/navigation.php:16
+#: templates/restaurant-info/restaurant-info.php:6
+msgid "More"
+msgstr "更多"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:24
+#: src/Admin/Wizard/Steps/Upsell.php:19
+msgid "Extra features"
+msgstr "额外功能"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:25
+msgid "Enhance your site with these fantastic plugins from Barn2."
+msgstr "通过 Barn2 提供的这些精彩插件来增强您的网站。"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Ready.php:23
+#: src/Admin/Wizard/Steps/Completed.php:17
+msgid "Ready"
+msgstr "准备就绪"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Ready.php:24
+msgid "Setup Complete"
+msgstr "设置完成"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Welcome.php:25
+#: dependencies/barn2/setup-wizard/src/Steps/Welcome_Free.php:24
+#: src/Admin/Wizard/Steps/License_Verification.php:17
+msgid "Welcome"
+msgstr "欢迎"
+
+#: dependencies/barn2/setup-wizard/src/Util.php:28
+#: src/Admin/Wizard/Steps/Pages.php:38
+msgid "Select an option"
+msgstr "选择一个选项"
+
+#: src/Admin/Admin_Controller.php:48
+msgid "Restaurant Page"
+msgstr "餐厅页面"
+
+#: src/Admin/Settings_Page.php:41
+#: src/Settings.php:212
+msgid "Restaurant Ordering"
+msgstr "餐厅订购"
+
+#: src/Admin/Wizard/Steps/Completed.php:18
+msgid "Complete Setup"
+msgstr "完成设置"
+
+#: src/Admin/Wizard/Steps/Completed.php:21
+msgid "Congratulations, your restaurant ordering system is now set up! The food order forms will appear on the %s page."
+msgstr "恭喜，您的餐厅订购系统已经设置完成！食品订单表单将在 %s 页面上显示。"
+
+#: src/Admin/Wizard/Steps/License_Verification.php:18
+msgid "Start taking food orders in no time"
+msgstr "快速开始接受食品订单"
+
+#: src/Admin/Wizard/Steps/License_Verification.php:19
+msgid "Use this setup wizard to quickly configure the most popular options for your restaurant ordering system. You can change these options later on the plugin settings page or by relaunching the setup wizard. You can also override these options in the shortcode for individual food order forms."
+msgstr "使用此设置向导快速配置您餐厅订购系统中最受欢迎的选项。您可以稍后在插件设置页面更改这些选项，或者通过重新启动设置向导来进行更改。您还可以在单个食品订单表单的短代码中覆盖这些选项。"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:26
+#: src/Admin/Wizard/Steps/Order_Form.php:40
+#: src/Settings.php:279
+msgid "Order form"
+msgstr "订单表单"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:27
+msgid "Order form content"
+msgstr "订单表单内容"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:28
+msgid "Now, choose the information that will appear in your food order forms."
+msgstr "现在，选择将显示在您的食品订单表单中的信息。"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:66
+#: src/Settings.php:280
+msgid "Show menu navigation bar"
+msgstr "显示菜单导航栏"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:73
+#: src/Settings.php:288
+msgid "Show category names"
+msgstr "显示分类名称"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:79
+#: src/Settings.php:296
+msgid "Show category descriptions"
+msgstr "显示分类描述"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:85
+#: src/Settings.php:304
+msgid "Show product images"
+msgstr "显示产品图片"
+
+#: src/Admin/Wizard/Steps/Pages.php:17
+#: src/Admin/Wizard/Steps/Pages.php:18
+msgid "Pages"
+msgstr "页面"
+
+#: src/Admin/Wizard/Steps/Pages.php:19
+msgid "First, set up your main restaurant ordering pages. You can also create food order forms manually by adding the [restaurant_ordering] shortcode to any page"
+msgstr "首先，设置您的主要餐厅订购页面。您还可以通过将 [restaurant_ordering] 短代码添加到任何页面手动创建食品订单表单"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:16
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:17
+#: src/Settings.php:463
+msgid "Restaurant details"
+msgstr "餐厅详情"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:18
+msgid "If you like, then you can display restaurant information above the food order form."
+msgstr "如果您愿意，您可以在食品订单表单上方显示餐厅信息。"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:65
+msgid "\"%1$s\" should not exceed the max length of %2$s characters."
+msgstr "“%1$s” 的最大长度不得超过 %2$s 个字符。"
+
+#: src/Admin/Wizard/Steps/Upsell.php:14
+msgid "Enhance your store with these fantastic plugins from Barn2, or get them all by upgrading to an <a href=\"%1$s\" target=\"_blank\">All Access Pass<a/>! <a href=\"%2$s\" target=\"_blank\">(learn how here)</a>"
+msgstr "通过这些来自 Barn2 的精彩插件增强您的商店，或者通过升级到 <a href=\"%1$s\" target=\"_blank\">全访问通行证<a/>获取它们全部！<a href=\"%2$s\" target=\"_blank\">(在这里了解如何)</a>"
+
+#: src/Frontend_Scripts.php:104
+msgid "Sorry, this item cannot be loaded."
+msgstr "抱歉，此项无法加载。"
+
+#: src/Frontend_Scripts.php:105
+msgid "Sorry, this item is out of stock."
+msgstr "抱歉，此商品缺货。"
+
+#: src/Frontend_Scripts.php:106
+#: src/Rest/Rest_Util.php:108
+msgid "Sorry, this item is not available."
+msgstr "抱歉，此商品不可用。"
+
+#: src/Frontend_Scripts.php:107
+#: src/Rest/Rest_Util.php:23
+#: templates/cart-notice/cart-notice.php:22
+msgid "Sorry, there was a problem ordering this item."
+msgstr "抱歉，订购此商品时出现问题。"
+
+#: src/Frontend_Scripts.php:108
+msgid "Please enter a quantity greater than 0."
+msgstr "请输入大于 0 的数量。"
+
+#: src/Frontend_Scripts.php:109
+msgid "Please select all required options."
+msgstr "请选择所有必需的选项。"
+
+#: src/Frontend_Scripts.php:110
+msgid "Copied!"
+msgstr "已复制！"
+
+#: src/Info/Availability_Options.php:53
+msgid "Open until {close_time}"
+msgstr "开放至 {close_time}"
+
+#: src/Info/Availability_Options.php:54
+msgid "The restaurant is currently closed"
+msgstr "餐厅当前已关闭"
+
+#: src/Menu/Restaurant_Menu.php:91
+msgid "There are no menu categories available."
+msgstr "没有可用的菜单类别。"
+
+#: src/Menu/Restaurant_Menu.php:128
+msgid "There are no products available for this menu."
+msgstr "此菜单没有可用的产品。"
+
+#. translators: %s: The list of product categories
+#: src/Menu/Restaurant_Menu.php:160
+msgid "[categories: %s]"
+msgstr "[类别: %s]"
+
+#. translators: %s: Plugin name.
+#: src/Plugin.php:77
+msgid "The %s plugin requires WordPress 5.2 or greater. Please update your WordPress installation first."
+msgstr "%s 插件需要 WordPress 5.2 或更高版本。请先更新您的 WordPress 安装。"
+
+#. translators: %1$s: Plugin name. %2$s: Update Core <a> tag open. %3$s: <a> tag close.
+#: src/Plugin.php:88
+msgid "The %1$s plugin requires WordPress 5.2 or greater. Please %2$supdate%3$s your WordPress installation."
+msgstr "%1$s 插件需要 WordPress 5.2 或更高版本。请 %2$s更新%3$s 您的 WordPress 安装。"
+
+#: src/Plugin.php:114
+msgid "Please install WooCommerce in order to use WooCommerce Restaurant Ordering."
+msgstr "请安装 WooCommerce 以使用 WooCommerce 餐厅订购。"
+
+#. translators: %1$s: Install WooCommerce <a> tag open. %2$s: <a> tag close.
+#: src/Plugin.php:122
+msgid "Please %1$sinstall WooCommerce%2$s in order to use WooCommerce Restaurant Ordering."
+msgstr "请 %1$s安装 WooCommerce%2$s 以使用 WooCommerce 餐厅订购。"
+
+#. translators: %s: Plugin name.
+#: src/Plugin.php:139
+msgid "The %s plugin requires WooCommerce 5.9 or greater. Please update your WooCommerce setup first."
+msgstr "%s 插件需要 WooCommerce 5.9 或更高版本。请先更新您的 WooCommerce 设置。"
+
+#. translators: %1$s: Plugin name.
+#: src/Plugin.php:147
+msgid "The %1$s plugin requires WooCommerce 5.9 or greater. Please update your WooCommerce setup first."
+msgstr "%1$s 插件需要 WooCommerce 5.9 或更高版本。请先更新您的 WooCommerce 设置。"
+
+#: src/Plugin_Setup.php:79
+msgid "Restaurant Order"
+msgstr "餐厅订单"
+
+#: src/Rest/Rest_Util.php:55
+msgid "This product does not exist."
+msgstr "此产品不存在。"
+
+#: src/Rest/Rest_Util.php:64
+msgid "This product is not visible."
+msgstr "此产品不可见。"
+
+#: src/Rest/Rest_Util.php:72
+msgid "This product cannot be purchased."
+msgstr "此产品无法购买。"
+
+#: src/Rest/Rest_Util.php:80
+msgid "This product is password protected."
+msgstr "此产品受密码保护。"
+
+#: src/Rest/Routes/Cart_Route.php:40
+msgid "The unique identifier for the product."
+msgstr "产品的唯一标识符。"
+
+#: src/Rest/Routes/Cart_Route.php:45
+msgid "The quantity of the product."
+msgstr "产品的数量。"
+
+#: src/Rest/Routes/Cart_Route.php:50
+msgid "Buy button style."
+msgstr "购买按钮样式。"
+
+#: src/Rest/Routes/Cart_Route.php:194
+msgid "Please choose the quantity of items you wish to add to your cart&hellip;"
+msgstr "请选择您希望添加到购物车的商品数量&hellip;"
+
+#: src/Rest/Routes/Cart_Route.php:408
+msgid "The quantity must be greater than 0."
+msgstr "数量必须大于0。"
+
+#: src/Rest/Routes/Cart_Route.php:421
+msgid "A variation ID must be specified for variable products."
+msgstr "必须为可变产品指定一个变体ID。"
+
+#: src/Rest/Routes/Cart_Route.php:434
+msgid "At least one variation attribute must be specified for variable products."
+msgstr "必须为可变产品指定至少一个变体属性。"
+
+#: src/Rest/Routes/Order_Type_Route.php:38
+#: src/Rest/Routes/Product_Modal_Route.php:38
+msgid "The unique indentifier for the product."
+msgstr "产品的唯一标识符。"
+
+#: src/Settings.php:140
+#: src/Settings.php:160
+msgid "Opening hours"
+msgstr "营业时间"
+
+#: src/Settings.php:142
+msgid "Enter the opening hours for your restaurant. If used, the restaurant will be open or closed based on the hours entered below. Customers won't be able to order when the restaurant is closed."
+msgstr "输入您餐厅的营业时间。如果使用，餐厅将在下面输入的时间内开放或关闭。餐厅关闭时，顾客将无法下单。"
+
+#: src/Settings.php:148
+msgid "Enable"
+msgstr "启用"
+
+#: src/Settings.php:149
+msgid "Enable restaurant opening hours"
+msgstr "启用餐厅营业时间"
+
+#: src/Settings.php:167
+msgid "Open message"
+msgstr "开放信息"
+
+#. translators: %s: A merge tag that can be used in the message
+#: src/Settings.php:170
+msgid "Displayed when the restaurant is open. Use %s as a placeholder for the next closing time."
+msgstr "餐厅开放时显示。使用 %s 作为下一个关闭时间的占位符。"
+
+#: src/Settings.php:183
+msgid "Closed message"
+msgstr "关闭信息"
+
+#. translators: %s: A merge tag that can be used in the message
+#: src/Settings.php:186
+msgid "Displayed when the restaurant is closed. Use %s as a placeholder for the next opening time."
+msgstr "餐厅关闭时显示。使用 %s 作为下一个开放时间的占位符。"
+
+#: src/Settings.php:222
+msgid "Restaurant order page"
+msgstr "餐厅订单页面"
+
+#. translators: %1$s: HTML for the shop page link, %2$s: HTML for the link close tag.
+#: src/Settings.php:225
+msgid "The restaurant ordering page. If you want your store homepage to use the restaurant order layout, select your main %1$sShop page%2$s here."
+msgstr "餐厅订单页面。如果您希望您的商店主页使用餐厅订单布局，请在此处选择您的主要 %1$s商店页面%2$s。"
+
+#: src/Settings.php:234
+#: src/Settings.php:238
+msgid "Categories"
+msgstr "类别"
+
+#: src/Settings.php:239
+msgid "Choose your menu categories&hellip;"
+msgstr "选择您的菜单类别&hellip;"
+
+#: src/Settings.php:241
+msgid "The categories to include in your restaurant order form."
+msgstr "在您的餐厅订单表中包含的类别。"
+
+#: src/Settings.php:247
+msgid "Category pages"
+msgstr "类别页面"
+
+#: src/Settings.php:248
+msgid "Show the order form on WooCommerce category pages"
+msgstr "在WooCommerce类别页面上显示订单表"
+
+#: src/Settings.php:249
+msgid "The order form will show the current category, plus any child categories."
+msgstr "订单表将显示当前类别及其所有子类别。"
+
+#: src/Settings.php:271
+msgid "Order form options"
+msgstr "订单表选项"
+
+#: src/Settings.php:316
+msgid "Show product descriptions"
+msgstr "显示产品描述"
+
+#: src/Settings.php:317
+msgid "Shows the short description if entered, otherwise shows the full product description."
+msgstr "如果输入了短描述，则显示短描述，否则显示完整的产品描述。"
+
+#: src/Settings.php:328
+msgid "Layout"
+msgstr "布局"
+
+#: src/Settings.php:330
+msgid "1 column"
+msgstr "1列"
+
+#: src/Settings.php:331
+msgid "2 columns"
+msgstr "2列"
+
+#: src/Settings.php:332
+msgid "3 columns"
+msgstr "3列"
+
+#: src/Settings.php:334
+msgid "How to arrange the items in your restaurant order form."
+msgstr "如何排列您餐厅订单表中的项目。"
+
+#: src/Settings.php:341
+msgid "Sort products by"
+msgstr "按以下方式排序产品"
+
+#: src/Settings.php:343
+msgid "WooCommerce default"
+msgstr "WooCommerce 默认"
+
+#: src/Settings.php:344
+msgid "Name"
+msgstr "名称"
+
+#: src/Settings.php:345
+msgid "Price"
+msgstr "价格"
+
+#: src/Settings.php:346
+msgid "Popularity"
+msgstr "人气"
+
+#: src/Settings.php:347
+msgid "Date"
+msgstr "日期"
+
+#: src/Settings.php:355
+msgid "Image position"
+msgstr "图片位置"
+
+#: src/Settings.php:357
+msgid "Left"
+msgstr "左侧"
+
+#: src/Settings.php:358
+msgid "Right"
+msgstr "右侧"
+
+#: src/Settings.php:367
+msgid "Image size"
+msgstr "图片大小"
+
+#: src/Settings.php:380
+msgid "Product description"
+msgstr "产品描述"
+
+#: src/Settings.php:382
+msgid "Limit the description length"
+msgstr "限制描述长度"
+
+#: src/Settings.php:383
+msgid "Show full description"
+msgstr "显示完整描述"
+
+#: src/Settings.php:385
+msgid "The product description is limited to fit the available space. If you select 'Show full description', the product box will expand as required."
+msgstr "产品描述已被限制以适应可用空间。如果您选择“显示完整描述”，产品框将根据需要展开。"
+
+#: src/Settings.php:394
+msgid "Product lightbox"
+msgstr "产品灯箱"
+
+#: src/Settings.php:395
+msgid "Show product image"
+msgstr "显示产品图片"
+
+#: src/Settings.php:403
+msgid "Show product description"
+msgstr "显示产品描述"
+
+#: src/Settings.php:404
+msgid "The full product description is displayed in the lightbox."
+msgstr "完整的产品描述将在灯箱中显示。"
+
+#: src/Settings.php:412
+msgid "Show stock status"
+msgstr "显示库存状态"
+
+#: src/Settings.php:419
+msgid "Order method"
+msgstr "订购方式"
+
+#: src/Settings.php:421
+msgid "Add items instantly where possible, otherwise show a lightbox"
+msgstr "尽可能立即添加商品，否则显示灯箱"
+
+#: src/Settings.php:422
+msgid "Always show a lightbox to select the quantity and options"
+msgstr "始终显示灯箱以选择数量和选项"
+
+#: src/Settings.php:429
+msgid "Buy button"
+msgstr "购买按钮"
+
+#: src/Settings.php:432
+msgid "Order by clicking a buy button (+)"
+msgstr "通过点击购买按钮（+）下单"
+
+#: src/Settings.php:433
+msgid "Order by clicking anywhere in the product box"
+msgstr "通过点击产品框内的任何地方下单"
+
+#: src/Settings.php:440
+msgid "Cart confirmation"
+msgstr "购物车确认"
+
+#: src/Settings.php:442
+msgid "Show a confirmation message when adding items to the cart"
+msgstr "在添加商品到购物车时显示确认消息"
+
+#: src/Settings.php:443
+msgid "We recommend you only disable this option if you provide a different way to confirm adding products to the cart. For example, using the popup cart in our WooCommerce Fast Cart plugin."
+msgstr "我们建议您仅在提供其他确认添加产品到购物车的方法时禁用此选项。例如，使用我们 WooCommerce 快速购物车插件中的弹出购物车。"
+
+#: src/Settings.php:465
+msgid "Enter some information about your restaurant."
+msgstr "输入一些关于您的餐厅的信息。"
+
+#: src/Settings.php:471
+msgid "Restaurant name"
+msgstr "餐厅名称"
+
+#: src/Settings.php:472
+msgid "The restaurant name is shown in the 'More' popup which shows the restaurant opening hours."
+msgstr "餐厅名称显示在 '更多' 弹出窗口中，该窗口显示餐厅营业时间。"
+
+#: src/Settings.php:481
+msgid "Restaurant address"
+msgstr "餐厅地址"
+
+#: src/Settings.php:490
+msgid "Delivery/collection info"
+msgstr "配送/自取信息"
+
+#. translators: %s: "WooCommerce Restaurant Ordering"
+#: src/Settings.php:513
+msgid "The following options control the %s extension."
+msgstr "以下选项控制 %s 扩展。"
+
+#: src/Settings.php:602
+msgid "Uninstalling "
+msgstr "正在卸载 "
+
+#: src/Settings.php:610
+msgid "Delete data on uninstall\t"
+msgstr "卸载时删除数据\t"
+
+#: src/Settings.php:611
+msgid "Permanently delete all "
+msgstr "永久删除所有 "
+
+#: src/Util.php:85
+msgid "Sorry, the restaurant is now closed."
+msgstr "抱歉，餐厅现在已关闭。"
+
+#: templates/admin/opening-hours/opening-hours.php:61
+msgid "Add more hours"
+msgstr "添加更多时间"
+
+#: templates/admin/opening-hours/opening-hours.php:63
+msgid "Use fewer hours"
+msgstr "使用更少的时间"
+
+#: templates/admin/opening-hours/opening-period.php:8
+msgid "to"
+msgstr "至"
+
+#. translators: %s: The names of the products added to the cart.
+#: templates/cart-notice/cart-notice.php:9
+msgid "%s has been removed from your cart."
+msgstr "%s 已从您的购物车中移除。"
+
+#. translators: %s: The names of the products added to the cart.
+#: templates/cart-notice/cart-notice.php:12
+msgid "%s have been added to your cart."
+msgstr "%s 已添加到您的购物车中。"
+
+#. translators: %s: The name of the product added to the cart.
+#: templates/cart-notice/cart-notice.php:15
+msgid "%s has been added to your cart."
+msgstr "%s 已添加到您的购物车中。"
+
+#: templates/cart-notice/cart-notice.php:17
+msgid "View cart"
+msgstr "查看购物车"
+
+#: templates/menu/product/buy-button.php:6
+#: templates/modal/buy-button.php:4
+msgid "Add to order"
+msgstr "添加到订单"
+
+#: templates/modal/buy-button.php:4
+msgid "Add for"
+msgstr "添加到"
+
+#: templates/modal/content.php:35
+msgid "Item out of stock"
+msgstr "商品缺货"
+
+#: templates/modal/content.php:37
+msgid "Item not available"
+msgstr "商品不可用"
+
+#: templates/modal/content.php:40
+msgid "Decrease quantity"
+msgstr "减少数量"
+
+#: templates/modal/content.php:41
+msgid "Enter item quantity"
+msgstr "输入商品数量"
+
+#: templates/modal/content.php:46
+msgid "Increase quantity"
+msgstr "增加数量"
+
+#: templates/restaurant-info/modal-content.php:41
+msgid "Closed"
+msgstr "已关闭"
+
+#. translators: %s: product quantity
+#: src/Rest/Routes/Cart_Route.php:333
+msgctxt "Quantity prefix for cart message"
+msgid "%s &times; "
+msgstr "%s &times; "
+
+#. translators: %s: product name
+#: src/Rest/Routes/Cart_Route.php:336
+msgctxt "Item name in quotes"
+msgid "&ldquo;%s&rdquo;"
+msgstr "&ldquo;%s&rdquo;"
+
+#: templates/restaurant-info/modal-content.php:45
+msgctxt "displayed between the open and close times"
+msgid "to"
+msgstr "到"

@@ -68,6 +68,17 @@ return [
             'enable_container' => true,
         ],
     ],
+    'fc-class-workshop' => [
+        'template' => 'templates/sections/fc-class-workshop/section',
+        'fields' => [
+            'button_text',
+            'button_link',
+            'products',
+        ],
+        'extra_fields' => [
+            'enable_container' => false,
+        ],
+    ],
     'class-workshop' => [
         'template' => 'templates/sections/class-workshop/section',
         'fields' => [

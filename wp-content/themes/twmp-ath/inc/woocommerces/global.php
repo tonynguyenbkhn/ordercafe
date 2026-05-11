@@ -10,7 +10,7 @@ remove_action('woocommerce_before_checkout_form', 'woocommerce_checkout_login_fo
 remove_action('woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10);
 
 add_filter('woocommerce_breadcrumb_defaults', function ($args) {
-    $args['wrap_before'] = '<nav class="woocommerce-breadcrumb" aria-label="Breadcrumb"><div class="container woocommerce-breadcrumb__container"><div class="d-flex items-center gap-8">'. twmp_get_svg_icon('home') .'<div class="text-system-content-1">';
+    $args['wrap_before'] = '<nav class="woocommerce-breadcrumb" aria-label="Breadcrumb"><div class="container woocommerce-breadcrumb__container"><div class="d-flex items-center gap-8">'. twmp_get_svg_icon('home') .'<div class="text-primary-500">';
     $args['wrap_after'] = '</div></div></div></nav>';
 
     return $args;

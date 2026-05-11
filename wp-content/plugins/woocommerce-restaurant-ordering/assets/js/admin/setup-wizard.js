@@ -1,0 +1,1 @@
+!function(){"use strict";var i=window.wp.hooks,r=window.wp.i18n;(0,i.addFilter)("barn2_setup_wizard_ready_links","wro-wizard",(i=>[{title:(0,r.__)("Add opening hours"),href:`${barn2_setup_wizard.opening_hours_link}`},{title:(0,r.__)("Go to settings page"),href:`${barn2_setup_wizard.skip_url}`}])),(0,i.addFilter)("barn2_setup_wizard_show_settings_button","wro-wizard",(()=>!1))}();

@@ -23,49 +23,37 @@ if (! defined('ABSPATH')) {
 do_action('woocommerce_before_checkout_form', $checkout);
 
 // If checkout registration is disabled and not logged in, the user cannot checkout.
-if (! $checkout->is_registration_enabled() && $checkout->is_registration_required()) {
-	echo esc_html(apply_filters('woocommerce_checkout_must_be_logged_in_message', __('You must be logged in to checkout.', 'twmp-ath')));
-	return;
-}
-
-$is_payment_step = function_exists('twmp_checkout_is_payment_step_2') && twmp_checkout_is_payment_step_2();
-
-if ($is_payment_step) {
-	if (function_exists('twmp_checkout_render_payment_step_section')) {
-		twmp_checkout_render_payment_step_section();
-	}
-
-	do_action('woocommerce_after_checkout_form', $checkout);
+if (! $checkout->is_registration_enabled() && $checkout->is_registration_required() && ! is_user_logged_in()) {
+	echo esc_html(apply_filters('woocommerce_checkout_must_be_logged_in_message', __('You must be logged in to checkout.', 'twmp-phonghoa')));
 	return;
 }
 
 ?>
 
-<form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data" aria-label="<?php echo esc_attr__('Checkout', 'twmp-ath'); ?>">
+<form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data" aria-label="<?php echo esc_attr__('Checkout', 'twmp-phonghoa'); ?>">
 
 	<?php if ($checkout->get_checkout_fields()) : ?>
 
-		<div class="twmp-checkout-stack">
-			<section class="twmp-checkout-card twmp-checkout-card--booking">
-				<header class="twmp-checkout-card__header">
-					<span class="twmp-checkout-card__step">1</span>
-					<h3 class="twmp-checkout-card__title"><?php esc_html_e('Ticket booking information', 'twmp-ath'); ?></h3>
-				</header>
+		<?php do_action('woocommerce_checkout_before_customer_details'); ?>
 
-				<div class="twmp-checkout-card__content">
-					<?php do_action('woocommerce_checkout_billing'); ?>
-				</div>
-			</section>
+		<div class="col2-set" id="customer_details">
+			<div class="col-1">
+				<?php do_action('woocommerce_checkout_billing'); ?>
+			</div>
 
-			<?php do_action('woocommerce_checkout_after_customer_details'); ?>
+			<div class="col-2">
+				<?php do_action('woocommerce_checkout_shipping'); ?>
+			</div>
 		</div>
+
+		<?php do_action('woocommerce_checkout_after_customer_details'); ?>
 
 	<?php endif; ?>
 
 	<?php do_action('woocommerce_checkout_before_order_review_heading'); ?>
 
-	<div class="order_review_wrapper twmp-checkout-payment">
-		<h3 id="order_review_heading"><?php esc_html_e('Payment method', 'twmp-ath'); ?></h3>
+	<div class="order_review_wrapper">
+		<h3 id="order_review_heading"><?php esc_html_e('Payment method', 'twmp-phonghoa'); ?></h3>
 
 		<?php do_action('woocommerce_checkout_before_order_review'); ?>
 

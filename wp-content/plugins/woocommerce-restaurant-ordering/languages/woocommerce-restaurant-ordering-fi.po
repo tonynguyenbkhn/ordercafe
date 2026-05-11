@@ -1,0 +1,936 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Restaurant Ordering 2.1.10\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-restaurant-ordering\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-04-22T17:50:43+00:00\n"
+"PO-Revision-Date: 2025-09-09 08:56+0000\n"
+"Language: fi\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: woocommerce-restaurant-ordering\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "WooCommerce Restaurant Ordering"
+msgstr "WooCommerce Ravintola Tilaukset"
+
+#. Plugin URI of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "https://barn2.com/wordpress-plugins/woocommerce-restaurant-ordering/"
+msgstr "https://barn2.com/wordpress-plugins/woocommerce-restaurant-ordering/"
+
+#. Description of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "A restaurant ordering plugin for WooCommerce."
+msgstr "Ravintola tilausten liitännäinen WooCommercelle."
+
+#. Author of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "Barn2 Plugins"
+msgstr "Barn2 Plugins"
+
+#. Author URI of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "https://barn2.com"
+msgstr "https://barn2.com"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_API_Helper.php:154
+msgid "[View page]"
+msgstr "[Näytä sivu]"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_API_Helper.php:615
+#: dependencies/barn2/barn2-lib/src/WooCommerce/Admin/Custom_Settings_Fields.php:138
+msgid "Size"
+msgstr "Koko"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_Util.php:70
+msgid "Documentation"
+msgstr "Dokumentaatio"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_Util.php:70
+msgid "Support"
+msgstr "Tuki"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:38
+msgid "Settings"
+msgstr "Asetukset"
+
+#. translators: %s: The plugin name
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:54
+msgid "View %s documentation"
+msgstr "Näytä %s dokumentaatio"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:55
+msgid "Docs"
+msgstr "Dokumentit"
+
+#. translators: 1: licence key link start, 2: license key link end
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Plugin_Updater.php:155
+msgid "Activate %1$syour license key%2$s to enable updates."
+msgstr "Aktivoi %1$syour license key%2$s päivitysten mahdollistamiseksi."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Plugin_Updater.php:210
+msgid "Auto-updates unavailable."
+msgstr "Automaattiset päivitykset eivät ole saatavilla."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:59
+msgid "License key successfully activated."
+msgstr "Lisenssiavain aktivoitu onnistuneesti."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:59
+msgid "There was an error activating your license key."
+msgstr "Lisenssiavaimen aktivoinnissa tapahtui virhe."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:63
+msgid "License key successfully deactivated."
+msgstr "Lisenssiavain deaktivoitu onnistuneesti."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:63
+msgid "There was an error deactivating your license key, please try again."
+msgstr "Lisenssiavaimen deaktivoimisessa tapahtui virhe, yritä uudelleen."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:66
+msgid "The license key looks good!"
+msgstr "Lisenssiavain näyttää hyvältä!"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:66
+msgid "There's a problem with your license key."
+msgstr "Lisenssiavaimessasi on ongelma."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:108
+msgid "License key"
+msgstr "Lisenssiavain"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:110
+msgid "The licence key is contained in your order confirmation email."
+msgstr "Lisenssiavain on sisällytetty tilausvahvistus-sähköpostiisi."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:113
+msgid "License Key"
+msgstr "Lisenssiavain"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Check"
+msgstr "Tarkista"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Activate"
+msgstr "Aktivoi"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Deactivate"
+msgstr "Deaktivoi"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:140
+msgid "License key deactivated."
+msgstr "Lisenssiavain on deaktivoitu."
+
+#. translators: 1: the plugin name, 2: settings link start, 3: settings link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:84
+msgid "Thank you for installing %1$s. To get started, please %2$s enter your license key%3$s."
+msgstr "Kiitos, että asennit %1$s. Aloittaaksesi, %2$s syötä lisenssiavain%3$s."
+
+#. translators: 1: the plugin name, 2: renewal link start, 3: renewal link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:109
+msgid "Your license key for %1$s has expired. %2$sClick here to renew for 20%% discount%3$s."
+msgstr "Lisenssiavain %1$s on vanhentunut. %2$sKlikkaa tästä uusitaksesi 20%% alennuksella%3$s."
+
+#. translators: 1: the plugin name, 2: renewal link start, 3: renewal link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:134
+msgid "You no longer have a valid license for %1$s. Please %2$spurchase a new license key%3$s to continue using the plugin."
+msgstr "Sinulla ei ole enää voimassa olevaa lisenssiä %1$s:lle. %2$sOsta uusi lisenssiavain%3$s jatkaaksesi liitännäisen käyttöä."
+
+#. translators: 1: the plugin name, 2: settings link start, 3: settings link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:162
+msgid "%1$s - your site has moved to a new domain. Please %2$sreactivate your license key%3$s."
+msgstr "%1$s - sivustosi on siirtynyt uuteen verkkotunnukseen. %2$sAktivoi lisenssiavain uudelleen%3$s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/EDD_Licensing.php:168
+msgid "An error has occurred, please try again."
+msgstr "Virhe tapahtui, yritä uudelleen."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:91
+msgid "Your license key is active."
+msgstr "Lisenssiavain on aktiivinen."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:111
+msgid "Please enter your license key."
+msgstr "Ole hyvä ja syötä lisenssiavain."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:113
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:391
+msgid "Your license key is invalid."
+msgstr "Lisenssiavain on virheellinen."
+
+#. translators: 1: account page link start, 2: account page link end
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:335
+msgid "Invalid license key - please check your order confirmation email or %1$sAccount%2$s."
+msgstr "Virheellinen lisenssiavain - tarkista tilausvahvistus-sähköpostisi tai %1$sTili%2$s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:341
+msgid "No URL was supplied for activation, please contact support."
+msgstr "Aktivointia varten ei toimitettu URL-osoitetta, ota yhteyttä tukeen."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:344
+msgid "License key mismatch, please contact support."
+msgstr "Lisenssiavaimen yhteensopimattomuus, ota yhteyttä tukeen."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:347
+msgid "This license is for a bundled product and cannot be activated."
+msgstr "Tämä lisenssi on pakattuun tuotteeseen eikä sitä voida aktivoida."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:351
+msgid "Your license key is not valid for this plugin."
+msgstr "Lisenssiavain ei ole voimassa tälle liitännäiselle."
+
+#. translators: %s: The number of sites the license is activated on
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:357
+msgid "%s site active"
+msgid_plural "%s sites active"
+msgstr[0] "%s sivu aktiivinen"
+msgstr[1] "%s sivua aktiivisia"
+
+#. translators: %s: The sites active description, e.g. '2 sites active'
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:360
+msgid "Your license key has reached its activation limit (%s)."
+msgstr "Lisenssiavaimesi on saavuttanut aktivointirajan (%s)."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:361
+#: dependencies/barn2/barn2-lib/src/Util.php:35
+msgid "Read more"
+msgstr "Lue lisää"
+
+#. translators: support for RTL, 1: the license error, 2: a link
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:363
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:381
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#. translators: %s: The license expiry date
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:376
+msgid "Your license key expired on %s."
+msgstr "Lisenssiavaimesi on vanhentunut %s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:379
+msgid "Renew now for 20% discount."
+msgstr "Uudista nyt 20% alennuksella."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:582
+msgid "Your license key is not active. Please reactivate or save the settings."
+msgstr "Lisenssiavaimesi ei ole aktiivinen. Ole hyvä ja aktivoi se uudelleen tai tallenna asetukset."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:586
+msgid "Your license key has expired."
+msgstr "Lisenssiavaimesi on vanhentunut."
+
+#. translators: 1: purchase link start, 2: purchase link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:592
+msgid "Your license key has been disabled. Please %1$spurchase a new license key%2$s to continue using the plugin."
+msgstr "%1$spoista uusi lisenssiavain%2$s jatkaaksesi liitännäisen käyttöä."
+
+#. translators: %1$s: Plugin name. %2$s: PHP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:103
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:112
+msgid "%1$s requires PHP %2$s or greater. Please update the PHP version used by your web server."
+msgstr "%1$s vaatii PHP %2$s tai suuremman version. Ole hyvä ja päivitä verkkopalvelimesi käyttämä PHP-versio."
+
+#. translators: %1$s: Plugin name. %2$s: WP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:136
+msgid "%1$s requires WordPress %2$s or greater. Please update your WordPress installation."
+msgstr "%1$s vaatii WordPress %2$s tai suuremman version. Ole hyvä ja päivitä WordPress-asennuksesi."
+
+#. translators: %1$s: Plugin name. %2$s: Update Core <a> tag open. %3$s: <a> tag close. %4$s: WP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:146
+msgid "%1$s requires WordPress %4$s or greater. Please %2$supdate%3$s your WordPress installation."
+msgstr "%1$s vaatii WordPress %4$s tai suuremman version. Ole hyvä ja %2$späivitä%3$s WordPress-asennuksesi."
+
+#. translators: %1$s: Plugin name.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:169
+msgid "%1$s requires WooCommerce to be installed and active."
+msgstr "%1$s vaatii WooCommercen asennettuna ja aktiivisena."
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce link. %3$s Install/Upgrade/Activate WooCommerce link.
+#. translators: %1$s: Plugin name. %2$s: EDD link. %3$s Install/Upgrade/Activate EDD link.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:175
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:224
+msgid "%1$s requires %2$s to be installed and active.%3$s"
+msgstr "%1$s vaatii %2$s asennettuna ja aktiivisena.%3$s"
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:189
+msgid "%1$s requires WooCommerce %2$s or greater. Please update your WooCommerce setup first."
+msgstr "%1$s vaatii WooCommerce %2$s tai suuremman version. Ole hyvä ja päivitä WooCommerce-asetuksesi ensin."
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce link. %3$s WooCommerce version required. %4$s Install/Upgrade/Activate WooCommerce link.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:195
+msgid "%1$s requires %2$s %3$s or greater. Please %4$s your WooCommerce setup first."
+msgstr "%1$s vaatii %2$s %3$s tai suuremman version. Ole hyvä ja %4$s WooCommerce-asetuksesi ensin."
+
+#. translators: %1$s: Plugin name.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:218
+msgid "%1$s requires Easy Digital Downloads to be installed and active."
+msgstr "%1$s vaatii Easy Digital Downloads -ohjelman asennettuna ja aktiivisena."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Simple_Plugin.php:102
+msgid "%1$s could not complete its first activation because the following error occurred:<br>%2$s"
+msgstr "%1$s ei voinut suorittaa ensimmäistä aktivointiaan, koska tapahtui seuraava virhe:<br>%2$s"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update required"
+msgstr "%1$s tietokannan päivitys vaaditaan"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s has been updated! To keep things running smoothly, we have to update your database to the newest version. The database update process runs in the background and may take a little while, so please be patient.</p>"
+msgstr "<p>%1$s on päivitetty! Jotta asiat toimisivat sujuvasti, meidän on päivitettävä tietokannan uuteen versioon. Tietokannan päivitysprosessi tapahtuu taustalla ja saattaa kestää hetken, joten ole hyvä ja ole kärsivällinen.</p>"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update"
+msgstr "%1$s tietokannan päivitys"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s is updating the database in the background. The database update process may take a little while, so please be patient.</p>"
+msgstr "<p>%1$s päivittää tietokantaa taustalla. Tietokannan päivitysprosessi saattaa kestää hetken, joten ole hyvä ja ole kärsivällinen.</p>"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update done"
+msgstr "%1$s tietokannan päivitys valmis"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s database update complete. Thank you for updating to the latest version!</p>"
+msgstr "<p>%1$s tietokannan päivitys on valmis. Kiitos, että päivität viimeisimpään versioon!</p>"
+
+#: dependencies/barn2/barn2-lib/src/Util.php:552
+msgid "Unable to connect to the filesystem. Please confirm your credentials."
+msgstr "Yhteyden muodostaminen tiedostojärjestelmään epäonnistui. Vahvista käyttäjätunnuksesi."
+
+#: dependencies/barn2/barn2-lib/src/Util.php:580
+msgid "You don't have permission to activate the plugin."
+msgstr "Sinulla ei ole oikeuksia liitännäisen aktivointiin."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:151
+msgid "Could not find the appropriate step."
+msgstr "Sopivaa vaihetta ei löytynyt."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:196
+msgid "Please enter a license key."
+msgstr "Ole hyvä ja syötä lisenssiavain."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:199
+msgid "Invalid action requested."
+msgstr "Virheellinen toiminto."
+
+#. translators: %s: The name of the plugin.
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:344
+msgid "%s setup wizard"
+msgstr "%s asennusohjelma"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:434
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:507
+msgid "Warning: This will overwrite your existing settings for %s. Are you sure you want to continue?"
+msgstr "Varoitus: Tämä korvataan olemassa olevat asetukset %s. Oletko varma, että haluat jatkaa?"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:484
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:492
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:541
+msgid "Setup wizard"
+msgstr "Asennusohjelma"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:487
+msgid "If you need to access the setup wizard again, please click on the button below."
+msgstr "Jos tarvitset pääsyä asennusohjelmaan uudelleen, ole hyvä ja napsauta alla olevaa painiketta."
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:23
+#: src/Admin/Wizard/Steps/Upsell.php:11
+#: templates/menu/navigation.php:16
+#: templates/restaurant-info/restaurant-info.php:6
+msgid "More"
+msgstr "Lisää"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:24
+#: src/Admin/Wizard/Steps/Upsell.php:19
+msgid "Extra features"
+msgstr "Lisäominaisuudet"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:25
+msgid "Enhance your site with these fantastic plugins from Barn2."
+msgstr "Paranna sivustoasi näillä upeilla liitännäisillä Barn2:lta."
+
+#: dependencies/barn2/setup-wizard/src/Steps/Ready.php:23
+#: src/Admin/Wizard/Steps/Completed.php:17
+msgid "Ready"
+msgstr "Valmis"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Ready.php:24
+msgid "Setup Complete"
+msgstr "Asennus valmis"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Welcome.php:25
+#: dependencies/barn2/setup-wizard/src/Steps/Welcome_Free.php:24
+#: src/Admin/Wizard/Steps/License_Verification.php:17
+msgid "Welcome"
+msgstr "Tervetuloa"
+
+#: dependencies/barn2/setup-wizard/src/Util.php:28
+#: src/Admin/Wizard/Steps/Pages.php:38
+msgid "Select an option"
+msgstr "Valitse vaihtoehto"
+
+#: src/Admin/Admin_Controller.php:48
+msgid "Restaurant Page"
+msgstr "Ravintolasivu"
+
+#: src/Admin/Settings_Page.php:41
+#: src/Settings.php:212
+msgid "Restaurant Ordering"
+msgstr "Ravintolan tilaaminen"
+
+#: src/Admin/Wizard/Steps/Completed.php:18
+msgid "Complete Setup"
+msgstr "Täydellinen asetusten määrittäminen"
+
+#: src/Admin/Wizard/Steps/Completed.php:21
+msgid "Congratulations, your restaurant ordering system is now set up! The food order forms will appear on the %s page."
+msgstr "Onnittelut, ravintolan tilaamisjärjestelmäsi on nyt asetettu! Ruokatilauslomakkeet näkyvät sivulla %s."
+
+#: src/Admin/Wizard/Steps/License_Verification.php:18
+msgid "Start taking food orders in no time"
+msgstr "Aloita ruokatilauksien vastaanottaminen nopeasti"
+
+#: src/Admin/Wizard/Steps/License_Verification.php:19
+msgid "Use this setup wizard to quickly configure the most popular options for your restaurant ordering system. You can change these options later on the plugin settings page or by relaunching the setup wizard. You can also override these options in the shortcode for individual food order forms."
+msgstr "Käytä tätä asetusten taikuria nopeasti määrittääksesi suosituimmat vaihtoehdot ravintolan tilaamisjärjestelmälle. Voit muuttaa näitä vaihtoehtoja myöhemmin liitännäisasetusten sivulla tai käynnistämällä asetusten taikurin uudelleen. Voit myös ohittaa nämä vaihtoehdot lyhenteessä yksittäisille ruokatilauslomakkeille."
+
+#: src/Admin/Wizard/Steps/Order_Form.php:26
+#: src/Admin/Wizard/Steps/Order_Form.php:40
+#: src/Settings.php:279
+msgid "Order form"
+msgstr "Tilauslomake"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:27
+msgid "Order form content"
+msgstr "Tilauslomakkeen sisältö"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:28
+msgid "Now, choose the information that will appear in your food order forms."
+msgstr "Valitse nyt tiedot, jotka näkyvät ruokatilauslomakkeissasi."
+
+#: src/Admin/Wizard/Steps/Order_Form.php:66
+#: src/Settings.php:280
+msgid "Show menu navigation bar"
+msgstr "Näytä valikkonavigointipalkki"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:73
+#: src/Settings.php:288
+msgid "Show category names"
+msgstr "Näytä kategorian nimet"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:79
+#: src/Settings.php:296
+msgid "Show category descriptions"
+msgstr "Näytä kategorian kuvaukset"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:85
+#: src/Settings.php:304
+msgid "Show product images"
+msgstr "Näytä tuotteen kuvat"
+
+#: src/Admin/Wizard/Steps/Pages.php:17
+#: src/Admin/Wizard/Steps/Pages.php:18
+msgid "Pages"
+msgstr "Sivut"
+
+#: src/Admin/Wizard/Steps/Pages.php:19
+msgid "First, set up your main restaurant ordering pages. You can also create food order forms manually by adding the [restaurant_ordering] shortcode to any page"
+msgstr "Ensinnäkin, määritä pääasialliset ravintolan tilaussivusi. Voit myös luoda ruokatilauslomakkeita manuaalisesti lisäämällä [restaurant_ordering] lyhenteen mihin tahansa sivuun"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:16
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:17
+#: src/Settings.php:463
+msgid "Restaurant details"
+msgstr "Ravintolan tiedot"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:18
+msgid "If you like, then you can display restaurant information above the food order form."
+msgstr "Jos haluat, voit näyttää ravintolan tiedot ruokatilauslomakkeen yläpuolella."
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:65
+msgid "\"%1$s\" should not exceed the max length of %2$s characters."
+msgstr "\"%1$s\" ei saa ylittää enimmäispituutta %2$s merkkiä."
+
+#: src/Admin/Wizard/Steps/Upsell.php:14
+msgid "Enhance your store with these fantastic plugins from Barn2, or get them all by upgrading to an <a href=\"%1$s\" target=\"_blank\">All Access Pass<a/>! <a href=\"%2$s\" target=\"_blank\">(learn how here)</a>"
+msgstr "Paranna kauppaasi näillä upeilla liitännäisillä Barn2:lta, tai saat ne kaikki päivittämällä <a href=\"%1$s\" target=\"_blank\">All Access Pass<a/>! <a href=\"%2$s\" target=\"_blank\">(oppi tästä)</a>"
+
+#: src/Frontend_Scripts.php:104
+msgid "Sorry, this item cannot be loaded."
+msgstr "Anteeksi, tätä kohdetta ei voida ladata."
+
+#: src/Frontend_Scripts.php:105
+msgid "Sorry, this item is out of stock."
+msgstr "Anteeksi, tämä tuote on loppu varastosta."
+
+#: src/Frontend_Scripts.php:106
+#: src/Rest/Rest_Util.php:108
+msgid "Sorry, this item is not available."
+msgstr "Anteeksi, tämä tuote ei ole saatavilla."
+
+#: src/Frontend_Scripts.php:107
+#: src/Rest/Rest_Util.php:23
+#: templates/cart-notice/cart-notice.php:22
+msgid "Sorry, there was a problem ordering this item."
+msgstr "Anteeksi, tilattaessa tätä tuotetta tapahtui ongelma."
+
+#: src/Frontend_Scripts.php:108
+msgid "Please enter a quantity greater than 0."
+msgstr "Ole hyvä ja syötä määrä, joka on suurempi kuin 0."
+
+#: src/Frontend_Scripts.php:109
+msgid "Please select all required options."
+msgstr "Ole hyvä ja valitse kaikki vaaditut vaihtoehdot."
+
+#: src/Frontend_Scripts.php:110
+msgid "Copied!"
+msgstr "Kopioitu!"
+
+#: src/Info/Availability_Options.php:53
+msgid "Open until {close_time}"
+msgstr "Avoinna kunnes {close_time}"
+
+#: src/Info/Availability_Options.php:54
+msgid "The restaurant is currently closed"
+msgstr "Ravintola on tällä hetkellä suljettu"
+
+#: src/Menu/Restaurant_Menu.php:91
+msgid "There are no menu categories available."
+msgstr "Valikkokategorioita ei ole saatavilla."
+
+#: src/Menu/Restaurant_Menu.php:128
+msgid "There are no products available for this menu."
+msgstr "Tälle valikolle ei ole saatavilla tuotteita."
+
+#. translators: %s: The list of product categories
+#: src/Menu/Restaurant_Menu.php:160
+msgid "[categories: %s]"
+msgstr "[kategoriat: %s]"
+
+#. translators: %s: Plugin name.
+#: src/Plugin.php:77
+msgid "The %s plugin requires WordPress 5.2 or greater. Please update your WordPress installation first."
+msgstr "%s lisäosa vaatii WordPress 5.2 tai uudemman. Ole hyvä ja päivitä WordPress-asennuksesi ensin."
+
+#. translators: %1$s: Plugin name. %2$s: Update Core <a> tag open. %3$s: <a> tag close.
+#: src/Plugin.php:88
+msgid "The %1$s plugin requires WordPress 5.2 or greater. Please %2$supdate%3$s your WordPress installation."
+msgstr "%1$s lisäosa vaatii WordPress 5.2 tai uudemman. Ole hyvä ja %2$späivitä%3$s WordPress-asennuksesi."
+
+#: src/Plugin.php:114
+msgid "Please install WooCommerce in order to use WooCommerce Restaurant Ordering."
+msgstr "Ole hyvä ja asenna WooCommerce käyttääksesi WooCommerce Ravintola Tilaukset -toimintoa."
+
+#. translators: %1$s: Install WooCommerce <a> tag open. %2$s: <a> tag close.
+#: src/Plugin.php:122
+msgid "Please %1$sinstall WooCommerce%2$s in order to use WooCommerce Restaurant Ordering."
+msgstr "Ole hyvä ja %1$sasennat WooCommerce%2$s käyttääksesi WooCommerce Ravintola Tilaukset -toimintoa."
+
+#. translators: %s: Plugin name.
+#: src/Plugin.php:139
+msgid "The %s plugin requires WooCommerce 5.9 or greater. Please update your WooCommerce setup first."
+msgstr "%s lisäosa vaatii WooCommerce 5.9 tai uudemman. Ole hyvä ja päivitä WooCommerce-asennuksesi ensin."
+
+#. translators: %1$s: Plugin name.
+#: src/Plugin.php:147
+msgid "The %1$s plugin requires WooCommerce 5.9 or greater. Please update your WooCommerce setup first."
+msgstr "%1$s lisäosa vaatii WooCommerce 5.9 tai uudemman. Ole hyvä ja päivitä WooCommerce-asennuksesi ensin."
+
+#: src/Plugin_Setup.php:79
+msgid "Restaurant Order"
+msgstr "Ravintola Tilaus"
+
+#: src/Rest/Rest_Util.php:55
+msgid "This product does not exist."
+msgstr "Tätä tuotetta ei ole olemassa."
+
+#: src/Rest/Rest_Util.php:64
+msgid "This product is not visible."
+msgstr "Tätä tuotetta ei näytetä."
+
+#: src/Rest/Rest_Util.php:72
+msgid "This product cannot be purchased."
+msgstr "Tätä tuotetta ei voi ostaa."
+
+#: src/Rest/Rest_Util.php:80
+msgid "This product is password protected."
+msgstr "Tämä tuote on salasanalla suojattu."
+
+#: src/Rest/Routes/Cart_Route.php:40
+msgid "The unique identifier for the product."
+msgstr "Tuotteen yksilöllinen tunniste."
+
+#: src/Rest/Routes/Cart_Route.php:45
+msgid "The quantity of the product."
+msgstr "Tuotteen määrä."
+
+#: src/Rest/Routes/Cart_Route.php:50
+msgid "Buy button style."
+msgstr "Ostonäppäimen tyyli."
+
+#: src/Rest/Routes/Cart_Route.php:194
+msgid "Please choose the quantity of items you wish to add to your cart&hellip;"
+msgstr "Valitse haluamasi tuotteiden määrä, jonka haluat lisätä ostoskoriisi&hellip;"
+
+#: src/Rest/Routes/Cart_Route.php:408
+msgid "The quantity must be greater than 0."
+msgstr "Määrän on oltava suurempi kuin 0."
+
+#: src/Rest/Routes/Cart_Route.php:421
+msgid "A variation ID must be specified for variable products."
+msgstr "Muunnos-ID on määritettävä muunnelmallisille tuotteille."
+
+#: src/Rest/Routes/Cart_Route.php:434
+msgid "At least one variation attribute must be specified for variable products."
+msgstr "Vähintään yksi muunnosattribuutti on määritettävä muunnelmallisille tuotteille."
+
+#: src/Rest/Routes/Order_Type_Route.php:38
+#: src/Rest/Routes/Product_Modal_Route.php:38
+msgid "The unique indentifier for the product."
+msgstr "Tuotteen yksilöllinen tunniste."
+
+#: src/Settings.php:140
+#: src/Settings.php:160
+msgid "Opening hours"
+msgstr "Aukioloajat"
+
+#: src/Settings.php:142
+msgid "Enter the opening hours for your restaurant. If used, the restaurant will be open or closed based on the hours entered below. Customers won't be able to order when the restaurant is closed."
+msgstr "Syötä ravintolasi aukioloajat. Jos käytetään, ravintola on auki tai kiinni alla syötettyjen aikojen perusteella. Asiakkaat eivät voi tilata, kun ravintola on kiinni."
+
+#: src/Settings.php:148
+msgid "Enable"
+msgstr "Ota käyttöön"
+
+#: src/Settings.php:149
+msgid "Enable restaurant opening hours"
+msgstr "Ota ravintolan aukioloajat käyttöön"
+
+#: src/Settings.php:167
+msgid "Open message"
+msgstr "Aukioloilmoitus"
+
+#. translators: %s: A merge tag that can be used in the message
+#: src/Settings.php:170
+msgid "Displayed when the restaurant is open. Use %s as a placeholder for the next closing time."
+msgstr "Näytetään, kun ravintola on auki. Käytä %s paikkamerkkinä seuraavalle sulkemisajalle."
+
+#: src/Settings.php:183
+msgid "Closed message"
+msgstr "Kiinni-ilmoitus"
+
+#. translators: %s: A merge tag that can be used in the message
+#: src/Settings.php:186
+msgid "Displayed when the restaurant is closed. Use %s as a placeholder for the next opening time."
+msgstr "Näytetään, kun ravintola on kiinni. Käytä %s paikkamerkkinä seuraavalle aukeamisajalle."
+
+#: src/Settings.php:222
+msgid "Restaurant order page"
+msgstr "Ravintolan tilaus sivu"
+
+#. translators: %1$s: HTML for the shop page link, %2$s: HTML for the link close tag.
+#: src/Settings.php:225
+msgid "The restaurant ordering page. If you want your store homepage to use the restaurant order layout, select your main %1$sShop page%2$s here."
+msgstr "Ravintolan tilaus sivu. Jos haluat, että kauppasi etusivu käyttää ravintolan tilausasettelua, valitse pää %1$sKauppasivusi%2$s täältä."
+
+#: src/Settings.php:234
+#: src/Settings.php:238
+msgid "Categories"
+msgstr "Kategoriat"
+
+#: src/Settings.php:239
+msgid "Choose your menu categories&hellip;"
+msgstr "Valitse valikkokategoriat&hellip;"
+
+#: src/Settings.php:241
+msgid "The categories to include in your restaurant order form."
+msgstr "Kategoriat, jotka sisällytetään ravintolan tilauslomakkeeseen."
+
+#: src/Settings.php:247
+msgid "Category pages"
+msgstr "Kategoria-sivut"
+
+#: src/Settings.php:248
+msgid "Show the order form on WooCommerce category pages"
+msgstr "Näytä tilauslomake WooCommerce-kategoria-sivuilla"
+
+#: src/Settings.php:249
+msgid "The order form will show the current category, plus any child categories."
+msgstr "Tilauslomakkeessa näytetään nykyinen kategoria sekä mahdolliset alikategoriat."
+
+#: src/Settings.php:271
+msgid "Order form options"
+msgstr "Tilauslomakkeen asetukset"
+
+#: src/Settings.php:316
+msgid "Show product descriptions"
+msgstr "Näytä tuotekuvaukset"
+
+#: src/Settings.php:317
+msgid "Shows the short description if entered, otherwise shows the full product description."
+msgstr "Näyttää lyhyen kuvauksen, jos se on annettu, muuten näyttää täydellisen tuotekuvauksen."
+
+#: src/Settings.php:328
+msgid "Layout"
+msgstr "Asettelu"
+
+#: src/Settings.php:330
+msgid "1 column"
+msgstr "1 sarake"
+
+#: src/Settings.php:331
+msgid "2 columns"
+msgstr "2 saraketta"
+
+#: src/Settings.php:332
+msgid "3 columns"
+msgstr "3 saraketta"
+
+#: src/Settings.php:334
+msgid "How to arrange the items in your restaurant order form."
+msgstr "Kuinka järjestää tuotteet ravintolan tilauslomakkeessa."
+
+#: src/Settings.php:341
+msgid "Sort products by"
+msgstr "Lajittele tuotteet mukaan"
+
+#: src/Settings.php:343
+msgid "WooCommerce default"
+msgstr "WooCommerce oletus"
+
+#: src/Settings.php:344
+msgid "Name"
+msgstr "Nimi"
+
+#: src/Settings.php:345
+msgid "Price"
+msgstr "Hinta"
+
+#: src/Settings.php:346
+msgid "Popularity"
+msgstr "Suosio"
+
+#: src/Settings.php:347
+msgid "Date"
+msgstr "Päivämäärä"
+
+#: src/Settings.php:355
+msgid "Image position"
+msgstr "Kuvan sijainti"
+
+#: src/Settings.php:357
+msgid "Left"
+msgstr "Vasen"
+
+#: src/Settings.php:358
+msgid "Right"
+msgstr "Oikea"
+
+#: src/Settings.php:367
+msgid "Image size"
+msgstr "Kuvan koko"
+
+#: src/Settings.php:380
+msgid "Product description"
+msgstr "Tuotekuvaus"
+
+#: src/Settings.php:382
+msgid "Limit the description length"
+msgstr "Rajoita kuvauksen pituus"
+
+#: src/Settings.php:383
+msgid "Show full description"
+msgstr "Näytä koko kuvaus"
+
+#: src/Settings.php:385
+msgid "The product description is limited to fit the available space. If you select 'Show full description', the product box will expand as required."
+msgstr "Tuotekuvaus on rajoitettu mahtumaan saatavilla olevaan tilaan. Jos valitset 'Näytä koko kuvaus', tuotelaatikko laajenee tarpeen mukaan."
+
+#: src/Settings.php:394
+msgid "Product lightbox"
+msgstr "Tuotteen valotuslaatikko"
+
+#: src/Settings.php:395
+msgid "Show product image"
+msgstr "Näytä tuotekuva"
+
+#: src/Settings.php:403
+msgid "Show product description"
+msgstr "Näytä tuotekuvaus"
+
+#: src/Settings.php:404
+msgid "The full product description is displayed in the lightbox."
+msgstr "Koko tuotekuvaus näytetään valotuslaatikossa."
+
+#: src/Settings.php:412
+msgid "Show stock status"
+msgstr "Näytä varastotila"
+
+#: src/Settings.php:419
+msgid "Order method"
+msgstr "Tilauksen tapa"
+
+#: src/Settings.php:421
+msgid "Add items instantly where possible, otherwise show a lightbox"
+msgstr "Lisää tuotteita heti, kun mahdollista, muuten näytä valotuslaatikko"
+
+#: src/Settings.php:422
+msgid "Always show a lightbox to select the quantity and options"
+msgstr "Näytä aina valotuslaatikko määrän ja vaihtoehtojen valitsemiseksi"
+
+#: src/Settings.php:429
+msgid "Buy button"
+msgstr "Osta-painike"
+
+#: src/Settings.php:432
+msgid "Order by clicking a buy button (+)"
+msgstr "Tilaa napsauttamalla osta-painiketta (+)"
+
+#: src/Settings.php:433
+msgid "Order by clicking anywhere in the product box"
+msgstr "Tilaa napsauttamalla missä tahansa tuotelaatikossa"
+
+#: src/Settings.php:440
+msgid "Cart confirmation"
+msgstr "Ostoskori vahvistus"
+
+#: src/Settings.php:442
+msgid "Show a confirmation message when adding items to the cart"
+msgstr "Näytä vahvistusviesti, kun lisätään tuotteita ostoskoriin"
+
+#: src/Settings.php:443
+msgid "We recommend you only disable this option if you provide a different way to confirm adding products to the cart. For example, using the popup cart in our WooCommerce Fast Cart plugin."
+msgstr "Suosittelemme, että poistat tämän vaihtoehdon käytöstä vain, jos tarjoat toisen tavan vahvistaa tuotteiden lisääminen ostoskoriin. Esimerkiksi käyttämällä pikakoria WooCommerce Fast Cart -lisäosassamme."
+
+#: src/Settings.php:465
+msgid "Enter some information about your restaurant."
+msgstr "Anna tietoja ravintolastasi."
+
+#: src/Settings.php:471
+msgid "Restaurant name"
+msgstr "Ravintolan nimi"
+
+#: src/Settings.php:472
+msgid "The restaurant name is shown in the 'More' popup which shows the restaurant opening hours."
+msgstr "Ravintolan nimi näkyy 'Lisää' ponnahdusikkunassa, joka näyttää ravintolan aukioloajat."
+
+#: src/Settings.php:481
+msgid "Restaurant address"
+msgstr "Ravintolan osoite"
+
+#: src/Settings.php:490
+msgid "Delivery/collection info"
+msgstr "Toimitus/noutotiedot"
+
+#. translators: %s: "WooCommerce Restaurant Ordering"
+#: src/Settings.php:513
+msgid "The following options control the %s extension."
+msgstr "Seuraavat vaihtoehdot ohjaavat %s-laajennusta."
+
+#: src/Settings.php:602
+msgid "Uninstalling "
+msgstr "Poistaminen "
+
+#: src/Settings.php:610
+msgid "Delete data on uninstall\t"
+msgstr "Poista tiedot poiston yhteydessä\t"
+
+#: src/Settings.php:611
+msgid "Permanently delete all "
+msgstr "Poista kaikki pysyvästi "
+
+#: src/Util.php:85
+msgid "Sorry, the restaurant is now closed."
+msgstr "Anteeksi, ravintola on nyt suljettu."
+
+#: templates/admin/opening-hours/opening-hours.php:61
+msgid "Add more hours"
+msgstr "Lisää lisää aikoja"
+
+#: templates/admin/opening-hours/opening-hours.php:63
+msgid "Use fewer hours"
+msgstr "Käytä vähemmän aikoja"
+
+#: templates/admin/opening-hours/opening-period.php:8
+msgid "to"
+msgstr "kohteeseen"
+
+#. translators: %s: The names of the products added to the cart.
+#: templates/cart-notice/cart-notice.php:9
+msgid "%s has been removed from your cart."
+msgstr "%s on poistettu ostoskoristasi."
+
+#. translators: %s: The names of the products added to the cart.
+#: templates/cart-notice/cart-notice.php:12
+msgid "%s have been added to your cart."
+msgstr "%s on lisätty ostoskoriisi."
+
+#. translators: %s: The name of the product added to the cart.
+#: templates/cart-notice/cart-notice.php:15
+msgid "%s has been added to your cart."
+msgstr "%s on lisätty ostoskoriisi."
+
+#: templates/cart-notice/cart-notice.php:17
+msgid "View cart"
+msgstr "Näytä ostoskori"
+
+#: templates/menu/product/buy-button.php:6
+#: templates/modal/buy-button.php:4
+msgid "Add to order"
+msgstr "Lisää tilaukseen"
+
+#: templates/modal/buy-button.php:4
+msgid "Add for"
+msgstr "Lisää"
+
+#: templates/modal/content.php:35
+msgid "Item out of stock"
+msgstr "Tuote loppu varastosta"
+
+#: templates/modal/content.php:37
+msgid "Item not available"
+msgstr "Tuote ei saatavilla"
+
+#: templates/modal/content.php:40
+msgid "Decrease quantity"
+msgstr "Vähennä määrää"
+
+#: templates/modal/content.php:41
+msgid "Enter item quantity"
+msgstr "Syötä tuotteen määrä"
+
+#: templates/modal/content.php:46
+msgid "Increase quantity"
+msgstr "Lisää määrää"
+
+#: templates/restaurant-info/modal-content.php:41
+msgid "Closed"
+msgstr "Suljettu"
+
+#. translators: %s: product quantity
+#: src/Rest/Routes/Cart_Route.php:333
+msgctxt "Quantity prefix for cart message"
+msgid "%s &times; "
+msgstr "%s & kertaa; "
+
+#. translators: %s: product name
+#: src/Rest/Routes/Cart_Route.php:336
+msgctxt "Item name in quotes"
+msgid "&ldquo;%s&rdquo;"
+msgstr "&ldquo;%s&rdquo;"
+
+#: templates/restaurant-info/modal-content.php:45
+msgctxt "displayed between the open and close times"
+msgid "to"
+msgstr "kohteeseen"

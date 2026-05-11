@@ -1,0 +1,936 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Restaurant Ordering 2.1.10\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-restaurant-ordering\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-04-22T17:50:43+00:00\n"
+"PO-Revision-Date: 2025-09-09 08:53+0000\n"
+"Language: sv-SE\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: woocommerce-restaurant-ordering\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "WooCommerce Restaurant Ordering"
+msgstr "WooCommerce Restaurangbeställning"
+
+#. Plugin URI of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "https://barn2.com/wordpress-plugins/woocommerce-restaurant-ordering/"
+msgstr "https://barn2.com/wordpress-plugins/woocommerce-restaurant-ordering/"
+
+#. Description of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "A restaurant ordering plugin for WooCommerce."
+msgstr "Ett restaurangbeställningsplugin för WooCommerce."
+
+#. Author of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "Barn2 Plugins"
+msgstr "Barn2 Plugins"
+
+#. Author URI of the plugin
+#: D:\local\amir\app\public\wp-content\plugins\woocommerce-restaurant-ordering\woocommerce-restaurant-ordering.php
+msgid "https://barn2.com"
+msgstr "https://barn2.com"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_API_Helper.php:154
+msgid "[View page]"
+msgstr "[Visa sidan]"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_API_Helper.php:615
+#: dependencies/barn2/barn2-lib/src/WooCommerce/Admin/Custom_Settings_Fields.php:138
+msgid "Size"
+msgstr "Storlek"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_Util.php:70
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: dependencies/barn2/barn2-lib/src/Admin/Settings_Util.php:70
+msgid "Support"
+msgstr "Support"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:38
+msgid "Settings"
+msgstr "Inställningar"
+
+#. translators: %s: The plugin name
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:54
+msgid "View %s documentation"
+msgstr "Visa %s dokumentation"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Admin_Links.php:55
+msgid "Docs"
+msgstr "Dokument"
+
+#. translators: 1: licence key link start, 2: license key link end
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Plugin_Updater.php:155
+msgid "Activate %1$syour license key%2$s to enable updates."
+msgstr "Aktivera %1$syour license key%2$s för att aktivera uppdateringar."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Admin/Plugin_Updater.php:210
+msgid "Auto-updates unavailable."
+msgstr "Automatiska uppdateringar är inte tillgängliga."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:59
+msgid "License key successfully activated."
+msgstr "Licensnyckeln har aktiverats framgångsrikt."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:59
+msgid "There was an error activating your license key."
+msgstr "Det uppstod ett fel vid aktivering av din licensnyckel."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:63
+msgid "License key successfully deactivated."
+msgstr "Licensnyckeln har avaktiverats framgångsrikt."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:63
+msgid "There was an error deactivating your license key, please try again."
+msgstr "Det uppstod ett fel vid avaktivering av din licensnyckel, vänligen försök igen."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:66
+msgid "The license key looks good!"
+msgstr "Licensnyckeln ser bra ut!"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:66
+msgid "There's a problem with your license key."
+msgstr "Det finns ett problem med din licensnyckel."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:108
+msgid "License key"
+msgstr "Licensnyckel"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:110
+msgid "The licence key is contained in your order confirmation email."
+msgstr "Licensnyckeln finns i din orderbekräftelse e-post."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:113
+msgid "License Key"
+msgstr "Licensnyckel"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Check"
+msgstr "Kontrollera"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Activate"
+msgstr "Aktivera"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:132
+msgid "Deactivate"
+msgstr "Avaktivera"
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Key_Setting.php:140
+msgid "License key deactivated."
+msgstr "Licensnyckeln har avaktiverats."
+
+#. translators: 1: the plugin name, 2: settings link start, 3: settings link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:84
+msgid "Thank you for installing %1$s. To get started, please %2$s enter your license key%3$s."
+msgstr "Tack för att du installerade %1$s. För att komma igång, vänligen %2$s ange din licensnyckel%3$s."
+
+#. translators: 1: the plugin name, 2: renewal link start, 3: renewal link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:109
+msgid "Your license key for %1$s has expired. %2$sClick here to renew for 20%% discount%3$s."
+msgstr "Din licensnyckel för %1$s har gått ut. %2$sKlicka här för att förnya med 20%% rabatt%3$s."
+
+#. translators: 1: the plugin name, 2: renewal link start, 3: renewal link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:134
+msgid "You no longer have a valid license for %1$s. Please %2$spurchase a new license key%3$s to continue using the plugin."
+msgstr "Du har inte längre en giltig licens för %1$s. Vänligen %2$sköp en ny licensnyckel%3$s för att fortsätta använda plugin."
+
+#. translators: 1: the plugin name, 2: settings link start, 3: settings link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Admin/License_Notices.php:162
+msgid "%1$s - your site has moved to a new domain. Please %2$sreactivate your license key%3$s."
+msgstr "%1$s - din webbplats har flyttat till en ny domän. Vänligen %2$såteraktivera din licensnyckel%3$s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/EDD_Licensing.php:168
+msgid "An error has occurred, please try again."
+msgstr "Ett fel har inträffat, vänligen försök igen."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:91
+msgid "Your license key is active."
+msgstr "Din licensnyckel är aktiv."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:111
+msgid "Please enter your license key."
+msgstr "Vänligen ange din licensnyckel."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:113
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:391
+msgid "Your license key is invalid."
+msgstr "Din licensnyckel är ogiltig."
+
+#. translators: 1: account page link start, 2: account page link end
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:335
+msgid "Invalid license key - please check your order confirmation email or %1$sAccount%2$s."
+msgstr "Ogiltig licensnyckel - vänligen kontrollera din orderbekräftelse e-post eller %1$sKonto%2$s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:341
+msgid "No URL was supplied for activation, please contact support."
+msgstr "Ingen URL angavs för aktivering, vänligen kontakta support."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:344
+msgid "License key mismatch, please contact support."
+msgstr "Licensnyckeln matchar inte, vänligen kontakta support."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:347
+msgid "This license is for a bundled product and cannot be activated."
+msgstr "Denna licens är för en paketprodukt och kan inte aktiveras."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:351
+msgid "Your license key is not valid for this plugin."
+msgstr "Din licensnyckel är inte giltig för denna plugin."
+
+#. translators: %s: The number of sites the license is activated on
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:357
+msgid "%s site active"
+msgid_plural "%s sites active"
+msgstr[0] "%s webbplats aktiv"
+msgstr[1] "%s webbplatser aktiva"
+
+#. translators: %s: The sites active description, e.g. '2 sites active'
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:360
+msgid "Your license key has reached its activation limit (%s)."
+msgstr "Din licensnyckel har nått sin aktiveringsgräns (%s)."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:361
+#: dependencies/barn2/barn2-lib/src/Util.php:35
+msgid "Read more"
+msgstr "Läs mer"
+
+#. translators: support for RTL, 1: the license error, 2: a link
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:363
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:381
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#. translators: %s: The license expiry date
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:376
+msgid "Your license key expired on %s."
+msgstr "Din licensnyckel gick ut den %s."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:379
+msgid "Renew now for 20% discount."
+msgstr "Förnya nu för 20% rabatt."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:582
+msgid "Your license key is not active. Please reactivate or save the settings."
+msgstr "Din licensnyckel är inte aktiv. Vänligen återaktivera eller spara inställningarna."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:586
+msgid "Your license key has expired."
+msgstr "Din licensnyckel har gått ut."
+
+#. translators: 1: purchase link start, 2: purchase link end.
+#: dependencies/barn2/barn2-lib/src/Plugin/License/Plugin_License.php:592
+msgid "Your license key has been disabled. Please %1$spurchase a new license key%2$s to continue using the plugin."
+msgstr "Din licensnyckel har inaktiverats. Vänligen %1$sköp en ny licensnyckel%2$s för att fortsätta använda tillägget."
+
+#. translators: %1$s: Plugin name. %2$s: PHP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:103
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:112
+msgid "%1$s requires PHP %2$s or greater. Please update the PHP version used by your web server."
+msgstr "%1$s kräver PHP %2$s eller högre. Vänligen uppdatera PHP-versionen som används av din webbserver."
+
+#. translators: %1$s: Plugin name. %2$s: WP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:136
+msgid "%1$s requires WordPress %2$s or greater. Please update your WordPress installation."
+msgstr "%1$s kräver WordPress %2$s eller högre. Vänligen uppdatera din WordPress-installation."
+
+#. translators: %1$s: Plugin name. %2$s: Update Core <a> tag open. %3$s: <a> tag close. %4$s: WP version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:146
+msgid "%1$s requires WordPress %4$s or greater. Please %2$supdate%3$s your WordPress installation."
+msgstr "%1$s kräver WordPress %4$s eller högre. Vänligen %2$suppdatera%3$s din WordPress-installation."
+
+#. translators: %1$s: Plugin name.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:169
+msgid "%1$s requires WooCommerce to be installed and active."
+msgstr "%1$s kräver WooCommerce för att vara installerad och aktiv."
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce link. %3$s Install/Upgrade/Activate WooCommerce link.
+#. translators: %1$s: Plugin name. %2$s: EDD link. %3$s Install/Upgrade/Activate EDD link.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:175
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:224
+msgid "%1$s requires %2$s to be installed and active.%3$s"
+msgstr "%1$s kräver %2$s att vara installerad och aktiv.%3$s"
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce version required.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:189
+msgid "%1$s requires WooCommerce %2$s or greater. Please update your WooCommerce setup first."
+msgstr "%1$s kräver WooCommerce %2$s eller högre. Vänligen uppdatera din WooCommerce-installation först."
+
+#. translators: %1$s: Plugin name. %2$s: WooCommerce link. %3$s WooCommerce version required. %4$s Install/Upgrade/Activate WooCommerce link.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:195
+msgid "%1$s requires %2$s %3$s or greater. Please %4$s your WooCommerce setup first."
+msgstr "%1$s kräver %2$s %3$s eller högre. Vänligen %4$s din WooCommerce-installation först."
+
+#. translators: %1$s: Plugin name.
+#: dependencies/barn2/barn2-lib/src/Plugin/Requirements.php:218
+msgid "%1$s requires Easy Digital Downloads to be installed and active."
+msgstr "%1$s kräver Easy Digital Downloads för att vara installerad och aktiv."
+
+#: dependencies/barn2/barn2-lib/src/Plugin/Simple_Plugin.php:102
+msgid "%1$s could not complete its first activation because the following error occurred:<br>%2$s"
+msgstr "%1$s kunde inte slutföra sin första aktivering eftersom följande fel inträffade:<br>%2$s"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update required"
+msgstr "%1$s databasuppdatering krävs"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s has been updated! To keep things running smoothly, we have to update your database to the newest version. The database update process runs in the background and may take a little while, so please be patient.</p>"
+msgstr "<p>%1$s har uppdaterats! För att hålla allt igång smidigt måste vi uppdatera din databas till den senaste versionen. Databasuppdateringsprocessen körs i bakgrunden och kan ta en liten stund, så var vänlig ha tålamod.</p>"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update"
+msgstr "%1$s databasuppdatering"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s is updating the database in the background. The database update process may take a little while, so please be patient.</p>"
+msgstr "<p>%1$s uppdaterar databasen i bakgrunden. Databasuppdateringsprocessen kan ta en liten stund, så var god ha tålamod.</p>"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "%1$s database update done"
+msgstr "%1$s databasuppdatering slutförd"
+
+#: dependencies/barn2/barn2-lib/src/Service/Updater.php:101
+msgid "<p>%1$s database update complete. Thank you for updating to the latest version!</p>"
+msgstr "<p>%1$s databasuppdatering är klar. Tack för att du uppdaterade till den senaste versionen!</p>"
+
+#: dependencies/barn2/barn2-lib/src/Util.php:552
+msgid "Unable to connect to the filesystem. Please confirm your credentials."
+msgstr "Kunde inte ansluta till filsystemet. Vänligen bekräfta dina uppgifter."
+
+#: dependencies/barn2/barn2-lib/src/Util.php:580
+msgid "You don't have permission to activate the plugin."
+msgstr "Du har inte behörighet att aktivera pluginet."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:151
+msgid "Could not find the appropriate step."
+msgstr "Kunde inte hitta det lämpliga steget."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:196
+msgid "Please enter a license key."
+msgstr "Vänligen ange en licensnyckel."
+
+#: dependencies/barn2/setup-wizard/src/Api.php:199
+msgid "Invalid action requested."
+msgstr "Ogiltig åtgärd begärd."
+
+#. translators: %s: The name of the plugin.
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:344
+msgid "%s setup wizard"
+msgstr "%s installationsguide"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:434
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:507
+msgid "Warning: This will overwrite your existing settings for %s. Are you sure you want to continue?"
+msgstr "Varning: Detta kommer att skriva över dina befintliga inställningar för %s. Är du säker på att du vill fortsätta?"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:484
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:492
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:541
+msgid "Setup wizard"
+msgstr "Installationsguide"
+
+#: dependencies/barn2/setup-wizard/src/Setup_Wizard.php:487
+msgid "If you need to access the setup wizard again, please click on the button below."
+msgstr "Om du behöver få tillgång till installationsguiden igen, vänligen klicka på knappen nedan."
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:23
+#: src/Admin/Wizard/Steps/Upsell.php:11
+#: templates/menu/navigation.php:16
+#: templates/restaurant-info/restaurant-info.php:6
+msgid "More"
+msgstr "Mer"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:24
+#: src/Admin/Wizard/Steps/Upsell.php:19
+msgid "Extra features"
+msgstr "Extra funktioner"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Cross_Selling.php:25
+msgid "Enhance your site with these fantastic plugins from Barn2."
+msgstr "Förbättra din webbplats med dessa fantastiska plugins från Barn2."
+
+#: dependencies/barn2/setup-wizard/src/Steps/Ready.php:23
+#: src/Admin/Wizard/Steps/Completed.php:17
+msgid "Ready"
+msgstr "Klar"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Ready.php:24
+msgid "Setup Complete"
+msgstr "Installation Slutförd"
+
+#: dependencies/barn2/setup-wizard/src/Steps/Welcome.php:25
+#: dependencies/barn2/setup-wizard/src/Steps/Welcome_Free.php:24
+#: src/Admin/Wizard/Steps/License_Verification.php:17
+msgid "Welcome"
+msgstr "Välkommen"
+
+#: dependencies/barn2/setup-wizard/src/Util.php:28
+#: src/Admin/Wizard/Steps/Pages.php:38
+msgid "Select an option"
+msgstr "Välj ett alternativ"
+
+#: src/Admin/Admin_Controller.php:48
+msgid "Restaurant Page"
+msgstr "Restaurangsida"
+
+#: src/Admin/Settings_Page.php:41
+#: src/Settings.php:212
+msgid "Restaurant Ordering"
+msgstr "Restaurangbeställning"
+
+#: src/Admin/Wizard/Steps/Completed.php:18
+msgid "Complete Setup"
+msgstr "Slutför installation"
+
+#: src/Admin/Wizard/Steps/Completed.php:21
+msgid "Congratulations, your restaurant ordering system is now set up! The food order forms will appear on the %s page."
+msgstr "Grattis, ditt restaurangbeställningssystem är nu inställt! Beställningsformulären för mat kommer att visas på %s sidan."
+
+#: src/Admin/Wizard/Steps/License_Verification.php:18
+msgid "Start taking food orders in no time"
+msgstr "Börja ta emot matbeställningar på nolltid"
+
+#: src/Admin/Wizard/Steps/License_Verification.php:19
+msgid "Use this setup wizard to quickly configure the most popular options for your restaurant ordering system. You can change these options later on the plugin settings page or by relaunching the setup wizard. You can also override these options in the shortcode for individual food order forms."
+msgstr "Använd denna installationsguide för att snabbt konfigurera de mest populära alternativen för ditt restaurangbeställningssystem. Du kan ändra dessa alternativ senare på sidan för plugin-inställningar eller genom att starta installationsguiden igen. Du kan också åsidosätta dessa alternativ i kortkoden för individuella beställningsformulär för mat."
+
+#: src/Admin/Wizard/Steps/Order_Form.php:26
+#: src/Admin/Wizard/Steps/Order_Form.php:40
+#: src/Settings.php:279
+msgid "Order form"
+msgstr "Beställningsformulär"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:27
+msgid "Order form content"
+msgstr "Innehåll i beställningsformulär"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:28
+msgid "Now, choose the information that will appear in your food order forms."
+msgstr "Välj nu informationen som ska visas i dina beställningsformulär för mat."
+
+#: src/Admin/Wizard/Steps/Order_Form.php:66
+#: src/Settings.php:280
+msgid "Show menu navigation bar"
+msgstr "Visa meny navigeringsfält"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:73
+#: src/Settings.php:288
+msgid "Show category names"
+msgstr "Visa kategori namn"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:79
+#: src/Settings.php:296
+msgid "Show category descriptions"
+msgstr "Visa kategori beskrivningar"
+
+#: src/Admin/Wizard/Steps/Order_Form.php:85
+#: src/Settings.php:304
+msgid "Show product images"
+msgstr "Visa produktbilder"
+
+#: src/Admin/Wizard/Steps/Pages.php:17
+#: src/Admin/Wizard/Steps/Pages.php:18
+msgid "Pages"
+msgstr "Sidor"
+
+#: src/Admin/Wizard/Steps/Pages.php:19
+msgid "First, set up your main restaurant ordering pages. You can also create food order forms manually by adding the [restaurant_ordering] shortcode to any page"
+msgstr "Först, ställ in dina huvudsakliga sidor för restaurangbeställningar. Du kan också skapa beställningsformulär för mat manuellt genom att lägga till kortkoden [restaurant_ordering] till vilken sida som helst"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:16
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:17
+#: src/Settings.php:463
+msgid "Restaurant details"
+msgstr "Restaurangdetaljer"
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:18
+msgid "If you like, then you can display restaurant information above the food order form."
+msgstr "Om du vill kan du visa restauranginformation ovanför beställningsformuläret för mat."
+
+#: src/Admin/Wizard/Steps/Restaurant_Details.php:65
+msgid "\"%1$s\" should not exceed the max length of %2$s characters."
+msgstr "\"%1$s\" får inte överskrida max längd av %2$s tecken."
+
+#: src/Admin/Wizard/Steps/Upsell.php:14
+msgid "Enhance your store with these fantastic plugins from Barn2, or get them all by upgrading to an <a href=\"%1$s\" target=\"_blank\">All Access Pass<a/>! <a href=\"%2$s\" target=\"_blank\">(learn how here)</a>"
+msgstr "Förbättra din butik med dessa fantastiska plugins från Barn2, eller få dem alla genom att uppgradera till ett <a href=\"%1$s\" target=\"_blank\">All Access Pass<a/>! <a href=\"%2$s\" target=\"_blank\">(lär dig hur här)</a>"
+
+#: src/Frontend_Scripts.php:104
+msgid "Sorry, this item cannot be loaded."
+msgstr "Tyvärr, detta objekt kan inte laddas."
+
+#: src/Frontend_Scripts.php:105
+msgid "Sorry, this item is out of stock."
+msgstr "Tyvärr, denna artikel är slut i lager."
+
+#: src/Frontend_Scripts.php:106
+#: src/Rest/Rest_Util.php:108
+msgid "Sorry, this item is not available."
+msgstr "Tyvärr, denna artikel är inte tillgänglig."
+
+#: src/Frontend_Scripts.php:107
+#: src/Rest/Rest_Util.php:23
+#: templates/cart-notice/cart-notice.php:22
+msgid "Sorry, there was a problem ordering this item."
+msgstr "Tyvärr, det uppstod ett problem med att beställa denna artikel."
+
+#: src/Frontend_Scripts.php:108
+msgid "Please enter a quantity greater than 0."
+msgstr "Vänligen ange en kvantitet större än 0."
+
+#: src/Frontend_Scripts.php:109
+msgid "Please select all required options."
+msgstr "Vänligen välj alla obligatoriska alternativ."
+
+#: src/Frontend_Scripts.php:110
+msgid "Copied!"
+msgstr "Kopierad!"
+
+#: src/Info/Availability_Options.php:53
+msgid "Open until {close_time}"
+msgstr "Öppen tills {close_time}"
+
+#: src/Info/Availability_Options.php:54
+msgid "The restaurant is currently closed"
+msgstr "Restaurangen är för närvarande stängd"
+
+#: src/Menu/Restaurant_Menu.php:91
+msgid "There are no menu categories available."
+msgstr "Det finns inga meny-kategorier tillgängliga."
+
+#: src/Menu/Restaurant_Menu.php:128
+msgid "There are no products available for this menu."
+msgstr "Det finns inga produkter tillgängliga för denna meny."
+
+#. translators: %s: The list of product categories
+#: src/Menu/Restaurant_Menu.php:160
+msgid "[categories: %s]"
+msgstr "[kategorier: %s]"
+
+#. translators: %s: Plugin name.
+#: src/Plugin.php:77
+msgid "The %s plugin requires WordPress 5.2 or greater. Please update your WordPress installation first."
+msgstr "Pluginet %s kräver WordPress 5.2 eller högre. Vänligen uppdatera din WordPress-installation först."
+
+#. translators: %1$s: Plugin name. %2$s: Update Core <a> tag open. %3$s: <a> tag close.
+#: src/Plugin.php:88
+msgid "The %1$s plugin requires WordPress 5.2 or greater. Please %2$supdate%3$s your WordPress installation."
+msgstr "Pluginet %1$s kräver WordPress 5.2 eller högre. Vänligen %2$suppdatera%3$s din WordPress-installation."
+
+#: src/Plugin.php:114
+msgid "Please install WooCommerce in order to use WooCommerce Restaurant Ordering."
+msgstr "Vänligen installera WooCommerce för att kunna använda WooCommerce Restaurant Ordering."
+
+#. translators: %1$s: Install WooCommerce <a> tag open. %2$s: <a> tag close.
+#: src/Plugin.php:122
+msgid "Please %1$sinstall WooCommerce%2$s in order to use WooCommerce Restaurant Ordering."
+msgstr "Vänligen %1$sinstallera WooCommerce%2$s för att kunna använda WooCommerce Restaurant Ordering."
+
+#. translators: %s: Plugin name.
+#: src/Plugin.php:139
+msgid "The %s plugin requires WooCommerce 5.9 or greater. Please update your WooCommerce setup first."
+msgstr "Pluginet %s kräver WooCommerce 5.9 eller högre. Vänligen uppdatera din WooCommerce-installation först."
+
+#. translators: %1$s: Plugin name.
+#: src/Plugin.php:147
+msgid "The %1$s plugin requires WooCommerce 5.9 or greater. Please update your WooCommerce setup first."
+msgstr "Pluginet %1$s kräver WooCommerce 5.9 eller högre. Vänligen uppdatera din WooCommerce-installation först."
+
+#: src/Plugin_Setup.php:79
+msgid "Restaurant Order"
+msgstr "Restaurangbeställning"
+
+#: src/Rest/Rest_Util.php:55
+msgid "This product does not exist."
+msgstr "Denna produkt finns inte."
+
+#: src/Rest/Rest_Util.php:64
+msgid "This product is not visible."
+msgstr "Denna produkt är inte synlig."
+
+#: src/Rest/Rest_Util.php:72
+msgid "This product cannot be purchased."
+msgstr "Denna produkt kan inte köpas."
+
+#: src/Rest/Rest_Util.php:80
+msgid "This product is password protected."
+msgstr "Denna produkt är lösenordsskyddad."
+
+#: src/Rest/Routes/Cart_Route.php:40
+msgid "The unique identifier for the product."
+msgstr "Den unika identifieraren för produkten."
+
+#: src/Rest/Routes/Cart_Route.php:45
+msgid "The quantity of the product."
+msgstr "Antalet av produkten."
+
+#: src/Rest/Routes/Cart_Route.php:50
+msgid "Buy button style."
+msgstr "Knapstyling för köp."
+
+#: src/Rest/Routes/Cart_Route.php:194
+msgid "Please choose the quantity of items you wish to add to your cart&hellip;"
+msgstr "Vänligen välj antalet artiklar du vill lägga till i din kundvagn&hellip;"
+
+#: src/Rest/Routes/Cart_Route.php:408
+msgid "The quantity must be greater than 0."
+msgstr "Antalet måste vara större än 0."
+
+#: src/Rest/Routes/Cart_Route.php:421
+msgid "A variation ID must be specified for variable products."
+msgstr "Ett variations-ID måste anges för variabla produkter."
+
+#: src/Rest/Routes/Cart_Route.php:434
+msgid "At least one variation attribute must be specified for variable products."
+msgstr "Minst en variationsattribut måste anges för variabla produkter."
+
+#: src/Rest/Routes/Order_Type_Route.php:38
+#: src/Rest/Routes/Product_Modal_Route.php:38
+msgid "The unique indentifier for the product."
+msgstr "Den unika identifieraren för produkten."
+
+#: src/Settings.php:140
+#: src/Settings.php:160
+msgid "Opening hours"
+msgstr "Öppettider"
+
+#: src/Settings.php:142
+msgid "Enter the opening hours for your restaurant. If used, the restaurant will be open or closed based on the hours entered below. Customers won't be able to order when the restaurant is closed."
+msgstr "Ange öppettiderna för din restaurang. Om det används kommer restaurangen att vara öppen eller stängd baserat på timmarna som anges nedan. Kunder kommer inte att kunna beställa när restaurangen är stängd."
+
+#: src/Settings.php:148
+msgid "Enable"
+msgstr "Aktivera"
+
+#: src/Settings.php:149
+msgid "Enable restaurant opening hours"
+msgstr "Aktivera restaurangens öppettider"
+
+#: src/Settings.php:167
+msgid "Open message"
+msgstr "Öppen meddelande"
+
+#. translators: %s: A merge tag that can be used in the message
+#: src/Settings.php:170
+msgid "Displayed when the restaurant is open. Use %s as a placeholder for the next closing time."
+msgstr "Visas när restaurangen är öppen. Använd %s som en platshållare för nästa stängningstid."
+
+#: src/Settings.php:183
+msgid "Closed message"
+msgstr "Stängd meddelande"
+
+#. translators: %s: A merge tag that can be used in the message
+#: src/Settings.php:186
+msgid "Displayed when the restaurant is closed. Use %s as a placeholder for the next opening time."
+msgstr "Visas när restaurangen är stängd. Använd %s som en platshållare för nästa öppningstid."
+
+#: src/Settings.php:222
+msgid "Restaurant order page"
+msgstr "Restaurangens beställningssida"
+
+#. translators: %1$s: HTML for the shop page link, %2$s: HTML for the link close tag.
+#: src/Settings.php:225
+msgid "The restaurant ordering page. If you want your store homepage to use the restaurant order layout, select your main %1$sShop page%2$s here."
+msgstr "Restaurangens beställningssida. Om du vill att din butikens startsida ska använda restaurangens beställningslayout, välj din huvud %1$sButikssida%2$s här."
+
+#: src/Settings.php:234
+#: src/Settings.php:238
+msgid "Categories"
+msgstr "Kategorier"
+
+#: src/Settings.php:239
+msgid "Choose your menu categories&hellip;"
+msgstr "Välj dina menykategorier&hellip;"
+
+#: src/Settings.php:241
+msgid "The categories to include in your restaurant order form."
+msgstr "Kategorierna som ska inkluderas i din restaurangbeställningsformulär."
+
+#: src/Settings.php:247
+msgid "Category pages"
+msgstr "Kategorisidor"
+
+#: src/Settings.php:248
+msgid "Show the order form on WooCommerce category pages"
+msgstr "Visa beställningsformuläret på WooCommerce kategorisidor"
+
+#: src/Settings.php:249
+msgid "The order form will show the current category, plus any child categories."
+msgstr "Beställningsformuläret visar den aktuella kategorin, plus eventuella underkategorier."
+
+#: src/Settings.php:271
+msgid "Order form options"
+msgstr "Alternativ för beställningsformulär"
+
+#: src/Settings.php:316
+msgid "Show product descriptions"
+msgstr "Visa produktbeskrivningar"
+
+#: src/Settings.php:317
+msgid "Shows the short description if entered, otherwise shows the full product description."
+msgstr "Visar den korta beskrivningen om den har angetts, annars visas den fullständiga produktbeskrivningen."
+
+#: src/Settings.php:328
+msgid "Layout"
+msgstr "Layout"
+
+#: src/Settings.php:330
+msgid "1 column"
+msgstr "1 kolumn"
+
+#: src/Settings.php:331
+msgid "2 columns"
+msgstr "2 kolumner"
+
+#: src/Settings.php:332
+msgid "3 columns"
+msgstr "3 kolumner"
+
+#: src/Settings.php:334
+msgid "How to arrange the items in your restaurant order form."
+msgstr "Hur man arrangerar objekten i ditt restaurangbeställningsformulär."
+
+#: src/Settings.php:341
+msgid "Sort products by"
+msgstr "Sortera produkter efter"
+
+#: src/Settings.php:343
+msgid "WooCommerce default"
+msgstr "WooCommerce standard"
+
+#: src/Settings.php:344
+msgid "Name"
+msgstr "Namn"
+
+#: src/Settings.php:345
+msgid "Price"
+msgstr "Pris"
+
+#: src/Settings.php:346
+msgid "Popularity"
+msgstr "Popularitet"
+
+#: src/Settings.php:347
+msgid "Date"
+msgstr "Datum"
+
+#: src/Settings.php:355
+msgid "Image position"
+msgstr "Bildposition"
+
+#: src/Settings.php:357
+msgid "Left"
+msgstr "Vänster"
+
+#: src/Settings.php:358
+msgid "Right"
+msgstr "Höger"
+
+#: src/Settings.php:367
+msgid "Image size"
+msgstr "Bildstorlek"
+
+#: src/Settings.php:380
+msgid "Product description"
+msgstr "Produktbeskrivning"
+
+#: src/Settings.php:382
+msgid "Limit the description length"
+msgstr "Begränsa beskrivningens längd"
+
+#: src/Settings.php:383
+msgid "Show full description"
+msgstr "Visa fullständig beskrivning"
+
+#: src/Settings.php:385
+msgid "The product description is limited to fit the available space. If you select 'Show full description', the product box will expand as required."
+msgstr "Produktbeskrivningen är begränsad för att passa det tillgängliga utrymmet. Om du väljer 'Visa fullständig beskrivning' kommer produktlådan att expandera efter behov."
+
+#: src/Settings.php:394
+msgid "Product lightbox"
+msgstr "Produktljuslåda"
+
+#: src/Settings.php:395
+msgid "Show product image"
+msgstr "Visa produktbild"
+
+#: src/Settings.php:403
+msgid "Show product description"
+msgstr "Visa produktbeskrivning"
+
+#: src/Settings.php:404
+msgid "The full product description is displayed in the lightbox."
+msgstr "Den fullständiga produktbeskrivningen visas i ljuslådan."
+
+#: src/Settings.php:412
+msgid "Show stock status"
+msgstr "Visa lagersaldo"
+
+#: src/Settings.php:419
+msgid "Order method"
+msgstr "Beställningsmetod"
+
+#: src/Settings.php:421
+msgid "Add items instantly where possible, otherwise show a lightbox"
+msgstr "Lägg till artiklar direkt där det är möjligt, annars visa en ljuslåda"
+
+#: src/Settings.php:422
+msgid "Always show a lightbox to select the quantity and options"
+msgstr "Visa alltid en ljuslåda för att välja mängd och alternativ"
+
+#: src/Settings.php:429
+msgid "Buy button"
+msgstr "Köpknapp"
+
+#: src/Settings.php:432
+msgid "Order by clicking a buy button (+)"
+msgstr "Beställ genom att klicka på en köpknapp (+)"
+
+#: src/Settings.php:433
+msgid "Order by clicking anywhere in the product box"
+msgstr "Beställ genom att klicka var som helst i produktlådan"
+
+#: src/Settings.php:440
+msgid "Cart confirmation"
+msgstr "Varukorgsbekräftelse"
+
+#: src/Settings.php:442
+msgid "Show a confirmation message when adding items to the cart"
+msgstr "Visa ett bekräftelsemeddelande när du lägger till artiklar i kundvagnen"
+
+#: src/Settings.php:443
+msgid "We recommend you only disable this option if you provide a different way to confirm adding products to the cart. For example, using the popup cart in our WooCommerce Fast Cart plugin."
+msgstr "Vi rekommenderar att du bara inaktiverar det här alternativet om du erbjuder ett annat sätt att bekräfta tillägg av produkter till kundvagnen. Till exempel, genom att använda popup-kundvagnen i vår WooCommerce Fast Cart-plugin."
+
+#: src/Settings.php:465
+msgid "Enter some information about your restaurant."
+msgstr "Ange lite information om din restaurang."
+
+#: src/Settings.php:471
+msgid "Restaurant name"
+msgstr "Restaurangnamn"
+
+#: src/Settings.php:472
+msgid "The restaurant name is shown in the 'More' popup which shows the restaurant opening hours."
+msgstr "Restaurangnamnet visas i 'Mer' popupen som visar restaurangens öppettider."
+
+#: src/Settings.php:481
+msgid "Restaurant address"
+msgstr "Restaurangadress"
+
+#: src/Settings.php:490
+msgid "Delivery/collection info"
+msgstr "Leverans-/upphämtningsinformation"
+
+#. translators: %s: "WooCommerce Restaurant Ordering"
+#: src/Settings.php:513
+msgid "The following options control the %s extension."
+msgstr "Följande alternativ styr %s-tillägget."
+
+#: src/Settings.php:602
+msgid "Uninstalling "
+msgstr "Avinstallerar "
+
+#: src/Settings.php:610
+msgid "Delete data on uninstall\t"
+msgstr "Ta bort data vid avinstallation\t"
+
+#: src/Settings.php:611
+msgid "Permanently delete all "
+msgstr "Permanent ta bort alla "
+
+#: src/Util.php:85
+msgid "Sorry, the restaurant is now closed."
+msgstr "Tyvärr, restaurangen är nu stängd."
+
+#: templates/admin/opening-hours/opening-hours.php:61
+msgid "Add more hours"
+msgstr "Lägg till fler timmar"
+
+#: templates/admin/opening-hours/opening-hours.php:63
+msgid "Use fewer hours"
+msgstr "Använd färre timmar"
+
+#: templates/admin/opening-hours/opening-period.php:8
+msgid "to"
+msgstr "till"
+
+#. translators: %s: The names of the products added to the cart.
+#: templates/cart-notice/cart-notice.php:9
+msgid "%s has been removed from your cart."
+msgstr "%s har tagits bort från din kundvagn."
+
+#. translators: %s: The names of the products added to the cart.
+#: templates/cart-notice/cart-notice.php:12
+msgid "%s have been added to your cart."
+msgstr "%s har lagts till i din kundvagn."
+
+#. translators: %s: The name of the product added to the cart.
+#: templates/cart-notice/cart-notice.php:15
+msgid "%s has been added to your cart."
+msgstr "%s har lagts till i din kundvagn."
+
+#: templates/cart-notice/cart-notice.php:17
+msgid "View cart"
+msgstr "Visa kundvagn"
+
+#: templates/menu/product/buy-button.php:6
+#: templates/modal/buy-button.php:4
+msgid "Add to order"
+msgstr "Lägg till i beställning"
+
+#: templates/modal/buy-button.php:4
+msgid "Add for"
+msgstr "Lägg till för"
+
+#: templates/modal/content.php:35
+msgid "Item out of stock"
+msgstr "Artikel slutsåld"
+
+#: templates/modal/content.php:37
+msgid "Item not available"
+msgstr "Artikel inte tillgänglig"
+
+#: templates/modal/content.php:40
+msgid "Decrease quantity"
+msgstr "Minska kvantitet"
+
+#: templates/modal/content.php:41
+msgid "Enter item quantity"
+msgstr "Ange artikelkvantitet"
+
+#: templates/modal/content.php:46
+msgid "Increase quantity"
+msgstr "Öka kvantitet"
+
+#: templates/restaurant-info/modal-content.php:41
+msgid "Closed"
+msgstr "Stängd"
+
+#. translators: %s: product quantity
+#: src/Rest/Routes/Cart_Route.php:333
+msgctxt "Quantity prefix for cart message"
+msgid "%s &times; "
+msgstr "%s & gånger; "
+
+#. translators: %s: product name
+#: src/Rest/Routes/Cart_Route.php:336
+msgctxt "Item name in quotes"
+msgid "&ldquo;%s&rdquo;"
+msgstr "&ldquo;%s&rdquo;"
+
+#: templates/restaurant-info/modal-content.php:45
+msgctxt "displayed between the open and close times"
+msgid "to"
+msgstr "till"

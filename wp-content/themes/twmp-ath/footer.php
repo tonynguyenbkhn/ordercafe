@@ -40,45 +40,9 @@ get_template_part('template-parts/footers/modal-search-form', null, []);
 get_template_part('template-parts/footers/modal-popup-welcome', null, []);
 // get_template_part('template-parts/footers/mini-cart', null, []);
 // get_template_part('templates/blocks/menu-mobile-footer', null, []);
-
-if (class_exists('WooCommerce') && (is_shop() || is_product_taxonomy() ) ) {
 ?>
-    <script>
-        document.addEventListener('facetwp-loaded', function() {
-            const dateFacet = document.querySelector('.facetwp-facet-date_time');
 
-            if (!dateFacet) return;
-
-            const minInput = dateFacet.querySelector('.facetwp-date-min.fdate-alt-input');
-            const maxInput = dateFacet.querySelector('.facetwp-date-max.fdate-alt-input');
-
-            if (minInput) {
-                minInput.placeholder = 'From date - To date';
-            }
-
-            if (maxInput) {
-                maxInput.placeholder = 'To date';
-            }
-        });
-
-        document.addEventListener('facetwp-refresh', function() {
-            if (!FWP.loaded) return;
-
-            document.body.classList.add('facetwp-is-loading');
-        });
-
-        document.addEventListener('facetwp-loaded', function() {
-            document.body.classList.remove('facetwp-is-loading');
-        });
-    </script>
-<?php
-}
-
-?>
 <?php wp_footer(); ?>
-
-<script>
-</script>
 
 </body>
 

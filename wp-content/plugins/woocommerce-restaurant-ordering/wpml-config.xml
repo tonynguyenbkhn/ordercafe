@@ -1,0 +1,11 @@
+<wpml-config>
+
+  <admin-texts>
+    <key name="wro_open_notice" />
+    <key name="wro_closed_notice" />
+    <key name="wro_restaurant_name" />
+    <key name="wro_restaurant_address" />
+    <key name="wro_delivery_notice" />
+  </admin-texts>
+  
+</wpml-config>

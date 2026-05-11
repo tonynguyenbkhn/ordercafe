@@ -42,7 +42,7 @@ if (get_option('woocommerce_enable_review_rating') === 'no' || $average_rating =
 		<?php if ($show_rating) : ?>
 			<div class="col-md-12 col-sm-12 col-xs-12 col-average-rating">
 				<div class="average-rating">
-					<h6 class="average-label"><?php esc_html_e('Xếp hạng trung bình', 'twmp-ath'); ?></h6>
+					<h6 class="average-label"><?php esc_html_e('Xếp hạng trung bình', 'twmp-phonghoa'); ?></h6>
 					<div class="d-flex justify-content-between align-items-center flex-sm-column flex-md-column flex-lg-row">
 						<div>
 							<?php if ($average_rating) : ?>
@@ -67,7 +67,7 @@ if (get_option('woocommerce_enable_review_rating') === 'no' || $average_rating =
 									$rating_per   = round(($rating_count / $count) * 100, 2);
 								}
 
-								$rating_label = $i . ' ' . esc_html__('Star', 'twmp-ath');
+								$rating_label = $i . ' ' . esc_html__('Star', 'twmp-phonghoa');
 
 								printf(
 									'<div class="star-item %s-stars">' .
@@ -106,11 +106,11 @@ if (get_option('woocommerce_enable_review_rating') === 'no' || $average_rating =
 							/* translators: %s is product title */
 							'title_reply'         => '',
 							/* translators: %s is product title */
-							'title_reply_to'      => esc_html__('Leave a Reply to %s', 'twmp-ath'),
+							'title_reply_to'      => esc_html__('Leave a Reply to %s', 'twmp-phonghoa'),
 							'title_reply_before'  => '<span id="reply-title" class="comment-reply-title">',
 							'title_reply_after'   => '</span>',
 							'comment_notes_after' => '',
-							'label_submit'        => esc_html__('Gửi đánh giá', 'twmp-ath'),
+							'label_submit'        => esc_html__('Gửi đánh giá', 'twmp-phonghoa'),
 							'logged_in_as'        => '',
 							'comment_field'       => '',
 						);
@@ -118,14 +118,14 @@ if (get_option('woocommerce_enable_review_rating') === 'no' || $average_rating =
 						$name_email_required = (bool) get_option('require_name_email', 1);
 						$fields              = array(
 							'author' => array(
-								'label'    => esc_html__('Họ và tên', 'twmp-ath'),
+								'label'    => esc_html__('Họ và tên', 'twmp-phonghoa'),
 								'type'     => 'text',
 								'value'    => $commenter['comment_author'],
 								'required' => $name_email_required,
 								'autocomplete' => 'name',
 							),
 							'email'  => array(
-								'label'    => esc_html__('Email', 'twmp-ath'),
+								'label'    => esc_html__('Email', 'twmp-phonghoa'),
 								'type'     => 'email',
 								'value'    => $commenter['comment_author_email'],
 								'required' => $name_email_required,
@@ -151,20 +151,20 @@ if (get_option('woocommerce_enable_review_rating') === 'no' || $average_rating =
 						$account_page_url = wc_get_page_permalink('myaccount');
 						if ($account_page_url) {
 							/* translators: %s opening and closing link tags respectively */
-							$comment_form['must_log_in'] = '<p class="must-log-in">' . sprintf(esc_html__('You must be %slogged in%s to post a review.', 'twmp-ath'), '<a href="' . esc_url($account_page_url) . '">', '</a>') . '</p>';
+							$comment_form['must_log_in'] = '<p class="must-log-in">' . sprintf(esc_html__('You must be %slogged in%s to post a review.', 'twmp-phonghoa'), '<a href="' . esc_url($account_page_url) . '">', '</a>') . '</p>';
 						}
 
 						if (wc_review_ratings_enabled()) {
 							$comment_form['comment_field'] = '<div class="comment-form-rating"><label for="rating">' . '' . '</label><select name="rating" id="rating" aria-required="true" required>
-							<option value="">' . esc_html__('Rate&hellip;', 'twmp-ath') . '</option>
-							<option value="5">' . esc_html__('Perfect', 'twmp-ath') . '</option>
-							<option value="4">' . esc_html__('Good', 'twmp-ath') . '</option>
-							<option value="3">' . esc_html__('Average', 'twmp-ath') . '</option>
-							<option value="2">' . esc_html__('Not that bad', 'twmp-ath') . '</option>
-							<option value="1">' . esc_html__('Very poor', 'twmp-ath') . '</option>
+							<option value="">' . esc_html__('Rate&hellip;', 'twmp-phonghoa') . '</option>
+							<option value="5">' . esc_html__('Perfect', 'twmp-phonghoa') . '</option>
+							<option value="4">' . esc_html__('Good', 'twmp-phonghoa') . '</option>
+							<option value="3">' . esc_html__('Average', 'twmp-phonghoa') . '</option>
+							<option value="2">' . esc_html__('Not that bad', 'twmp-phonghoa') . '</option>
+							<option value="1">' . esc_html__('Very poor', 'twmp-phonghoa') . '</option>
 						</select></div>';
 						}
-						$comment_form['comment_field'] .= '<p class="comment-form-comment"><textarea id="comment" placeholder ="' . esc_html__('Viết đánh giá', 'twmp-ath') . '" name="comment" cols="45" rows="8" aria-required="true" required></textarea></p>';
+						$comment_form['comment_field'] .= '<p class="comment-form-comment"><textarea id="comment" placeholder ="' . esc_html__('Viết đánh giá', 'twmp-phonghoa') . '" name="comment" cols="45" rows="8" aria-required="true" required></textarea></p>';
 
 						comment_form(apply_filters('woocommerce_product_review_comment_form_args', $comment_form));
 						?>
@@ -173,7 +173,7 @@ if (get_option('woocommerce_enable_review_rating') === 'no' || $average_rating =
 
 			<?php else : ?>
 
-				<p class="woocommerce-verification-required"><?php esc_html_e('Only logged in customers who have purchased this product may leave a review.', 'twmp-ath'); ?></p>
+				<p class="woocommerce-verification-required"><?php esc_html_e('Only logged in customers who have purchased this product may leave a review.', 'twmp-phonghoa'); ?></p>
 
 			<?php endif; ?>
 		</div>
@@ -182,9 +182,9 @@ if (get_option('woocommerce_enable_review_rating') === 'no' || $average_rating =
 		<h2 class="woocommerce-Reviews-title"><?php
 												if (get_option('woocommerce_enable_review_rating') === 'yes' && ($count = $product->get_review_count())) {
 													/* translators: 1: reviews count 2: product name */
-													printf(esc_html(_n('%1$s Đánh giá', '%1$s Đánh giá', $count, 'twmp-ath')), esc_html($count));
+													printf(esc_html(_n('%1$s Đánh giá', '%1$s Đánh giá', $count, 'twmp-phonghoa')), esc_html($count));
 												} else {
-													esc_html_e('Reviews', 'twmp-ath');
+													esc_html_e('Reviews', 'twmp-phonghoa');
 												}
 												?></h2>
 
@@ -211,7 +211,7 @@ if (get_option('woocommerce_enable_review_rating') === 'no' || $average_rating =
 
 		<?php else : ?>
 
-			<p class="woocommerce-noreviews"><?php esc_html_e('There are no reviews yet.', 'twmp-ath'); ?></p>
+			<p class="woocommerce-noreviews"><?php esc_html_e('There are no reviews yet.', 'twmp-phonghoa'); ?></p>
 
 		<?php endif; ?>
 	</div>

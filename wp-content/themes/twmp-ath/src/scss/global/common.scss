@@ -13,9 +13,7 @@
 /*  01. Entry Content
 /*----------------------------------------*/
 
-.archive-shop-page-seo__content,
-.page-blog__description,
-.site-main .entry-content {
+.entry-content {
   @include wysiwyg;
 
   margin-bottom: 30px;
@@ -410,4 +408,89 @@ span[data-name="admin-email"],
 	content: "";
 	display: table;
 	clear: both;
+}
+
+// Custom css select
+
+.default-select-wrap {
+  position: relative;
+}
+
+.default-select {
+  display: none;
+}
+
+.default-select-custom {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid var(--system-border);
+  font-family: inherit;
+}
+
+.default-select-current {
+  height: 58px;
+  padding: 0 0 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--system-placeholder);
+  @include typo-system-button-2();
+  cursor: pointer;
+}
+
+.default-select-current::after {
+  content: "";
+  border-bottom: 1px solid var(--system-content-1);
+  border-right: 1px solid var(--system-content-1);
+  content: "";
+  height: 10px;
+  position: absolute;
+  right: 8px;
+  top: 18px;
+  transform: rotate(45deg);
+  width: 10px;
+}
+
+.default-select-options {
+  opacity: 0;
+  visibility: hidden;
+  background: #F6F4ED;
+  padding: 0 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .08);
+  transition: all 0.3s ease;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.default-select-custom.is-open .default-select-options {
+  opacity: 1;
+  visibility: visible;
+  display: block;
+}
+
+.default-select-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--system-border);
+  cursor: pointer;
+  @include typo-text-lg(500);
+  color: var(--system-black);
+}
+
+.default-select-option:last-child {
+  border-bottom: 0;
+}
+
+.default-select-option img,
+.default-select-current img {
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  object-fit: cover;
 }

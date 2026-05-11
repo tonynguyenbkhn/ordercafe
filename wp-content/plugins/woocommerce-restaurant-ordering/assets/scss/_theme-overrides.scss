@@ -1,0 +1,77 @@
+
+// For Shopkeeper.
+.theme-shopkeeper {
+
+    .wc-restaurant-menu-product {
+
+        ins {
+            background-color: transparent;
+        }
+
+    }
+
+    .wc-restaurant-product-modal {
+
+        .order {
+            .add, .remove {
+                font-size: $modal-quantity-button-font-size !important;
+            }
+        }
+    }
+
+}
+
+.theme-enfold, #top {
+
+    .wc-restaurant-menu-product {
+
+        .price, .price span, .price del, .price ins {
+            font-weight: normal !important;
+            font-size: $product-header-font-size;
+            color: $product-header-font-color;
+        }
+
+    }
+
+    .wc-restaurant-product-modal {
+
+        .quantity .qty {
+            color: inherit !important;
+            height: auto !important;
+            line-height: normal !important;
+        }
+
+        .cart {
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+        }
+
+        p {
+            padding: 0 !important;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            position: relative;
+            top: -1px;
+        }
+
+    }
+}
+
+// For Salient, but we keep generic as might be useful for other themes.
+.wc-restaurant-modal {
+
+    .options {
+
+        div.clear {
+            display: none;
+        }
+
+        .amount, .amount span {
+            color: inherit !important;
+        }
+
+    }
+
+}

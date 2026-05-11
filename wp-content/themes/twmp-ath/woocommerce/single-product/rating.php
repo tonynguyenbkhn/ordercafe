@@ -35,7 +35,7 @@ if ( $rating_count > 0 ) : ?>
 		<?php echo wc_get_rating_html( $average, $rating_count ); // WPCS: XSS ok. ?>
 		<?php if ( comments_open() ) : ?>
 			<?php //phpcs:disable ?>
-			<a href="#reviews" class="woocommerce-review-link 123" rel="nofollow">(<?php printf( _n( '%s Đánh giá', '%s Đánh giá', $review_count, 'twmp-ath' ), '<span class="count">' . esc_html( $review_count ) . '</span>' ); ?>)</a>
+			<a href="#reviews" class="woocommerce-review-link 123" rel="nofollow">(<?php printf( _n( '%s Đánh giá', '%s Đánh giá', $review_count, 'twmp-phonghoa' ), '<span class="count">' . esc_html( $review_count ) . '</span>' ); ?>)</a>
 			<?php // phpcs:enable ?>
 		<?php endif ?>
 	</div>

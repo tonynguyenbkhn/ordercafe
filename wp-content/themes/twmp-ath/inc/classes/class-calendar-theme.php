@@ -157,13 +157,15 @@ class Calendar_Theme
 		if (! $product instanceof \WP_Post || 'publish' !== $product->post_status) {
 			return [];
 		}
-
+		// TODO change to taxonomy
 		$type = sanitize_key((string) get_field('ath_event_type', $product_id));
+		// TODO change to taxonomy
 		$status = sanitize_key((string) get_field('ath_status', $product_id));
 		$location_key = sanitize_key((string) get_field('ath_location', $product_id));
-		$location_detail = trim((string) get_field('ath_location_detail', $product_id));
+		$location_detail = function_exists('twmp_get_taxonomy_term_names') ? twmp_get_taxonomy_term_names($product_id, 'ath_venue') : '';
 		$location_label = $location_detail !== '' ? $location_detail : $this->get_location_label($location_key);
 		$short_info = trim((string) get_field('ath_short_info', $product_id));
+		// TODO change to taxonomy
 		$age_display = trim((string) get_field('ath_age_display', $product_id));
 		$language = $this->join_field_values(get_field('ath_language', $product_id));
 		$format = trim((string) get_field('ath_format', $product_id));

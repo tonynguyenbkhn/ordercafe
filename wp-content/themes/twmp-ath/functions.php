@@ -48,6 +48,7 @@ require_once TWMP_DIR_PATH . '/inc/helpers/utility.php';
 require_once TWMP_DIR_PATH . '/inc/helpers/comments.php';
 require_once TWMP_DIR_PATH . '/inc/helpers/autoloader.php';
 require_once TWMP_DIR_PATH . '/inc/helpers/template-functions.php';
+require_once TWMP_DIR_PATH . '/inc/helpers/cafe-menu.php';
 
 function twmp_get_theme_instance()
 {

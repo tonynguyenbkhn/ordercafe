@@ -46,10 +46,10 @@ if (!empty($data['items'])) :
 			<div class="<?php echo esc_attr($_item_class); ?>">
 				<?php if (!empty($item['lazyload'])) : ?>
 					<noscript>
-						<?php echo wp_kses_post($item['content']); ?>
+						<?php echo $item['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</noscript>
 				<?php else : ?>
-					<?php echo wp_kses_post($item['content']); ?>
+					<?php echo $item['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<?php endif; ?>
 			</div>
 		<?php endforeach; ?>
@@ -75,10 +75,10 @@ if (!empty($data['items'])) :
 	<div class="<?php echo esc_attr($_class); ?>" data-settings='<?php echo json_encode($_settings); ?>' <?php if (!empty($data['data_block'])) : ?> data-block="<?php echo esc_attr($data['data_block']); ?>" <?php endif; ?>>
 		<?php if (!empty($data['enable_container'])) : ?>
 			<div class="<?php echo esc_attr($data['container_class']); ?>">
-				<?php echo wp_kses_post($slide_html); ?>
+				<?php echo $slide_html; ?>
 			</div>
 		<?php else : ?>
-			<?php echo wp_kses_post($slide_html); ?>
+			<?php echo $slide_html; ?>
 		<?php endif; ?>
 	</div>
 <?php else : ?>
