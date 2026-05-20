@@ -76,7 +76,7 @@
   align-items: center;
   background: var(--cafe-accent);
   border: 0;
-  border-radius: 999px;
+  border-radius: 4px;
   color: #fff;
   cursor: pointer;
   display: inline-flex;
@@ -105,14 +105,14 @@
 
 .twmp-cafe-menu__hero-card {
   background: linear-gradient(180deg, #fff 0%, #fff7ee 100%);
-  border-radius: 24px;
+  border-radius: 4px;
   box-shadow: inset 0 0 0 1px rgba(47, 26, 17, 0.08);
   padding: 24px;
 }
 
 .twmp-cafe-menu__hero-card-label {
   background: rgba(239, 111, 26, 0.12);
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--cafe-accent);
   display: inline-flex;
   font-size: 12px;
@@ -140,7 +140,7 @@
   align-items: center;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(47, 26, 17, 0.08);
-  border-radius: 20px;
+  border-radius: 4px;
   box-shadow: 0 10px 30px rgba(47, 26, 17, 0.04);
   display: flex;
   margin-bottom: 24px;
@@ -157,7 +157,7 @@
 .twmp-cafe-menu__category {
   align-items: center;
   background: rgba(47, 26, 17, 0.05);
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--cafe-accent-2);
   display: inline-flex;
   flex: 0 0 auto;
@@ -188,7 +188,7 @@
 .twmp-cafe-menu__section {
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(47, 26, 17, 0.08);
-  border-radius: 24px;
+  border-radius: 4px;
   box-shadow: 0 18px 50px rgba(47, 26, 17, 0.04);
   margin-bottom: 22px;
   padding: 22px;
@@ -211,7 +211,7 @@
 
 .twmp-cafe-menu__section-count {
   background: rgba(47, 26, 17, 0.08);
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--cafe-accent-2);
   font-size: 13px;
   font-weight: 700;
@@ -227,45 +227,22 @@
 .twmp-cafe-card {
   background: var(--cafe-panel-2);
   border: 1px solid rgba(47, 26, 17, 0.08);
-  border-radius: 22px;
+  border-radius: 4px;
   overflow: hidden;
   position: relative;
 }
 
-.twmp-cafe-card__media {
-  position: relative;
-}
-
-.twmp-cafe-card__image {
-  aspect-ratio: 1 / 1;
-  display: block;
-  height: auto;
-  object-fit: cover;
-  width: 100%;
-}
-
-.twmp-cafe-card__badge {
-  background: var(--cafe-accent-2);
-  border-radius: 999px;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  left: 14px;
-  padding: 6px 10px;
-  position: absolute;
-  top: 14px;
-}
-
 .twmp-cafe-card__body {
-  display: grid;
-  gap: 10px;
+  display: flex;
+  justify-content: space-between;
   padding: 14px;
 }
 
 .twmp-cafe-card__top {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
 }
 
 .twmp-cafe-card__title {
@@ -292,7 +269,7 @@
 
   textarea {
     height: 60px;
-    
+
   }
 }
 
@@ -352,7 +329,7 @@
   align-items: center;
   background: rgba(47, 26, 17, 0.05);
   border: 1px solid rgba(47, 26, 17, 0.08);
-  border-radius: 999px;
+  border-radius: 4px;
   display: inline-flex;
   gap: 4px;
   padding: 2px 4px;
@@ -361,7 +338,7 @@
 
 .twmp-cafe-form__qty-input {
   border: 0;
-  border-radius: 999px;
+  border-radius: 4px;
   height: 24px;
   padding: 0 4px;
   text-align: center;
@@ -374,7 +351,7 @@
   align-items: center;
   background: #fff;
   border: 0;
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--cafe-accent-2);
   cursor: pointer;
   display: inline-flex;
@@ -425,7 +402,7 @@
 .twmp-cafe-cart {
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(47, 26, 17, 0.08);
-  border-radius: 24px;
+  border-radius: 4px;
   box-shadow: 0 18px 60px rgba(47, 26, 17, 0.06);
   padding: 18px;
 }
@@ -448,7 +425,7 @@
   align-items: center;
   background: rgba(47, 26, 17, 0.08);
   border: 0;
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--cafe-accent-2);
   cursor: pointer;
   display: none;
@@ -460,7 +437,7 @@
 .twmp-cafe-cart__status {
   align-items: center;
   background: rgba(239, 111, 26, 0.08);
-  border-radius: 18px;
+  border-radius: 4px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
@@ -487,7 +464,7 @@
 .twmp-cafe-cart__item {
   background: #fff;
   border: 1px solid rgba(47, 26, 17, 0.08);
-  border-radius: 18px;
+  border-radius: 4px;
   padding: 12px;
   position: relative;
 }
@@ -496,7 +473,7 @@
   align-items: center;
   background: rgba(47, 26, 17, 0.08);
   border: 0;
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--cafe-accent-2);
   cursor: pointer;
   display: inline-flex;
@@ -508,14 +485,14 @@
   width: 28px;
 }
 
-.twmp-cafe-cart__item-wrap {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 72px minmax(0, 1fr);
-}
+// .twmp-cafe-cart__item-wrap {
+//   display: grid;
+//   gap: 10px;
+//   grid-template-columns: 72px minmax(0, 1fr);
+// }
 
 .twmp-cafe-cart__media img {
-  border-radius: 16px;
+  border-radius: 4px;
   display: block;
   height: 72px;
   object-fit: cover;
@@ -553,7 +530,7 @@
 .twmp-cafe-cart__qty {
   align-items: center;
   background: rgba(47, 26, 17, 0.05);
-  border-radius: 999px;
+  border-radius: 4px;
   display: inline-flex;
   gap: 6px;
   padding: 3px;
@@ -563,7 +540,7 @@
   align-items: center;
   background: #fff;
   border: 0;
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--cafe-accent-2);
   cursor: pointer;
   display: inline-flex;
@@ -593,7 +570,7 @@
 
 .twmp-cafe-cart__summary {
   background: rgba(47, 26, 17, 0.04);
-  border-radius: 18px;
+  border-radius: 4px;
   display: grid;
   gap: 10px;
   padding: 14px;
@@ -616,7 +593,7 @@
 
 .twmp-cafe-cart__empty {
   background: rgba(47, 26, 17, 0.04);
-  border-radius: 18px;
+  border-radius: 4px;
   color: var(--cafe-muted);
   line-height: 1.6;
   padding: 16px;
@@ -650,7 +627,7 @@
     position: fixed;
     transform: translateY(105%);
     transition: transform 0.22s ease;
-    width: 100%;
+    width: calc(100% - 36px);
     z-index: 1000;
   }
 
@@ -665,13 +642,34 @@
   .twmp-cafe-menu__mobile-cart {
     align-items: center;
     bottom: 18px;
-    box-shadow: 0 16px 40px rgba(47, 26, 17, 0.22);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
     display: inline-flex;
-    gap: 12px;
+    gap: 5px;
     left: 18px;
     position: fixed;
     right: 18px;
     z-index: 990;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    padding: 0;
+  }
+
+  .twmp-cafe-menu__mobile-cart .js-cafe-cart-count {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    background: #ffffff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: red;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
   }
 
   .twmp-cafe-menu__backdrop {
@@ -702,7 +700,7 @@
   .twmp-cafe-menu__hero,
   .twmp-cafe-menu__section,
   .twmp-cafe-cart {
-    border-radius: 20px;
+    border-radius: 4px;
   }
 
   .twmp-cafe-menu__hero {
@@ -726,16 +724,550 @@
   .twmp-cafe-card__top,
   .twmp-cafe-form__footer,
   .twmp-cafe-cart__controls {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
   }
 
-  .twmp-cafe-cart__item-wrap {
-    grid-template-columns: 64px minmax(0, 1fr);
-  }
+  // .twmp-cafe-cart__item-wrap {
+  //   grid-template-columns: 64px minmax(0, 1fr);
+  // }
 
   .twmp-cafe-cart__media img {
     height: 64px;
     width: 64px;
+  }
+}
+
+.twmp-cafe-card__actions {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.twmp-cafe-card__open {
+  align-items: center;
+  background: var(--cafe-accent);
+  border: 0;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 400;
+  justify-content: center;
+  height: 38px;
+  width: 38px;
+  text-decoration: none;
+  font-size: 25px;
+  align-items: center;
+}
+
+.twmp-cafe-card__sold-out {
+  background: rgba(180, 43, 26, 0.12);
+  border-radius: 4px;
+  color: #b42b1a;
+  display: inline-flex;
+  font-weight: 400;
+  height: 38px;
+  align-items: center;
+  font-size: 25px;
+}
+
+.twmp-cafe-modal {
+  align-items: center;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 1200;
+}
+
+.twmp-cafe-modal[hidden] {
+  display: none;
+}
+
+body.is-cafe-modal-open {
+  overflow: hidden;
+}
+
+.twmp-cafe-modal__backdrop {
+  background: rgba(17, 11, 7, 0.58);
+  inset: 0;
+  position: absolute;
+}
+
+.twmp-cafe-modal__panel {
+  background:
+    radial-gradient(circle at top right, rgba(239, 111, 26, 0.12), transparent 35%),
+    linear-gradient(180deg, #fffdf9 0%, #fff8f1 100%);
+  border: 1px solid rgba(47, 26, 17, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 30px 90px rgba(18, 11, 7, 0.24);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  padding: 24px;
+  position: relative;
+  width: min(1120px, 100%);
+  z-index: 1;
+}
+
+.twmp-cafe-modal__close {
+  align-items: center;
+  background: rgba(47, 26, 17, 0.08);
+  border: 0;
+  border-radius: 4px;
+  color: var(--cafe-accent-2);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 22px;
+  height: 40px;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+}
+
+.twmp-cafe-modal__layout {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.twmp-cafe-modal__media {
+  display: none;
+}
+
+.twmp-cafe-modal__image {
+  aspect-ratio: 1 / 1;
+  display: block;
+  height: auto;
+  object-fit: cover;
+  width: 100%;
+}
+
+.twmp-cafe-modal__content {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.twmp-cafe-modal__heading-row {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.twmp-cafe-modal__eyebrow {
+  color: var(--cafe-accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.twmp-cafe-modal__title {
+  color: var(--cafe-accent-2);
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.twmp-cafe-modal__price {
+  color: var(--cafe-accent);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.twmp-cafe-modal__description {
+  color: var(--cafe-muted);
+  line-height: 1.65;
+}
+
+.twmp-cafe-modal__progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.twmp-cafe-modal__progress-item {
+  background: rgba(47, 26, 17, 0.08);
+  border-radius: 4px;
+  color: var(--cafe-accent-2);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 10px;
+}
+
+.twmp-cafe-modal__progress-item.is-active {
+  background: var(--cafe-accent);
+  color: #fff;
+}
+
+.twmp-cafe-modal__progress-item.is-complete {
+  background: rgba(47, 26, 17, 0.16);
+}
+
+.twmp-cafe-modal__steps {
+  display: grid;
+  gap: 12px;
+}
+
+.twmp-cafe-modal__step {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(47, 26, 17, 0.08);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.twmp-cafe-modal__step-kicker {
+  color: var(--cafe-accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.twmp-cafe-modal__step-title {
+  font-size: 22px;
+  line-height: 1.1;
+  margin: 0 0 14px;
+}
+
+.twmp-cafe-modal__choices {
+  display: flex;
+  gap: 10px;
+}
+
+.twmp-cafe-modal__choices--notes {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.twmp-cafe-modal__note-groups {
+  display: grid;
+  gap: 10px;
+}
+
+.twmp-cafe-modal__note-group {
+  display: grid;
+  gap: 8px;
+}
+
+.twmp-cafe-modal__note-group-label {
+  color: var(--cafe-accent-2);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.twmp-cafe-modal__choice {
+  align-items: center;
+  background: #fff;
+  border: 1px solid rgba(47, 26, 17, 0.12);
+  border-radius: 4px;
+  color: var(--cafe-accent-2);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 500;
+  justify-content: center;
+  min-height: 33px;
+  padding: 0 10px;
+  text-align: center;
+  transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.twmp-cafe-modal__choice:hover,
+.twmp-cafe-modal__choice.is-selected {
+  background: var(--cafe-accent);
+  border-color: var(--cafe-accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.twmp-cafe-modal__choice--checkbox {
+  justify-content: flex-start;
+  gap: 10px;
+  position: relative;
+}
+
+.twmp-cafe-modal__choice-input {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.twmp-cafe-modal__choice-box {
+  align-items: center;
+  background: #fff;
+  border: 2px solid rgba(47, 26, 17, 0.22);
+  border-radius: 6px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 18px;
+  justify-content: center;
+  position: relative;
+  width: 18px;
+}
+
+.twmp-cafe-modal__choice--checkbox.is-selected .twmp-cafe-modal__choice-box {
+  background: var(--cafe-accent);
+  border-color: var(--cafe-accent);
+}
+
+.twmp-cafe-modal__choice--checkbox.is-selected .twmp-cafe-modal__choice-box::after {
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  content: '';
+  display: block;
+  height: 8px;
+  transform: rotate(45deg);
+  width: 4px;
+}
+
+.twmp-cafe-modal__choice-label {
+  position: relative;
+  z-index: 1;
+}
+
+.twmp-cafe-modal__choice--note {
+  background: #fff;
+  border-style: dashed;
+  justify-content: flex-start;
+}
+
+.twmp-cafe-modal__choice--note.is-selected {
+  border-style: solid;
+}
+
+.twmp-cafe-modal__note-card {
+  background: #fff;
+  border: 1px solid rgba(47, 26, 17, 0.12);
+  border-radius: 4px;
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+}
+
+.twmp-cafe-modal__note-label {
+  color: var(--cafe-accent-2);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.twmp-cafe-modal__note-value {
+  color: var(--cafe-text);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.twmp-cafe-modal__summary {
+  background: rgba(47, 26, 17, 0.04);
+  border-radius: 4px;
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+}
+
+.twmp-cafe-modal__summary-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.twmp-cafe-modal__summary-row strong {
+  color: var(--cafe-accent-2);
+  text-align: right;
+}
+
+.twmp-cafe-modal__summary-empty {
+  color: var(--cafe-muted);
+  margin: 0;
+}
+
+.twmp-cafe-modal__notes {
+  display: grid;
+  gap: 10px;
+}
+
+.twmp-cafe-modal__notes-title {
+  color: var(--cafe-accent-2);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.twmp-cafe-modal__notes-list {
+  display: grid;
+  gap: 10px;
+}
+
+.twmp-cafe-modal__note-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.twmp-cafe-modal__note-row strong {
+  color: var(--cafe-accent-2);
+  text-align: right;
+}
+
+.twmp-cafe-modal__field {
+  display: grid;
+  gap: 6px;
+}
+
+.twmp-cafe-modal__field span {
+  color: var(--cafe-accent-2);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.twmp-cafe-modal__field textarea,
+.twmp-cafe-modal__qty input {
+  background: #fff;
+  border: 1px solid rgba(47, 26, 17, 0.12);
+  border-radius: 4px;
+  color: var(--cafe-text);
+  font: inherit;
+  height: 30px;
+  padding: 0 12px;
+  width: 30px;
+}
+
+.twmp-cafe-modal__field textarea {
+  min-height: 84px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.twmp-cafe-modal__footer {
+  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.twmp-cafe-modal__qty {
+  align-items: center;
+  background: rgba(47, 26, 17, 0.05);
+  border: 1px solid rgba(47, 26, 17, 0.08);
+  border-radius: 4px;
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+}
+
+.twmp-cafe-modal__qty input {
+  border: 0;
+  height: 30px;
+  text-align: center;
+  width: 30px;
+}
+
+.twmp-cafe-modal__qty-btn {
+  align-items: center;
+  background: #fff;
+  border: 0;
+  border-radius: 4px;
+  color: var(--cafe-accent-2);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 16px;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.twmp-cafe-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.twmp-cafe-modal__button {
+  align-items: center;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 700;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+}
+
+.twmp-cafe-modal__button--ghost {
+  background: rgba(47, 26, 17, 0.08);
+  color: var(--cafe-accent-2);
+}
+
+.twmp-cafe-modal__button--primary {
+  background: var(--cafe-accent);
+  color: #fff;
+}
+
+.twmp-cafe-modal__button:disabled,
+.twmp-cafe-modal__qty-btn:disabled,
+.twmp-cafe-modal__choice:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+}
+
+.twmp-cafe-modal__message {
+  color: #1c7c3b;
+  font-size: 14px;
+  min-height: 18px;
+}
+
+.twmp-cafe-modal__message.is-error {
+  color: #b42b1a;
+}
+
+.twmp-cafe-modal__message.is-success {
+  color: #1c7c3b;
+}
+
+@media (max-width: 767px) {
+  .twmp-cafe-modal {
+    padding: 8px;
+  }
+
+  .twmp-cafe-modal__panel {
+    border-radius: 4px;
+    max-height: calc(100vh - 10px);
+    padding: 40px 10x 0 10px;
+  }
+
+  .twmp-cafe-modal__footer {
+    align-items: stretch;
+  }
+
+  .twmp-cafe-modal__actions {
+    margin-left: 0;
+  }
+
+  .twmp-cafe-modal__actions .twmp-cafe-modal__button {
+    flex: 1 1 0;
   }
 }

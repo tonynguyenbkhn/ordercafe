@@ -1,11 +1,36 @@
 const config = window.twmpCafeMenu || {}
 
 const state = {
-	cartOpen: false
+	cartOpen: false,
+	modalOpen: false,
+	product: null,
+	currentStepIndex: 0,
+	selections: {},
+	noteSelections: {},
+	quantity: 1,
+	note: ''
 }
 
 const qs = (selector, root = document) => root.querySelector(selector)
 const qsa = (selector, root = document) => Array.from(root.querySelectorAll(selector))
+const escapeHtml = value => String(value ?? '')
+	.replace(/&/g, '&amp;')
+	.replace(/</g, '&lt;')
+	.replace(/>/g, '&gt;')
+	.replace(/"/g, '&quot;')
+	.replace(/'/g, '&#039;')
+
+const parseProduct = node => {
+	if (!node) {
+		return null
+	}
+
+	try {
+		return JSON.parse(node.dataset.cafeProduct || '{}')
+	} catch (error) {
+		return null
+	}
+}
 
 const post = async (action, data = {}) => {
 	const body = new URLSearchParams()
@@ -67,8 +92,8 @@ const replaceCart = payload => {
 	})
 }
 
-const setMessage = (form, message, isError = false) => {
-	const node = qs('.twmp-cafe-form__message', form)
+const setMessage = (root, message, isError = false) => {
+	const node = qs('[data-cafe-modal-message]', root)
 	if (!node) {
 		return
 	}
@@ -76,50 +101,6 @@ const setMessage = (form, message, isError = false) => {
 	node.textContent = message || ''
 	node.classList.toggle('is-error', !!isError)
 	node.classList.toggle('is-success', !isError && !!message)
-}
-
-const getQty = form => {
-	const input = qs('.js-cafe-qty-input', form)
-	const qty = input ? parseInt(input.value, 10) : 1
-
-	return Number.isFinite(qty) && qty > 0 ? qty : 1
-}
-
-const getNote = form => {
-	const note = qs('[name="note"]', form)
-
-	return note ? note.value.trim() : ''
-}
-
-const getVariationData = form => {
-	const variationField = qs('[name="variation_id"]', form)
-	const variationId = variationField ? parseInt(variationField.value, 10) : 0
-	const attrs = {}
-
-	qsa('.js-cafe-variation-attr', form).forEach(select => {
-		attrs[select.name] = select.value
-	})
-
-	return {
-		variationId,
-		attributes: attrs
-	}
-}
-
-const findVariation = (form, selectedAttrs) => {
-	const variations = form.dataset.variations ? JSON.parse(form.dataset.variations) : []
-
-	return variations.find(variation => {
-		const attrs = variation.attributes || {}
-
-		return Object.entries(attrs).every(([key, value]) => {
-			if (!value) {
-				return true
-			}
-
-			return (selectedAttrs[key] || '') === value
-		})
-	})
 }
 
 const openCart = () => {
@@ -141,6 +122,437 @@ const toggleCart = () => {
 	openCart()
 }
 
+const getModal = () => qs('[data-cafe-modal]')
+
+const getProductSteps = () => state.product?.steps || []
+
+const getProductVariations = () => state.product?.variations || []
+
+const getStaffNoteSteps = () => state.product?.staff_note_steps || []
+
+const getSelectedNoteValue = fieldName => state.noteSelections[fieldName] || ''
+
+const findStepIndex = () => {
+	const steps = getProductSteps()
+
+	if (!steps.length) {
+		return -1
+	}
+
+	const firstIncomplete = steps.findIndex(step => !state.selections[step.field_name])
+	return firstIncomplete >= 0 ? firstIncomplete : steps.length - 1
+}
+
+const getSelectedVariation = () => {
+	const product = state.product
+	if (!product) {
+		return null
+	}
+
+	const selections = state.selections
+	return getProductVariations().find(variation => {
+		const attrs = variation.attributes || {}
+		return Object.entries(attrs).every(([key, value]) => {
+			if (!value) {
+				return true
+			}
+			return (selections[key] || '') === value
+		})
+	}) || null
+}
+
+const getCurrentPriceHtml = () => {
+	const variation = getSelectedVariation()
+	if (variation?.price_html) {
+		return variation.price_html
+	}
+
+	return state.product?.price_html || ''
+}
+
+const getCurrentStep = () => {
+	const steps = getProductSteps()
+	if (!steps.length) {
+		return null
+	}
+
+	const index = Math.max(0, Math.min(state.currentStepIndex, steps.length - 1))
+	return {
+		index,
+		step: steps[index]
+	}
+}
+
+const renderModal = () => {
+	const modal = getModal()
+	if (!modal || !state.product) {
+		return
+	}
+
+	const product = state.product
+	const steps = getProductSteps()
+	const variation = getSelectedVariation()
+	const noteSteps = getStaffNoteSteps()
+	const currentStep = getCurrentStep()
+	const hasSteps = steps.length > 0
+	const completed = steps.filter(step => state.selections[step.field_name]).length
+
+	const media = qs('[data-cafe-modal-media]', modal)
+	const title = qs('[data-cafe-modal-title]', modal)
+	const price = qs('[data-cafe-modal-price]', modal)
+	// const description = qs('[data-cafe-modal-description]', modal)
+	// const progress = qs('[data-cafe-modal-progress]', modal)
+	const stepHost = qs('[data-cafe-modal-steps]', modal)
+	// const summary = qs('[data-cafe-modal-summary]', modal)
+	const note = qs('[data-cafe-modal-note]', modal)
+	const qty = qs('[data-cafe-modal-qty]', modal)
+	// const noteField = qs('[data-cafe-modal-note-field]', modal)
+	const qtyField = qs('[data-cafe-modal-qty-field]', modal)
+	const prevButton = qs('.js-cafe-modal-prev', modal)
+	const nextButton = qs('.js-cafe-modal-next', modal)
+	const addButton = qs('.js-cafe-modal-add', modal)
+
+	if (media) {
+		media.innerHTML = ''
+		media.hidden = true
+	}
+
+	if (title) {
+		title.textContent = product.name || ''
+	}
+
+	if (price) {
+		price.innerHTML = getCurrentPriceHtml()
+	}
+
+	// if (description) {
+	// 	description.innerHTML = product.description || ''
+	// }
+
+	if (note) {
+		note.value = state.note || ''
+		note.placeholder = product.note_placeholder || ''
+	}
+
+	if (qty) {
+		qty.value = String(state.quantity || 1)
+	}
+
+	// if (noteField) {
+	// 	noteField.style.display = 'grid'
+	// }
+
+	if (qtyField) {
+		qtyField.style.display = 'inline-flex'
+	}
+
+	// if (progress) {
+	// 	if (!hasSteps) {
+	// 		progress.innerHTML = '<span class="twmp-cafe-modal__progress-item is-active">Đơn giản</span>'
+	// 	} else {
+	// 		progress.innerHTML = steps.map((step, index) => {
+	// 			const classes = [
+	// 				'twmp-cafe-modal__progress-item',
+	// 				index === currentStep?.index ? 'is-active' : '',
+	// 				state.selections[step.field_name] ? 'is-complete' : ''
+	// 			].filter(Boolean).join(' ')
+
+	// 			return `<span class="${classes}">${escapeHtml(step.label)}</span>`
+	// 		}).join('')
+	// 	}
+	// }
+
+	// if (summary) {
+	// 	if (!hasSteps) {
+	// 		if (noteSteps.length) {
+	// 			summary.innerHTML = `
+	// 				<div class="twmp-cafe-modal__notes">
+	// 					<p class="twmp-cafe-modal__notes-title">Ghi chú cho nhân viên</p>
+	// 					<div class="twmp-cafe-modal__notes-list">
+	// 						${noteSteps.map(note => {
+	// 							const selectedValue = getSelectedNoteValue(note.field_name)
+	// 							const selectedChoice = (note.choices || []).find(choice => choice.value === selectedValue)
+	// 							const values = selectedChoice ? selectedChoice.label : 'Chưa chọn'
+	// 							return `
+	// 								<div class="twmp-cafe-modal__note-row">
+	// 									<span>${escapeHtml(note.label || note.name || '')}</span>
+	// 									<strong>${escapeHtml(values)}</strong>
+	// 								</div>
+	// 							`
+	// 						}).join('')}
+	// 					</div>
+	// 				</div>
+	// 			`
+	// 		} else {
+	// 			summary.innerHTML = '<p class="twmp-cafe-modal__summary-empty">Không có tuỳ chọn bắt buộc.</p>'
+	// 		}
+	// 	} else {
+	// 		const variationSummary = steps.map(step => {
+	// 			const selectedValue = state.selections[step.field_name] || ''
+	// 			const selectedChoice = (step.choices || []).find(choice => choice.value === selectedValue)
+	// 			const label = selectedChoice ? selectedChoice.label : 'Chưa chọn'
+	// 			return `
+	// 				<div class="twmp-cafe-modal__summary-row">
+	// 					<span>${escapeHtml(step.label)}</span>
+	// 					<strong>${escapeHtml(label)}</strong>
+	// 				</div>
+	// 			`
+	// 		}).join('')
+	// 		const noteSummary = noteSteps.length
+	// 			? noteSteps.map(step => {
+	// 				const selectedValue = getSelectedNoteValue(step.field_name)
+	// 				const selectedChoice = (step.choices || []).find(choice => choice.value === selectedValue)
+	// 				const label = selectedChoice ? selectedChoice.label : 'Chưa chọn'
+	// 				return `
+	// 					<div class="twmp-cafe-modal__summary-row">
+	// 						<span>${escapeHtml(step.label)}</span>
+	// 						<strong>${escapeHtml(label)}</strong>
+	// 					</div>
+	// 				`
+	// 			}).join('')
+	// 			: ''
+
+	// 		summary.innerHTML = variationSummary + noteSummary
+	// 	}
+	// }
+
+	if (stepHost) {
+		const noteMarkup = noteSteps.length
+			? `
+				<div class="twmp-cafe-modal__step twmp-cafe-modal__step--notes">
+					<div class="twmp-cafe-modal__step-head">
+						<p class="twmp-cafe-modal__step-kicker">Ghi chú</p>
+					</div>
+					<div class="twmp-cafe-modal__note-groups">
+						${noteSteps.map((note, noteIndex) => {
+							const choices = (note.choices || []).map(choice => {
+								const selected = getSelectedNoteValue(note.field_name) === choice.value
+								return `
+									<button
+										type="button"
+										class="twmp-cafe-modal__choice twmp-cafe-modal__choice--note ${selected ? 'is-selected' : ''}"
+										data-cafe-note-index="${noteIndex}"
+										data-cafe-note-field="${escapeHtml(note.field_name)}"
+										data-cafe-note-value="${escapeHtml(choice.value)}">
+										${escapeHtml(choice.label)}
+									</button>
+								`
+							}).join('')
+
+							return `
+								<div class="twmp-cafe-modal__note-group">
+									<p class="twmp-cafe-modal__note-group-label">${escapeHtml(note.label || note.name || '')}</p>
+									<div class="twmp-cafe-modal__choices twmp-cafe-modal__choices--notes">
+										${choices}
+									</div>
+								</div>
+							`
+						}).join('')}
+					</div>
+				</div>
+			`
+			: ''
+
+		if (!hasSteps) {
+			stepHost.innerHTML = noteMarkup || '<div class="twmp-cafe-modal__step twmp-cafe-modal__step--simple"><p>Chỉ cần chọn số lượng và ghi chú, sau đó thêm vào giỏ.</p></div>'
+		} else if (currentStep) {
+			const choices = (currentStep.step.choices || []).map(choice => {
+				const selected = state.selections[currentStep.step.field_name] === choice.value
+				return `
+					<label class="twmp-cafe-modal__choice twmp-cafe-modal__choice--checkbox ${selected ? 'is-selected' : ''}">
+						<input
+							type="checkbox"
+							class="twmp-cafe-modal__choice-input js-cafe-step-checkbox"
+							data-cafe-step-index="${currentStep.index}"
+							data-cafe-step-field="${escapeHtml(currentStep.step.field_name)}"
+							data-cafe-choice-value="${escapeHtml(choice.value)}"
+							${selected ? 'checked' : ''}>
+						<span class="twmp-cafe-modal__choice-box" aria-hidden="true"></span>
+						<span class="twmp-cafe-modal__choice-label">${escapeHtml(choice.label)}</span>
+					</label>
+				`
+			}).join('')
+
+			stepHost.innerHTML = `
+				<div class="twmp-cafe-modal__step">
+					<div class="twmp-cafe-modal__step-head">
+						<p class="twmp-cafe-modal__step-kicker">Bước ${currentStep.index + 1} / ${steps.length}</p>
+						<h3 class="twmp-cafe-modal__step-title">${escapeHtml(currentStep.step.label)}</h3>
+					</div>
+					<div class="twmp-cafe-modal__choices">
+						${choices}
+					</div>
+				</div>
+				${noteMarkup}
+			`
+		}
+	}
+
+	if (prevButton) {
+		prevButton.disabled = !hasSteps || currentStep?.index === 0
+		prevButton.hidden = !hasSteps
+	}
+
+	if (nextButton) {
+		nextButton.hidden = !hasSteps || !currentStep || currentStep.index >= steps.length - 1
+		nextButton.disabled = !hasSteps || !currentStep || !state.selections[currentStep.step.field_name]
+	}
+
+	if (addButton) {
+		const canAddSimple = !hasSteps
+		const canAddVariable = !!variation?.variation_id
+		addButton.disabled = !(canAddSimple || canAddVariable)
+	}
+
+	if (modal) {
+		modal.dataset.hasSteps = hasSteps ? '1' : '0'
+		modal.dataset.currentStep = currentStep ? String(currentStep.index) : '0'
+		modal.dataset.completedSteps = String(completed)
+	}
+}
+
+const openModal = product => {
+	if (!product || !product.is_in_stock || !product.is_purchasable) {
+		return
+	}
+
+	state.product = product
+	state.currentStepIndex = 0
+	state.selections = {}
+	state.noteSelections = {}
+	state.quantity = Number.isFinite(Number(product.quantity_default)) ? Math.max(1, parseInt(product.quantity_default, 10) || 1) : 1
+	state.note = ''
+
+	;(product.steps || []).forEach(step => {
+		if (step.selected) {
+			state.selections[step.field_name] = step.selected
+		}
+	})
+
+	const modal = getModal()
+	if (!modal) {
+		return
+	}
+
+	modal.hidden = false
+	document.body.classList.add('is-cafe-modal-open')
+	state.modalOpen = true
+
+	state.currentStepIndex = findStepIndex()
+	renderModal()
+
+	const noteInput = qs('[data-cafe-modal-note]', modal)
+	if (noteInput) {
+		noteInput.focus({ preventScroll: true })
+	}
+}
+
+const closeModal = () => {
+	const modal = getModal()
+	if (!modal) {
+		return
+	}
+
+	modal.hidden = true
+	document.body.classList.remove('is-cafe-modal-open')
+	state.modalOpen = false
+	state.product = null
+	state.currentStepIndex = 0
+	state.selections = {}
+	state.noteSelections = {}
+	state.quantity = 1
+	state.note = ''
+	setMessage(modal, '')
+}
+
+const setStepSelection = (fieldName, value, stepIndex) => {
+	if (!fieldName) {
+		return
+	}
+
+	state.selections[fieldName] = value
+
+	const steps = getProductSteps()
+	steps.slice(stepIndex + 1).forEach(step => {
+		delete state.selections[step.field_name]
+	})
+
+	state.currentStepIndex = Math.max(0, stepIndex)
+	const nextStep = steps[stepIndex + 1]
+	if (nextStep) {
+		state.currentStepIndex = stepIndex + 1
+	}
+
+	renderModal()
+}
+
+const setNoteSelection = (fieldName, value) => {
+	if (!fieldName) {
+		return
+	}
+
+	if (state.noteSelections[fieldName] === value) {
+		delete state.noteSelections[fieldName]
+	} else {
+		state.noteSelections[fieldName] = value
+	}
+
+	renderModal()
+}
+
+const addActiveProductToCart = async () => {
+	const modal = getModal()
+	if (!modal || !state.product) {
+		return
+	}
+
+	setMessage(modal, '')
+
+	const variation = getSelectedVariation()
+	const hasSteps = getProductSteps().length > 0
+
+	if (hasSteps && (!variation || !variation.variation_id)) {
+		setMessage(modal, config.strings?.chooseAttrs || 'Please choose options', true)
+		return
+	}
+
+	const payload = {
+		product_id: state.product.product_id,
+		quantity: Math.max(1, parseInt(state.quantity, 10) || 1),
+		note: (state.note || '').trim(),
+		staff_notes: state.noteSelections
+	}
+
+	if (variation?.variation_id) {
+		payload.variation_id = variation.variation_id
+		payload.variation = state.selections
+	}
+
+	const submitButton = qs('.js-cafe-modal-add', modal)
+	if (submitButton) {
+		submitButton.disabled = true
+	}
+
+	try {
+		const response = await post('twmp_cafe_menu_add_to_cart', payload)
+		if (!response || !response.success) {
+			setMessage(modal, response?.data?.message || config.strings?.addError || 'Add to cart failed', true)
+			return
+		}
+
+		replaceCart(response.data)
+		setMessage(modal, response.data.message || config.strings?.cartUpdated || 'Updated')
+		openCart()
+		closeModal()
+	} catch (error) {
+		setMessage(modal, config.strings?.addError || 'Add to cart failed', true)
+	} finally {
+		if (submitButton) {
+			submitButton.disabled = false
+		}
+	}
+}
+
 document.addEventListener('click', event => {
 	const toggle = event.target.closest('.js-cafe-cart-toggle')
 	if (toggle) {
@@ -160,12 +572,36 @@ document.addEventListener('click', event => {
 			const top = target.getBoundingClientRect().top + window.pageYOffset - offset
 			window.scrollTo({ top, behavior: 'smooth' })
 		}
+		return
+	}
+
+	const openProduct = event.target.closest('.js-cafe-product-open')
+	if (openProduct) {
+		const card = openProduct.closest('[data-cafe-product]')
+		openModal(parseProduct(card))
+		return
+	}
+
+	if (event.target.closest('.js-cafe-modal-close')) {
+		event.preventDefault()
+		closeModal()
 	}
 })
 
-document.addEventListener('click', event => {
+document.addEventListener('keydown', event => {
+	if (event.key === 'Escape' && state.modalOpen) {
+		closeModal()
+	}
+})
+
+document.addEventListener('click', async event => {
 	const qtyButton = event.target.closest('.js-cafe-qty')
 	if (!qtyButton) {
+		return
+	}
+
+	const modal = getModal()
+	if (!modal) {
 		return
 	}
 
@@ -184,64 +620,98 @@ document.addEventListener('click', event => {
 	input.value = String(nextValue)
 })
 
-document.addEventListener('submit', async event => {
-	const form = event.target.closest('.js-cafe-simple-form, .js-cafe-variable-form')
-	if (!form) {
+document.addEventListener('input', event => {
+	const modal = getModal()
+	if (!modal || !state.modalOpen) {
 		return
 	}
 
-	event.preventDefault()
-	setMessage(form, '')
-
-	const productId = parseInt(form.dataset.productId || '0', 10)
-	const qty = getQty(form)
-	const note = getNote(form)
-
-	if (!productId) {
-		setMessage(form, config.strings?.invalidForm || 'Invalid product', true)
+	if (event.target.matches('[data-cafe-modal-note]')) {
+		state.note = event.target.value
 		return
 	}
 
-	const payload = {
-		product_id: productId,
-		quantity: qty,
-		note
+	if (event.target.matches('[data-cafe-modal-qty]')) {
+		state.quantity = Math.max(1, parseInt(event.target.value, 10) || 1)
+		return
+	}
+})
+
+document.addEventListener('click', event => {
+	const modal = getModal()
+	if (!modal || !state.modalOpen) {
+		return
 	}
 
-	if (form.classList.contains('js-cafe-variable-form')) {
-		const selected = getVariationData(form)
-		const variation = findVariation(form, selected.attributes)
+	const modalQtyButton = event.target.closest('.js-cafe-modal-qty')
+	if (modalQtyButton) {
+		event.preventDefault()
 
-		if (!variation || !variation.variation_id) {
-			setMessage(form, config.strings?.chooseAttrs || 'Please choose options', true)
+		const qtyInput = qs('[data-cafe-modal-qty]', modal)
+		if (!qtyInput) {
 			return
 		}
 
-		payload.variation_id = variation.variation_id
-		payload.variation = selected.attributes
+		const delta = parseInt(modalQtyButton.dataset.delta || '0', 10)
+		const nextValue = Math.max(1, (parseInt(qtyInput.value, 10) || 1) + delta)
+		qtyInput.value = String(nextValue)
+		state.quantity = nextValue
+		return
 	}
 
-	const submitButton = qs('.twmp-cafe-form__submit', form)
-	if (submitButton) {
-		submitButton.disabled = true
+	const noteButton = event.target.closest('[data-cafe-note-index][data-cafe-note-value]')
+	if (noteButton) {
+		event.preventDefault()
+		setNoteSelection(noteButton.dataset.cafeNoteField, noteButton.dataset.cafeNoteValue)
+		return
 	}
 
-	try {
-		const response = await post('twmp_cafe_menu_add_to_cart', payload)
-		if (!response || !response.success) {
-			setMessage(form, response?.data?.message || config.strings?.addError || 'Add to cart failed', true)
-			return
-		}
+	const prevButton = event.target.closest('.js-cafe-modal-prev')
+	if (prevButton) {
+		event.preventDefault()
+		state.currentStepIndex = Math.max(0, state.currentStepIndex - 1)
+		renderModal()
+		return
+	}
 
-		replaceCart(response.data)
-		setMessage(form, response.data.message || config.strings?.cartUpdated || 'Updated')
-		openCart()
-	} catch (error) {
-		setMessage(form, config.strings?.addError || 'Add to cart failed', true)
-	} finally {
-		if (submitButton) {
-			submitButton.disabled = false
-		}
+	const nextButton = event.target.closest('.js-cafe-modal-next')
+	if (nextButton) {
+		event.preventDefault()
+		state.currentStepIndex = Math.min(getProductSteps().length - 1, state.currentStepIndex + 1)
+		renderModal()
+		return
+	}
+
+	const addButton = event.target.closest('.js-cafe-modal-add')
+	if (addButton) {
+		event.preventDefault()
+		addActiveProductToCart()
+	}
+})
+
+document.addEventListener('change', event => {
+	const modal = getModal()
+	if (!modal || !state.modalOpen) {
+		return
+	}
+
+	const choiceInput = event.target.closest('.js-cafe-step-checkbox')
+	if (!choiceInput) {
+		return
+	}
+
+	const fieldName = choiceInput.dataset.cafeStepField
+	const value = choiceInput.dataset.cafeChoiceValue
+	const index = parseInt(choiceInput.dataset.cafeStepIndex || '0', 10)
+
+	if (choiceInput.checked) {
+		setStepSelection(fieldName, value, index)
+		return
+	}
+
+	if (fieldName && state.selections[fieldName] === value) {
+		delete state.selections[fieldName]
+		renderModal()
 	}
 })
 
@@ -288,7 +758,7 @@ document.addEventListener('click', async event => {
 			closeCart()
 		}
 	} catch (error) {
-		// No-op: keep the existing cart state if the request fails.
+		// Keep existing state if request fails.
 	}
 })
 

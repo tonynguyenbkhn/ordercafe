@@ -72,6 +72,7 @@ $header--main-height-mobile: 60px;
 	animation: 300ms ease-in-out 0s 1 normal none running fadeInUp;
 	height: $header--main-height-mobile;
 	opacity: 0.75;
+	display: none;
 
 	@media (min-width: 1080px) {
 		height: $header--main-height;

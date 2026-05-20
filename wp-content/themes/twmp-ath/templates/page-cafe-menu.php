@@ -102,7 +102,6 @@ get_header();
                                 <p class="twmp-cafe-menu__section-kicker"><?php esc_html_e('Danh mục', 'twmp-ath'); ?></p>
                                 <h2 class="twmp-cafe-menu__section-title"><?php echo esc_html($term->name); ?></h2>
                             </div>
-                            <span class="twmp-cafe-menu__section-count"><?php echo esc_html(sprintf(_n('%d món', '%d món', count($products), 'twmp-ath'), count($products))); ?></span>
                         </div>
                         <div class="twmp-cafe-menu__grid">
                             <?php foreach ($products as $product) : ?>
@@ -118,8 +117,10 @@ get_header();
             </div>
         </div>
 
+        <?php echo twmp_cafe_menu_render_product_modal_shell(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
         <button type="button" class="twmp-cafe-menu__mobile-cart js-cafe-cart-toggle">
-            <span><?php esc_html_e('Giỏ hàng', 'twmp-ath'); ?></span>
+            <?php echo twmp_get_svg_icon('cart'); ?>
             <strong class="js-cafe-cart-count" data-cafe-cart-count><?php echo esc_html((int) WC()->cart->get_cart_contents_count()); ?></strong>
         </button>
 
