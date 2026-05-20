@@ -177,6 +177,8 @@ document.addEventListener('click', event => {
 	}
 
 	event.preventDefault()
+	event.stopPropagation()
+	event.stopImmediatePropagation()
 	const delta = parseInt(qtyButton.dataset.delta || '0', 10)
 	const nextValue = Math.max(1, (parseInt(input.value, 10) || 1) + delta)
 	input.value = String(nextValue)
@@ -252,6 +254,8 @@ document.addEventListener('click', async event => {
 	}
 
 	event.preventDefault()
+	event.stopPropagation()
+	event.stopImmediatePropagation()
 
 	const cartKey = (removeButton || qtyButton).dataset.cartKey
 	if (!cartKey) {
@@ -259,9 +263,15 @@ document.addEventListener('click', async event => {
 	}
 
 	const action = removeButton ? 'twmp_cafe_menu_remove_cart' : 'twmp_cafe_menu_update_cart'
+	const qtyInput = qtyButton ? qtyButton.closest('.twmp-cafe-cart__item').querySelector('.js-cafe-cart-qty-value') : null
+	const currentQuantity = qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1
 	const quantity = qtyButton
-		? Math.max(0, (parseInt(qtyButton.closest('.twmp-cafe-cart__item').querySelector('.twmp-cafe-cart__qty-value').textContent, 10) || 1) + parseInt(qtyButton.dataset.delta || '0', 10))
+		? Math.max(0, currentQuantity + parseInt(qtyButton.dataset.delta || '0', 10))
 		: 0
+
+	if (qtyInput && qtyButton) {
+		qtyInput.value = String(quantity)
+	}
 
 	try {
 		const response = await post(action, {

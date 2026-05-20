@@ -72,22 +72,22 @@ if (!function_exists('twmp_cafe_menu_enqueue_assets')) {
 
         $theme_version = wp_get_theme()->get('Version');
 
-        wp_enqueue_style(
-            'twmp-cafe-menu',
-            get_theme_file_uri('/assets/css/cafe-menu.css'),
-            [],
-            $theme_version
-        );
+        // wp_enqueue_style(
+        //     'twmp-cafe-menu',
+        //     get_theme_file_uri('/assets/css/cafe-menu.css'),
+        //     [],
+        //     $theme_version
+        // );
 
-        wp_enqueue_script(
-            'twmp-cafe-menu',
-            get_theme_file_uri('/assets/js/cafe-menu.js'),
-            [],
-            $theme_version,
-            true
-        );
+        // wp_enqueue_script(
+        //     'twmp-cafe-menu',
+        //     get_theme_file_uri('/assets/js/cafe-menu.js'),
+        //     [],
+        //     $theme_version,
+        //     true
+        // );
 
-        wp_localize_script('twmp-cafe-menu', 'twmpCafeMenu', [
+        wp_localize_script('twmp-frontend', 'twmpCafeMenu', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('twmp_cafe_menu_nonce'),
             'strings' => [
@@ -151,7 +151,7 @@ if (!function_exists('twmp_cafe_menu_render_simple_form')) {
             <div class="twmp-cafe-form__footer">
                 <?php twmp_cafe_menu_render_quantity_field($product_id); ?>
                 <button type="submit" class="twmp-cafe-form__submit">
-                    <?php esc_html_e('Thêm vào giỏ', 'twmp-ath'); ?>
+                    <?php echo twmp_get_svg_icon('cart'); ?>
                 </button>
             </div>
             <div class="twmp-cafe-form__message" aria-live="polite"></div>
@@ -356,7 +356,14 @@ if (!function_exists('twmp_cafe_menu_render_cart_items')) {
                                     <div class="twmp-cafe-cart__controls">
                                         <div class="twmp-cafe-cart__qty">
                                             <button type="button" class="twmp-cafe-cart__qty-btn js-cafe-cart-qty" data-cart-key="<?php echo esc_attr($cart_item_key); ?>" data-delta="-1" aria-label="<?php esc_attr_e('Giảm số lượng', 'twmp-ath'); ?>">-</button>
-                                            <span class="twmp-cafe-cart__qty-value"><?php echo esc_html((int) $cart_item['quantity']); ?></span>
+                                            <input
+                                                type="number"
+                                                class="twmp-cafe-cart__qty-value js-cafe-cart-qty-value"
+                                                value="<?php echo esc_attr((int) $cart_item['quantity']); ?>"
+                                                min="0"
+                                                step="1"
+                                                inputmode="numeric"
+                                                readonly>
                                             <button type="button" class="twmp-cafe-cart__qty-btn js-cafe-cart-qty" data-cart-key="<?php echo esc_attr($cart_item_key); ?>" data-delta="1" aria-label="<?php esc_attr_e('Tăng số lượng', 'twmp-ath'); ?>">+</button>
                                         </div>
                                         <div class="twmp-cafe-cart__line-total">
@@ -577,17 +584,6 @@ if (!function_exists('twmp_cafe_menu_ajax_remove_cart')) {
     add_action('wp_ajax_twmp_cafe_menu_remove_cart', 'twmp_cafe_menu_ajax_remove_cart');
     add_action('wp_ajax_nopriv_twmp_cafe_menu_remove_cart', 'twmp_cafe_menu_ajax_remove_cart');
 }
-
-add_filter('woocommerce_get_item_data', function ($item_data, $cart_item) {
-    if (!empty($cart_item['twmp_note'])) {
-        $item_data[] = [
-            'name'  => __('Ghi chú', 'twmp-ath'),
-            'value' => wc_clean($cart_item['twmp_note']),
-        ];
-    }
-
-    return $item_data;
-}, 10, 2);
 
 add_action('woocommerce_checkout_create_order_line_item', function ($item, $cart_item_key, $values) {
     if (!empty($values['twmp_note'])) {

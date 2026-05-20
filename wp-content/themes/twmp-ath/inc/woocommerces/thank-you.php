@@ -39,14 +39,14 @@ add_filter('woocommerce_thankyou_order_received_text', function ($text, $order) 
     $total = $order->get_formatted_order_total();
 
     $message  = sprintf(
-        __('Cảm ơn bạn %1$s đã đặt hàng tại ABC Digital.', 'twmp-ath'),
+        __('Cảm ơn bạn %1$s đã đặt hàng tại ABC.', 'twmp-ath'),
         '<span>' . esc_html(trim($full_name)) . '</span>'
     );
 
     $message .= '<br>';
 
     $message .= sprintf(
-        __('Vui lòng thanh toán số tiền %s cho nhân viên giao hàng khi nhận được hàng.', 'twmp-ath'),
+        __('Vui lòng thanh toán số tiền %s cho nhân viên.', 'twmp-ath'),
         $total
     );
 
