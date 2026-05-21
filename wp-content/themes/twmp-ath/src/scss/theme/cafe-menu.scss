@@ -25,7 +25,7 @@
   align-items: center;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(47, 26, 17, 0.08);
-  border-radius: 28px;
+  border-radius: 4px;
   box-shadow: 0 18px 60px rgba(47, 26, 17, 0.06);
   display: grid;
   gap: 28px;
@@ -236,6 +236,7 @@
   display: flex;
   justify-content: space-between;
   padding: 14px;
+  align-items: center;
 }
 
 .twmp-cafe-card__top {
@@ -802,7 +803,7 @@ body.is-cafe-modal-open {
     radial-gradient(circle at top right, rgba(239, 111, 26, 0.12), transparent 35%),
     linear-gradient(180deg, #fffdf9 0%, #fff8f1 100%);
   border: 1px solid rgba(47, 26, 17, 0.12);
-  border-radius: 28px;
+  border-radius: 4px;
   box-shadow: 0 30px 90px rgba(18, 11, 7, 0.24);
   max-height: calc(100vh - 48px);
   overflow: auto;

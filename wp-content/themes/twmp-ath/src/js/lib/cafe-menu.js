@@ -132,6 +132,23 @@ const getStaffNoteSteps = () => state.product?.staff_note_steps || []
 
 const getSelectedNoteValue = fieldName => state.noteSelections[fieldName] || ''
 
+const getSelectedStaffNoteLabels = () => {
+	const payload = {}
+	const steps = getStaffNoteSteps()
+
+	steps.forEach(step => {
+		const selectedValue = state.noteSelections[step.field_name]
+		if (!selectedValue) {
+			return
+		}
+
+		const selectedChoice = (step.choices || []).find(choice => choice.value === selectedValue)
+		payload[step.field_name] = selectedChoice ? selectedChoice.label : selectedValue
+	})
+
+	return payload
+}
+
 const findStepIndex = () => {
 	const steps = getProductSteps()
 
@@ -520,7 +537,7 @@ const addActiveProductToCart = async () => {
 		product_id: state.product.product_id,
 		quantity: Math.max(1, parseInt(state.quantity, 10) || 1),
 		note: (state.note || '').trim(),
-		staff_notes: state.noteSelections
+		staff_notes: getSelectedStaffNoteLabels()
 	}
 
 	if (variation?.variation_id) {
