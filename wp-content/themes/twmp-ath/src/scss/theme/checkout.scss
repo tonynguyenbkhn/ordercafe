@@ -367,7 +367,24 @@
 	}
 
 	.product-name {
-		text-align: center;
+		text-align: left;
+
+		.twmp-cafe-cart__variation-meta {
+			list-style: disc;
+			margin-top: 10px;
+			margin-left: 0;
+			padding-left: 0;
+
+			li {
+				list-style: disc;
+				display: flex;
+				font-size: 14px;
+
+				p {
+					font-size: 14px;
+				}
+			}
+		}
 	}
 
 	.woocommerce-billing-fields h3 {

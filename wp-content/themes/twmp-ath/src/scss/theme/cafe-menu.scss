@@ -502,11 +502,34 @@
 
 .twmp-cafe-cart__meta {
   min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.twmp-cafe-cart__title-row {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
 }
 
 .twmp-cafe-cart__title {
   font-size: 15px;
-  margin: 0 0 6px;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.twmp-cafe-cart__edit {
+  background: transparent;
+  border: 0;
+  color: var(--cafe-accent);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .twmp-cafe-cart__variations,
@@ -729,13 +752,8 @@
     flex-direction: row;
   }
 
-  // .twmp-cafe-cart__item-wrap {
-  //   grid-template-columns: 64px minmax(0, 1fr);
-  // }
-
-  .twmp-cafe-cart__media img {
-    height: 64px;
-    width: 64px;
+  .twmp-cafe-cart__title-row {
+    gap: 8px;
   }
 }
 
@@ -1271,4 +1289,22 @@ body.is-cafe-modal-open {
   .twmp-cafe-modal__actions .twmp-cafe-modal__button {
     flex: 1 1 0;
   }
+}
+
+.woocommerce_cart_left {
+  display: none;
+}
+
+.woocommerce_checkout_right {
+  flex-basis: 100% !important;
+
+  .woocommerce {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.woocommerce-bacs-bank-details,
+.woocommerce-terms-and-conditions-wrapper {
+  display: none;
 }

@@ -7,6 +7,7 @@ const state = {
 	currentStepIndex: 0,
 	selections: {},
 	noteSelections: {},
+	editingCartItemKey: '',
 	quantity: 1,
 	note: ''
 }
@@ -27,6 +28,18 @@ const parseProduct = node => {
 
 	try {
 		return JSON.parse(node.dataset.cafeProduct || '{}')
+	} catch (error) {
+		return null
+	}
+}
+
+const parseCartItem = node => {
+	if (!node) {
+		return null
+	}
+
+	try {
+		return JSON.parse(node.dataset.cafeCartItem || '{}')
 	} catch (error) {
 		return null
 	}
@@ -149,6 +162,53 @@ const getSelectedStaffNoteLabels = () => {
 	return payload
 }
 
+const hydrateSelectionsFromCartItem = cartItem => {
+	if (!cartItem) {
+		return
+	}
+
+	Object.entries(cartItem.variation || {}).forEach(([key, value]) => {
+		const normalizedKey = String(key || '').replace(/^attribute_/, '')
+		if (normalizedKey) {
+			state.selections[normalizedKey] = String(value || '')
+		}
+	})
+
+	const noteSteps = getStaffNoteSteps()
+	const staffNotes = cartItem.staff_notes || {}
+
+	Object.entries(staffNotes).forEach(([key, value]) => {
+		const step = noteSteps.find(item => item.field_name === key)
+		if (!step) {
+			return
+		}
+
+		const selectedChoice = (step.choices || []).find(choice => choice.label === value || choice.value === value)
+		if (selectedChoice) {
+			state.noteSelections[key] = selectedChoice.value
+		}
+	})
+
+	state.note = cartItem.note || ''
+	state.quantity = Number.isFinite(Number(cartItem.quantity)) ? Math.max(1, parseInt(cartItem.quantity, 10) || 1) : 1
+	state.editingCartItemKey = cartItem.cart_item_key || ''
+}
+
+const buildVariationPayload = () => {
+	const payload = {}
+
+	Object.entries(state.selections).forEach(([key, value]) => {
+		if (!value) {
+			return
+		}
+
+		const normalizedKey = key.startsWith('attribute_') ? key : `attribute_${key}`
+		payload[normalizedKey] = value
+	})
+
+	return payload
+}
+
 const findStepIndex = () => {
 	const steps = getProductSteps()
 
@@ -173,7 +233,8 @@ const getSelectedVariation = () => {
 			if (!value) {
 				return true
 			}
-			return (selections[key] || '') === value
+			const normalizedKey = String(key || '').replace(/^attribute_/, '')
+			return (selections[normalizedKey] || '') === value
 		})
 	}) || null
 }
@@ -419,6 +480,9 @@ const renderModal = () => {
 		const canAddSimple = !hasSteps
 		const canAddVariable = !!variation?.variation_id
 		addButton.disabled = !(canAddSimple || canAddVariable)
+		addButton.textContent = state.editingCartItemKey
+			? (config.strings?.editOptions || 'Cập nhật lựa chọn')
+			: (config.strings?.addToCart || 'Thêm vào giỏ')
 	}
 
 	if (modal) {
@@ -428,15 +492,16 @@ const renderModal = () => {
 	}
 }
 
-const openModal = product => {
+const openModal = (product, cartItem = null) => {
 	if (!product || !product.is_in_stock || !product.is_purchasable) {
 		return
 	}
 
 	state.product = product
-	state.currentStepIndex = 0
 	state.selections = {}
 	state.noteSelections = {}
+	state.editingCartItemKey = ''
+	state.currentStepIndex = 0
 	state.quantity = Number.isFinite(Number(product.quantity_default)) ? Math.max(1, parseInt(product.quantity_default, 10) || 1) : 1
 	state.note = ''
 
@@ -445,6 +510,10 @@ const openModal = product => {
 			state.selections[step.field_name] = step.selected
 		}
 	})
+
+	if (cartItem) {
+		hydrateSelectionsFromCartItem(cartItem)
+	}
 
 	const modal = getModal()
 	if (!modal) {
@@ -477,6 +546,7 @@ const closeModal = () => {
 	state.currentStepIndex = 0
 	state.selections = {}
 	state.noteSelections = {}
+	state.editingCartItemKey = ''
 	state.quantity = 1
 	state.note = ''
 	setMessage(modal, '')
@@ -542,7 +612,11 @@ const addActiveProductToCart = async () => {
 
 	if (variation?.variation_id) {
 		payload.variation_id = variation.variation_id
-		payload.variation = state.selections
+		payload.variation = buildVariationPayload()
+	}
+
+	if (state.editingCartItemKey) {
+		payload.cart_item_key = state.editingCartItemKey
 	}
 
 	const submitButton = qs('.js-cafe-modal-add', modal)
@@ -589,6 +663,19 @@ document.addEventListener('click', event => {
 			const top = target.getBoundingClientRect().top + window.pageYOffset - offset
 			window.scrollTo({ top, behavior: 'smooth' })
 		}
+		return
+	}
+
+	const editButton = event.target.closest('.js-cafe-cart-edit')
+	if (editButton) {
+		event.preventDefault()
+		const cartNode = editButton.closest('[data-cafe-cart-item]')
+		if (!cartNode) {
+			return
+		}
+
+		const cartItem = parseCartItem(cartNode)
+		openModal(cartItem, cartItem)
 		return
 	}
 

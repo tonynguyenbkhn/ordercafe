@@ -85,6 +85,7 @@ if (!function_exists('twmp_cafe_menu_enqueue_assets')) {
                 'nextStep'     => __('Tiếp theo', 'twmp-ath'),
                 'prevStep'     => __('Quay lại', 'twmp-ath'),
                 'openProduct'  => __('Chọn món', 'twmp-ath'),
+                'editOptions'  => __('Sửa lựa chọn', 'twmp-ath'),
                 'closed'       => __('Món này tạm hết hàng', 'twmp-ath'),
             ],
         ]);
@@ -300,6 +301,38 @@ if (!function_exists('twmp_cafe_menu_get_product_modal_data')) {
     }
 }
 
+if (!function_exists('twmp_cafe_menu_get_cart_item_payload')) {
+    function twmp_cafe_menu_get_cart_item_payload(array $cart_item, $cart_item_key = '')
+    {
+        $_product = isset($cart_item['data']) ? $cart_item['data'] : false;
+        if (!$_product || !$_product->exists()) {
+            return [];
+        }
+
+        $base_product = $_product->is_type('variation') && $_product->get_parent_id()
+            ? wc_get_product($_product->get_parent_id())
+            : $_product;
+
+        if (!$base_product) {
+            return [];
+        }
+
+        $payload = twmp_cafe_menu_get_product_modal_data($base_product);
+        $payload['cart_item_key'] = (string) $cart_item_key;
+        $payload['quantity'] = isset($cart_item['quantity']) ? (int) $cart_item['quantity'] : 1;
+        $payload['note'] = isset($cart_item['twmp_note']) ? (string) $cart_item['twmp_note'] : '';
+        $payload['staff_notes'] = isset($cart_item['twmp_staff_notes']) && is_array($cart_item['twmp_staff_notes'])
+            ? (array) $cart_item['twmp_staff_notes']
+            : [];
+        $payload['variation_id'] = isset($cart_item['variation_id']) ? (int) $cart_item['variation_id'] : 0;
+        $payload['variation'] = isset($cart_item['variation']) && is_array($cart_item['variation'])
+            ? array_map('strval', $cart_item['variation'])
+            : [];
+
+        return $payload;
+    }
+}
+
 if (!function_exists('twmp_cafe_menu_render_product_card')) {
     function twmp_cafe_menu_render_product_card(WC_Product $product)
     {
@@ -411,12 +444,11 @@ if (!function_exists('twmp_cafe_menu_render_cart_items')) {
                         }
 
                         $product_name = $_product->get_name();
-                        $thumbnail    = $_product->get_image('woocommerce_thumbnail', ['class' => 'twmp-cafe-cart__thumb']);
                         $note         = isset($cart_item['twmp_note']) ? (string) $cart_item['twmp_note'] : '';
                         $staff_notes  = isset($cart_item['twmp_staff_notes']) && is_array($cart_item['twmp_staff_notes']) ? (array) $cart_item['twmp_staff_notes'] : [];
-                        $permalink    = $_product->is_visible() ? $_product->get_permalink($cart_item) : '';
+                        $cart_payload  = twmp_cafe_menu_get_cart_item_payload($cart_item, $cart_item_key);
                         ?>
-                        <li class="twmp-cafe-cart__item">
+                        <li class="twmp-cafe-cart__item" data-cafe-cart-item="<?php echo esc_attr(wp_json_encode($cart_payload)); ?>">
                             <button
                                 type="button"
                                 class="twmp-cafe-cart__remove js-cafe-cart-remove"
@@ -426,7 +458,18 @@ if (!function_exists('twmp_cafe_menu_render_cart_items')) {
                             </button>
                             <div class="twmp-cafe-cart__item-wrap">
                                 <div class="twmp-cafe-cart__meta">
-                                    <h4 class="twmp-cafe-cart__title"><?php echo esc_html($product_name); ?></h4>
+                                    <div class="twmp-cafe-cart__title-row">
+                                        <h4 class="twmp-cafe-cart__title"><?php echo esc_html($product_name); ?></h4>
+                                        <?php if (!empty($cart_payload)) : ?>
+                                            <button
+                                                type="button"
+                                                class="twmp-cafe-cart__edit js-cafe-cart-edit"
+                                                data-cart-key="<?php echo esc_attr($cart_item_key); ?>"
+                                                aria-label="<?php echo esc_attr(sprintf(__('Sửa lựa chọn %s', 'twmp-ath'), $product_name)); ?>">
+                                                <?php esc_html_e('Sửa', 'twmp-ath'); ?>
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
                                     <div class="twmp-cafe-cart__variations">
                                         <?php echo wp_kses_post(wc_get_formatted_cart_item_data($cart_item)); ?>
                                     </div>
@@ -577,6 +620,7 @@ if (!function_exists('twmp_cafe_menu_ajax_add_to_cart')) {
         $note         = isset($_POST['note']) ? sanitize_textarea_field(wp_unslash($_POST['note'])) : '';
         $variation    = isset($_POST['variation']) ? twmp_cafe_menu_sanitize_variation_data((array) $_POST['variation']) : [];
         $staff_notes  = isset($_POST['staff_notes']) ? twmp_cafe_menu_sanitize_variation_data((array) $_POST['staff_notes']) : [];
+        $cart_item_key = isset($_POST['cart_item_key']) ? sanitize_text_field(wp_unslash($_POST['cart_item_key'])) : '';
 
         if (!$product_id || !function_exists('wc_get_product')) {
             wp_send_json_error(['message' => __('Dữ liệu sản phẩm không hợp lệ.', 'twmp-ath')], 400);
@@ -586,6 +630,12 @@ if (!function_exists('twmp_cafe_menu_ajax_add_to_cart')) {
 
         if (!$product || !$product->is_purchasable()) {
             wp_send_json_error(['message' => __('Sản phẩm này không thể mua.', 'twmp-ath')], 400);
+        }
+
+        $existing_cart_item = '';
+        if ($cart_item_key && isset(WC()->cart->cart_contents[$cart_item_key])) {
+            $existing_cart_item = WC()->cart->cart_contents[$cart_item_key];
+            WC()->cart->remove_cart_item($cart_item_key);
         }
 
         $cart_item_data = [];
@@ -607,6 +657,27 @@ if (!function_exists('twmp_cafe_menu_ajax_add_to_cart')) {
         );
 
         if (!$added) {
+            if (!empty($existing_cart_item) && isset($existing_cart_item['product_id'])) {
+                $restore_cart_item_data = [];
+
+                if (!empty($existing_cart_item['twmp_note'])) {
+                    $restore_cart_item_data['twmp_note'] = (string) $existing_cart_item['twmp_note'];
+                }
+
+                if (!empty($existing_cart_item['twmp_staff_notes']) && is_array($existing_cart_item['twmp_staff_notes'])) {
+                    $restore_cart_item_data['twmp_staff_notes'] = (array) $existing_cart_item['twmp_staff_notes'];
+                }
+
+                WC()->cart->add_to_cart(
+                    absint($existing_cart_item['product_id']),
+                    isset($existing_cart_item['quantity']) ? max(1, absint($existing_cart_item['quantity'])) : 1,
+                    isset($existing_cart_item['variation_id']) ? absint($existing_cart_item['variation_id']) : 0,
+                    isset($existing_cart_item['variation']) && is_array($existing_cart_item['variation']) ? (array) $existing_cart_item['variation'] : [],
+                    $restore_cart_item_data
+                );
+                WC()->cart->calculate_totals();
+            }
+
             wp_send_json_error(['message' => __('Không thể thêm sản phẩm vào giỏ.', 'twmp-ath')], 400);
         }
 
