@@ -149,7 +149,7 @@ function twmp_staff_orders_get_allowed_statuses()
     $statuses = wc_get_order_statuses();
     $allowed  = array();
 
-    foreach (array('wc-pending', 'wc-processing', 'wc-completed') as $status_key) {
+    foreach (array('wc-on-hold', 'wc-processing', 'wc-completed') as $status_key) {
         if (isset($statuses[$status_key])) {
             $allowed[$status_key] = $statuses[$status_key];
         }
@@ -259,8 +259,8 @@ function twmp_staff_orders_add_checkout_branch_field($fields)
 
     $fields['billing']['twmp_branch_id'] = array(
         'type'     => 'select',
-        'label'    => __('Branch', 'twmp-ath'),
-        'required' => true,
+        'label'    => __('Chi nhánh', 'twmp-ath'),
+        'required' => false,
         'class'    => array('form-row-wide'),
         'priority' => 30,
         'default'  => twmp_staff_orders_get_user_branch_id(),
@@ -371,9 +371,34 @@ function twmp_staff_orders_get_query_branch_id()
 
 function twmp_staff_orders_get_query_status()
 {
-    $status = isset($_GET['order_status']) ? sanitize_key(wp_unslash($_GET['order_status'])) : 'open';
+    $status = isset($_GET['order_status']) ? sanitize_key(wp_unslash($_GET['order_status'])) : 'all';
 
-    return $status ? $status : 'open';
+    return $status ? $status : 'all';
+}
+
+function twmp_staff_orders_get_query_order_id()
+{
+    return isset($_GET['twmp_order_id']) ? absint(wp_unslash($_GET['twmp_order_id'])) : 0;
+}
+
+function twmp_staff_orders_get_board_statuses()
+{
+    if (!function_exists('wc_get_order_statuses')) {
+        return array('on-hold', 'processing');
+    }
+
+    $statuses = array();
+    $board_statuses = apply_filters('twmp_staff_orders_board_statuses', array('on-hold', 'processing'));
+
+    foreach (array_keys(wc_get_order_statuses()) as $status_key) {
+        $status = str_replace('wc-', '', $status_key);
+
+        if (in_array($status, $board_statuses, true)) {
+            $statuses[] = $status;
+        }
+    }
+
+    return $statuses;
 }
 
 function twmp_staff_orders_get_orders()
@@ -388,25 +413,30 @@ function twmp_staff_orders_get_orders()
 
     $branch_id = twmp_staff_orders_get_query_branch_id();
     $status    = twmp_staff_orders_get_query_status();
+    $order_id  = twmp_staff_orders_get_query_order_id();
     $args      = array(
         'limit'   => 50,
         'orderby' => 'date',
         'order'   => 'DESC',
         'return'  => 'objects',
+        'status'  => twmp_staff_orders_get_board_statuses(),
     );
+
+    if ($order_id) {
+        $args['post__in'] = array($order_id);
+        $args['limit']    = 1;
+    }
 
     if ($branch_id) {
         $args['meta_key']   = TWMP_STAFF_ORDERS_ORDER_BRANCH_META;
         $args['meta_value'] = $branch_id;
     }
 
-    if ('open' === $status) {
-        $args['status'] = array('pending', 'processing');
-    } elseif ('all' !== $status) {
+    if (!in_array($status, array('open', 'all'), true)) {
         $allowed_statuses = wc_get_order_statuses();
         $status_key       = 'wc-' . $status;
 
-        if (isset($allowed_statuses[$status_key])) {
+        if (in_array($status, twmp_staff_orders_get_board_statuses(), true) && isset($allowed_statuses[$status_key])) {
             $args['status'] = array($status);
         }
     }

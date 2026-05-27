@@ -353,6 +353,10 @@
 	.woocommerce-checkout-review-order-table {
 		width: 100%;
 		margin-bottom: 10px;
+
+		tfoot {
+			text-align: left;
+		}
 	}
 
 	.form-row.place-order button {
@@ -374,11 +378,16 @@
 			margin-top: 10px;
 			margin-left: 0;
 			padding-left: 0;
+			display: flex;
+			align-items: center;
+			gap: 10px;
 
 			li {
 				list-style: disc;
 				display: flex;
 				font-size: 14px;
+				align-items: center;
+				gap: 3px;
 
 				p {
 					font-size: 14px;
@@ -844,6 +853,11 @@
 		font-size: 14px;
 		line-height: 20px;
 		width: calc(100% - 24px);
+		height: 44px;
+	}
+
+	#twmp_branch_id_field {
+		width: 100%;
 	}
 
 	.woocommerce-checkout .col2-set textarea {
@@ -876,6 +890,10 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 		flex-flow: row wrap;
+
+		.optional {
+			display: none;
+		}
 	}
 
 	#billing_state_field,

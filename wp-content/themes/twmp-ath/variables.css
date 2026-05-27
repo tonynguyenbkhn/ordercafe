@@ -32,10 +32,10 @@
 	'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif,
 	'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-	--font-playfair-display: 'Playfair Display', serif;
-	--font-archivo: 'Archivo', sans-serif;
-	--font-beautique-display: 'Beautique Display', serif;
-	--font-inter: 'Inter', sans-serif;
+	--font-playfair-display: var(--font-default);
+	--font-archivo: var(--font-default);
+	--font-beautique-display: var(--font-default);
+	--font-inter: var(--font-default);
 
 	--status-error: #FF2121;
 	--status-error-bg: #FEE2E2;
