@@ -1,0 +1,1 @@
+wp eval "$term=get_term_by('slug','uncategorized','product_cat');if(!$term)die('Category not found');$products=get_posts(['post_type'=>'product','posts_per_page'=>-1,'fields'=>'ids']);foreach($products as $id){wp_remove_object_terms($id,$term->term_id,'product_cat');}echo 'Removed from '.count($products).' products';"

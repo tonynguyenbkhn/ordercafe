@@ -244,6 +244,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+  flex-direction: column;
 }
 
 .twmp-cafe-card__title {
@@ -677,6 +678,7 @@
     height: 44px;
     border-radius: 50%;
     padding: 0;
+    min-height: unset;
   }
 
   .twmp-cafe-menu__mobile-cart .js-cafe-cart-count {
@@ -745,7 +747,6 @@
     flex-direction: column;
   }
 
-  .twmp-cafe-card__top,
   .twmp-cafe-form__footer,
   .twmp-cafe-cart__controls {
     align-items: center;
@@ -941,6 +942,11 @@ body.is-cafe-modal-open {
   border: 1px solid rgba(47, 26, 17, 0.08);
   border-radius: 4px;
   padding: 10px;
+}
+
+.twmp-cafe-modal__summary,
+.twmp-cafe-modal__step--simple {
+  display: none !important;
 }
 
 .twmp-cafe-modal__step-kicker {
