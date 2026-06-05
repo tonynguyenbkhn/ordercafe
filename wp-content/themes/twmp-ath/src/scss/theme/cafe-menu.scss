@@ -398,7 +398,93 @@
 
 .twmp-cafe-menu__sidebar-wrap {
   position: sticky;
-  top: 18px;
+
+}
+
+/* Fixed bottom navigation for cafe */
+.twmp-bottom-nav {
+  --nav-height: 64px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--nav-height);
+  background: #ef6f1a;
+  color: #fff;
+  border-top: 0;
+  box-shadow: 0 -12px 30px rgba(239,111,26,0.18);
+  z-index: 9999;
+}
+
+.twmp-bottom-nav__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-width: 1560px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+}
+
+.twmp-bottom-nav__item {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.twmp-bottom-nav__link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  transition: background 0.12s ease, transform 0.12s ease;
+  text-transform: none;
+  font-size: 13px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.twmp-bottom-nav__link:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+
+.twmp-bottom-nav__link.is-active,
+.twmp-bottom-nav__link:active {
+  background: rgba(255,255,255,0.12);
+}
+
+// .twmp-bottom-nav__link::after {
+//   content: '';
+//   display: block;
+//   width: 36px;
+//   height: 36px;
+//   border-radius: 10px;
+//   background: rgba(255,255,255,0.12);
+//   margin-bottom: 6px;
+// }
+
+/* Ensure page content isn't covered by the fixed nav */
+body {
+  padding-bottom: var(--twmp-bottom-nav-padding, 80px);
+}
+
+@media (min-width: 900px) {
+  .twmp-bottom-nav {
+    --nav-height: 56px;
+  }
 }
 
 .twmp-cafe-cart {
@@ -666,7 +752,7 @@
 
   .twmp-cafe-menu__mobile-cart {
     align-items: center;
-    bottom: 18px;
+    bottom: 100px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
     display: inline-flex;
     gap: 5px;
