@@ -1,0 +1,259 @@
+.twmp-revenue {
+    background: #f5f7f8;
+    min-height: 72vh;
+    padding: 32px 0 88px;
+}
+
+.twmp-revenue__inner {
+    margin: 0 auto;
+    width: min(1280px, calc(100% - 24px));
+}
+
+.twmp-revenue__header {
+    align-items: end;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.twmp-revenue__eyebrow {
+    color: #516071;
+    font-size: 12px;
+    font-weight: 800;
+    margin: 0 0 5px;
+    text-transform: uppercase;
+}
+
+.twmp-revenue__title {
+    color: #17202a;
+    font-size: 34px;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.twmp-revenue__filters {
+    align-items: end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.twmp-revenue__filters label {
+    color: #516071;
+    display: grid;
+    font-size: 12px;
+    font-weight: 800;
+    gap: 5px;
+    text-transform: uppercase;
+}
+
+.twmp-revenue__filters input,
+.twmp-revenue__filters select,
+.twmp-revenue__filters button,
+.twmp-revenue__import,
+.twmp-revenue__save {
+    border: 1px solid #cdd6df;
+    border-radius: 6px;
+    min-height: 40px;
+    padding: 0 12px;
+}
+
+.twmp-revenue__filters button,
+.twmp-revenue__save {
+    background: #17202a;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.twmp-revenue__import,
+.twmp-revenue__save {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    position: relative;
+}
+
+.twmp-revenue__import {
+    background: #eef3f7;
+    color: #17202a;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.twmp-revenue__import.is-loading,
+.twmp-revenue__save.is-loading {
+    cursor: wait;
+    opacity: .78;
+    pointer-events: none;
+}
+
+.twmp-revenue__import.is-loading::before,
+.twmp-revenue__save.is-loading::before {
+    animation: twmp-revenue-spin .75s linear infinite;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 999px;
+    content: "";
+    height: 14px;
+    margin-right: 8px;
+    width: 14px;
+}
+
+@keyframes twmp-revenue-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.twmp-revenue__form {
+    background: #fff;
+    border: 1px solid #dbe2e8;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.twmp-revenue__status {
+    color: #27633b;
+    font-size: 13px;
+    font-weight: 800;
+    min-height: 18px;
+    padding: 12px 14px 0;
+}
+
+.twmp-revenue__status.is-error {
+    color: #9a2d2d;
+}
+
+.twmp-revenue__table-wrap {
+    overflow: auto;
+    /* padding: 14px; */
+}
+
+.twmp-revenue__sticky {
+    background-color: #ef6f1a !important;
+    color: white !important;
+    border-right: 1px solid var(--primary-500) !important;
+}
+
+@media (max-width: 575px) {
+    .twmp-revenue__sticky {
+        font-size: 12px !important;
+        min-width: 140px !important;
+    }
+}
+
+.twmp-revenue__table {
+    border-collapse: collapse;
+    margin: 0;
+    min-width: 1860px;
+    width: max-content;
+}
+
+.twmp-revenue__table th,
+.twmp-revenue__table td {
+    border: 1px solid #111;
+    font-size: 13px;
+    height: 28px;
+    padding: 3px 5px !important;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.twmp-revenue__table th {
+    background: #f7f8fa;
+    color: #111;
+    font-weight: 500;
+}
+
+.twmp-revenue__table th.is-today,
+.twmp-revenue__table td.is-today {
+    background: #daedfc;
+}
+
+.twmp-revenue__table thead th.is-today {
+    background: #daedfc;
+}
+
+/* .twmp-revenue__table td.is-today {
+    box-shadow: inset 2px 0 0 #ef6f1a, inset -2px 0 0 #ef6f1a;
+} */
+
+.twmp-revenue__sticky {
+    left: 0;
+    min-width: 160px;
+    position: sticky;
+    text-align: left !important;
+    z-index: 2;
+}
+
+thead .twmp-revenue__sticky {
+    z-index: 3;
+}
+
+.twmp-revenue__money,
+.twmp-revenue__staff {
+    background: #fff;
+    box-sizing: border-box;
+    color: #111;
+    font-size: 13px;
+    height: 24px;
+    max-width: 92px;
+    padding: 0 2px !important;
+    text-align: right;
+    width: 92px !important;
+}
+
+.twmp-revenue__staff {
+    font-size: 12px;
+    text-align: left;
+}
+
+.twmp-revenue__money:focus,
+.twmp-revenue__staff:focus {
+    outline: 2px solid #2b6cb0;
+    outline-offset: -2px;
+}
+
+.twmp-revenue__total {
+    box-sizing: border-box;
+    display: block;
+    min-width: 92px;
+    text-align: right;
+}
+
+.twmp-revenue__actions {
+    border-top: 1px solid #dbe2e8;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding: 12px 14px;
+}
+
+@media (max-width: 760px) {
+    .twmp-revenue {
+        padding-top: 22px;
+    }
+
+    .twmp-revenue__header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .twmp-revenue__filters {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .twmp-revenue__filters button,
+    .twmp-revenue__import,
+    .twmp-revenue__save {
+        width: 100%;
+    }
+
+    .twmp-revenue__actions {
+        flex-direction: column;
+    }
+}

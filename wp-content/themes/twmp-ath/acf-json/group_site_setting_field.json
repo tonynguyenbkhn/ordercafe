@@ -521,6 +521,42 @@
             },
             "default_value": "Upload bill",
             "placeholder": ""
+        },
+        {
+            "key": "field_twmp_revenue_tab",
+            "label": "Revenue",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_twmp_revenue_afternoon_starts_at",
+            "label": "Afternoon shift starts at",
+            "name": "twmp_revenue_afternoon_starts_at",
+            "aria-label": "",
+            "type": "time_picker",
+            "instructions": "Orders before this time are counted as morning shift. Orders from this time are counted as afternoon shift.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "H:i",
+            "return_format": "H:i",
+            "default_value": "15:00"
         }
     ],
     "location": [
@@ -541,5 +577,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1752556385
+    "modified": 1780650000
 }
