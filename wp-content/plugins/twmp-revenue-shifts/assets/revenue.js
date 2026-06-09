@@ -58,8 +58,8 @@
     }
 
     function calculate(entry) {
-        var cashActual = digits(entry.cash_sales) - digits(entry.exchange_cash_out) - digits(entry.expenses_cash);
-        var bankActual = digits(entry.bank_transfer_sales) + digits(entry.exchange_cash_out);
+        var cashActual = digits(entry.cash_sales);
+        var bankActual = digits(entry.bank_transfer_sales);
 
         return {
             cash_actual: cashActual,
@@ -124,11 +124,12 @@
         });
 
         if (!input) {
-            return;
+            return false;
         }
 
         input.value = value ? money(value) : '';
         updateTotals(root, date, shift);
+        return true;
     }
 
     function applyImportedEntries(root, entries) {
@@ -143,9 +144,12 @@
             Object.keys(entries[date] || {}).forEach(function (shift) {
                 var entry = entries[date][shift] || {};
 
-                setMoneyInput(root, date, shift, 'cash_sales', digits(entry.cash_sales));
-                setMoneyInput(root, date, shift, 'bank_transfer_sales', digits(entry.bank_transfer_sales));
-                applied += 1;
+                if (
+                    setMoneyInput(root, date, shift, 'cash_sales', digits(entry.cash_sales)) ||
+                    setMoneyInput(root, date, shift, 'bank_transfer_sales', digits(entry.bank_transfer_sales))
+                ) {
+                    applied += 1;
+                }
             });
         });
 
@@ -169,6 +173,7 @@
             body.append('nonce', config.nonce || '');
             body.append('branch_id', root.querySelector('[data-revenue-branch]').value || '');
             body.append('month', root.querySelector('[data-revenue-month]').value || '');
+            body.append('date', root.querySelector('[data-revenue-date]').value || '');
 
             fetch(config.ajaxUrl || '/wp-admin/admin-ajax.php', {
                 method: 'POST',
@@ -187,7 +192,7 @@
                     var message = payload.data && payload.data.message ? payload.data.message : 'Đã lấy từ đơn hàng.';
 
                     if (!applied) {
-                        message += ' Không có ca nào khớp với bảng đang mở.';
+                        message += ' Không có ngày nào khớp với bảng đang mở.';
                     }
 
                     setStatus(root, message, false);
@@ -203,7 +208,7 @@
 
     function scrollToToday(root) {
         var wrap = root.querySelector('.twmp-revenue__table-wrap');
-        var todayCell = root.querySelector('td.is-today[data-shift="morning"], th.is-today[data-shift="morning"]');
+        var todayCell = root.querySelector('td.is-today[data-shift="day"], th.is-today[data-shift="day"]');
         var sticky = root.querySelector('.twmp-revenue__sticky');
 
         if (!wrap || !todayCell) {

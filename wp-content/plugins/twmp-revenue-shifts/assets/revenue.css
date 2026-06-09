@@ -51,6 +51,7 @@
 .twmp-revenue__filters input,
 .twmp-revenue__filters select,
 .twmp-revenue__filters button,
+.twmp-revenue__export,
 .twmp-revenue__import,
 .twmp-revenue__save {
     border: 1px solid #cdd6df;
@@ -67,6 +68,7 @@
     font-weight: 800;
 }
 
+.twmp-revenue__export,
 .twmp-revenue__import,
 .twmp-revenue__save {
     align-items: center;
@@ -75,11 +77,16 @@
     position: relative;
 }
 
+.twmp-revenue__export,
 .twmp-revenue__import {
     background: #eef3f7;
     color: #17202a;
     cursor: pointer;
     font-weight: 800;
+}
+
+.twmp-revenue__export {
+    text-decoration: none;
 }
 
 .twmp-revenue__import.is-loading,
@@ -147,8 +154,8 @@
 .twmp-revenue__table {
     border-collapse: collapse;
     margin: 0;
-    min-width: 1860px;
-    width: max-content;
+    min-width: 360px;
+    width: 100%;
 }
 
 .twmp-revenue__table th,
@@ -248,6 +255,7 @@ thead .twmp-revenue__sticky {
     }
 
     .twmp-revenue__filters button,
+    .twmp-revenue__export,
     .twmp-revenue__import,
     .twmp-revenue__save {
         width: 100%;

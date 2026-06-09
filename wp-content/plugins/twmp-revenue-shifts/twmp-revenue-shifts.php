@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TWMP Revenue Shifts
  * Description: Shift-based cafe revenue tracking for OrderCafe.
- * Version: 0.1.4
+ * Version: 0.1.8
  * Author: TWMP
  */
 
@@ -10,18 +10,20 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('TWMP_REVENUE_SHIFTS_VERSION', '0.1.4');
+define('TWMP_REVENUE_SHIFTS_VERSION', '0.1.8');
 define('TWMP_REVENUE_SHIFTS_FILE', __FILE__);
 define('TWMP_REVENUE_SHIFTS_DIR', plugin_dir_path(__FILE__));
 define('TWMP_REVENUE_SHIFTS_URL', plugin_dir_url(__FILE__));
 
 register_activation_hook(__FILE__, 'twmp_revenue_shifts_activate');
 
+add_action('template_redirect', 'twmp_revenue_shifts_redirect_unauthorized_page');
 add_action('wp_enqueue_scripts', 'twmp_revenue_shifts_register_assets');
 add_action('admin_enqueue_scripts', 'twmp_revenue_shifts_register_assets');
 add_shortcode('twmp_revenue', 'twmp_revenue_shifts_render_shortcode');
 add_action('wp_ajax_twmp_revenue_save_month', 'twmp_revenue_shifts_ajax_save_month');
 add_action('wp_ajax_twmp_revenue_import_orders', 'twmp_revenue_shifts_ajax_import_orders');
+add_action('admin_post_twmp_revenue_export_month', 'twmp_revenue_shifts_export_month');
 
 function twmp_revenue_shifts_activate()
 {
@@ -115,6 +117,55 @@ function twmp_revenue_shifts_register_assets()
         TWMP_REVENUE_SHIFTS_VERSION,
         true
     );
+}
+
+function twmp_revenue_shifts_redirect_unauthorized_page()
+{
+    if (!twmp_revenue_shifts_is_revenue_page()) {
+        return;
+    }
+
+    if (twmp_revenue_shifts_current_user_has_revenue_role()) {
+        return;
+    }
+
+    wp_safe_redirect(home_url('/'));
+    exit;
+}
+
+function twmp_revenue_shifts_is_revenue_page()
+{
+    if (!is_page()) {
+        return false;
+    }
+
+    $page_id = get_queried_object_id();
+    $revenue_page_id = absint(get_option('twmp_revenue_shifts_page_id', 0));
+
+    if ($revenue_page_id && $page_id === $revenue_page_id) {
+        return true;
+    }
+
+    $post = get_post($page_id);
+
+    if (!$post instanceof WP_Post) {
+        return false;
+    }
+
+    if ('doanh-thu' === $post->post_name) {
+        return true;
+    }
+
+    return has_shortcode((string) $post->post_content, 'twmp_revenue');
+}
+
+function twmp_revenue_shifts_current_user_has_revenue_role()
+{
+    if (!is_user_logged_in()) {
+        return false;
+    }
+
+    return twmp_revenue_shifts_is_admin_user() || twmp_revenue_shifts_is_shop_manager();
 }
 
 function twmp_revenue_shifts_is_admin_user()
@@ -234,10 +285,7 @@ function twmp_revenue_shifts_get_staff_users()
 function twmp_revenue_shifts_money_fields()
 {
     return [
-        'opening_cash',
         'cash_sales',
-        'exchange_cash_out',
-        'expenses_cash',
         'bank_transfer_sales',
     ];
 }
@@ -252,20 +300,13 @@ function twmp_revenue_shifts_parse_money($value)
 
 function twmp_revenue_shifts_calculate($row)
 {
-    $opening_cash = isset($row['opening_cash']) ? (int) $row['opening_cash'] : 0;
     $cash_sales = isset($row['cash_sales']) ? (int) $row['cash_sales'] : 0;
-    $exchange_cash_out = isset($row['exchange_cash_out']) ? (int) $row['exchange_cash_out'] : 0;
-    $expenses_cash = isset($row['expenses_cash']) ? (int) $row['expenses_cash'] : 0;
     $bank_transfer_sales = isset($row['bank_transfer_sales']) ? (int) $row['bank_transfer_sales'] : 0;
 
-    $cash_actual = $cash_sales - $exchange_cash_out - $expenses_cash;
-    $bank_actual = $bank_transfer_sales + $exchange_cash_out;
-
     return [
-        'cash_actual'          => $cash_actual,
-        'bank_transfer_actual' => $bank_actual,
-        'revenue_actual'       => $cash_actual + $bank_actual,
-        'drawer_cash_expected' => $opening_cash + $cash_actual,
+        'cash_actual'          => $cash_sales,
+        'bank_transfer_actual' => $bank_transfer_sales,
+        'revenue_actual'       => $cash_sales + $bank_transfer_sales,
     ];
 }
 
@@ -289,8 +330,36 @@ function twmp_revenue_shifts_get_month_entries($branch_id, $month)
 
     $entries = [];
 
+    $has_daily_entry = [];
+
     foreach ((array) $rows as $row) {
-        $entries[$row['business_date']][$row['shift_key']] = $row;
+        $date = $row['business_date'];
+
+        if ('day' === $row['shift_key']) {
+            $entries[$date]['day'] = $row;
+            $has_daily_entry[$date] = true;
+            continue;
+        }
+
+        if (!empty($has_daily_entry[$date])) {
+            continue;
+        }
+
+        if (!isset($entries[$date]['day'])) {
+            $entries[$date]['day'] = [
+                'business_date'        => $date,
+                'shift_key'            => 'day',
+                'staff_user_id'        => isset($row['staff_user_id']) ? (int) $row['staff_user_id'] : 0,
+                'opening_cash'         => 0,
+                'cash_sales'           => 0,
+                'exchange_cash_out'    => 0,
+                'expenses_cash'        => 0,
+                'bank_transfer_sales'  => 0,
+            ];
+        }
+
+        $entries[$date]['day']['cash_sales'] += isset($row['cash_sales']) ? (int) $row['cash_sales'] : 0;
+        $entries[$date]['day']['bank_transfer_sales'] += isset($row['bank_transfer_sales']) ? (int) $row['bank_transfer_sales'] : 0;
     }
 
     return $entries;
@@ -366,27 +435,16 @@ function twmp_revenue_shifts_render_shortcode()
         return '<div class="twmp-revenue"><p>' . esc_html__('Không tìm thấy chi nhánh hợp lệ.', 'twmp-revenue-shifts') . '</p></div>';
     }
 
-    $month = twmp_revenue_shifts_get_month();
-    $start = $month . '-01';
-    $days_in_month = (int) gmdate('t', strtotime($start));
     $today = current_time('Y-m-d');
+    $month = substr($today, 0, 7);
     $entries = twmp_revenue_shifts_get_month_entries($branch_id, $month);
-    $staff_users = twmp_revenue_shifts_get_staff_users();
     $branches = twmp_revenue_shifts_get_branch_options(false);
-    $shifts = [
-        'morning'   => __('SÁNG', 'twmp-revenue-shifts'),
-        'afternoon' => __('CHIỀU', 'twmp-revenue-shifts'),
-    ];
+    $shift = 'day';
+    $export_url = twmp_revenue_shifts_get_export_url($branch_id, $today);
     $rows = [
-        'staff_user_id'          => __('Người chốt', 'twmp-revenue-shifts'),
-        'opening_cash'           => __('Tiền lẻ', 'twmp-revenue-shifts'),
         'cash_sales'             => __('Tiền mặt', 'twmp-revenue-shifts'),
-        'exchange_cash_out'      => __('Đổi', 'twmp-revenue-shifts'),
-        'expenses_cash'          => __('Chi', 'twmp-revenue-shifts'),
-        'cash_actual'            => __('Tiền mặt thực tế (TMSC)', 'twmp-revenue-shifts'),
         'bank_transfer_sales'    => __('Chuyển khoản', 'twmp-revenue-shifts'),
-        'bank_transfer_actual'   => __('Chuyển khoản thực tế', 'twmp-revenue-shifts'),
-        'revenue_actual'         => __('Doanh thu thực tế', 'twmp-revenue-shifts'),
+        'revenue_actual'         => __('Doanh thu', 'twmp-revenue-shifts'),
     ];
 
     wp_enqueue_style('twmp-revenue-shifts');
@@ -409,10 +467,10 @@ function twmp_revenue_shifts_render_shortcode()
             <header class="twmp-revenue__header">
                 <div>
                     <p class="twmp-revenue__eyebrow"><?php esc_html_e('Doanh thu', 'twmp-revenue-shifts'); ?></p>
-                    <h1 class="twmp-revenue__title"><?php echo esc_html(sprintf(__('Tháng %s', 'twmp-revenue-shifts'), gmdate('n/Y', strtotime($start)))); ?></h1>
+                    <h1 class="twmp-revenue__title"><?php echo esc_html(sprintf(__('Ngày %s', 'twmp-revenue-shifts'), wp_date('d/m/Y', strtotime($today)))); ?></h1>
                 </div>
-                <form class="twmp-revenue__filters" method="get">
-                    <?php if (twmp_revenue_shifts_is_admin_user()) : ?>
+                <?php if (twmp_revenue_shifts_is_admin_user()) : ?>
+                    <form class="twmp-revenue__filters" method="get">
                         <label>
                             <span><?php esc_html_e('Chi nhánh', 'twmp-revenue-shifts'); ?></span>
                             <select name="branch_id">
@@ -423,80 +481,51 @@ function twmp_revenue_shifts_render_shortcode()
                                 <?php endforeach; ?>
                             </select>
                         </label>
-                    <?php endif; ?>
-                    <label>
-                        <span><?php esc_html_e('Tháng', 'twmp-revenue-shifts'); ?></span>
-                        <input type="month" name="revenue_month" value="<?php echo esc_attr($month); ?>">
-                    </label>
-                    <button type="submit"><?php esc_html_e('Xem', 'twmp-revenue-shifts'); ?></button>
-                </form>
+                        <button type="submit"><?php esc_html_e('Xem', 'twmp-revenue-shifts'); ?></button>
+                    </form>
+                <?php endif; ?>
             </header>
 
             <form class="twmp-revenue__form" data-revenue-form>
                 <input type="hidden" name="branch_id" value="<?php echo esc_attr($branch_id); ?>" data-revenue-branch>
                 <input type="hidden" name="month" value="<?php echo esc_attr($month); ?>" data-revenue-month>
+                <input type="hidden" name="date" value="<?php echo esc_attr($today); ?>" data-revenue-date>
                 <div class="twmp-revenue__status" data-revenue-status aria-live="polite"></div>
                 <div class="twmp-revenue__table-wrap">
                     <table class="twmp-revenue__table">
                         <thead>
                             <tr>
-                                <th class="twmp-revenue__sticky"><?php esc_html_e('Tháng', 'twmp-revenue-shifts'); ?></th>
-                                <?php for ($day = 1; $day <= $days_in_month; $day++) : ?>
-                                    <?php
-                                    $date = sprintf('%s-%02d', $month, $day);
-                                    $is_today = $date === $today;
-                                    ?>
-                                    <th colspan="2" class="<?php echo $is_today ? 'is-today' : ''; ?>" <?php echo $is_today ? 'data-revenue-today="1"' : ''; ?>>
-                                        <?php echo esc_html($day); ?>
-                                    </th>
-                                <?php endfor; ?>
-                            </tr>
-                            <tr>
-                                <th class="twmp-revenue__sticky"><?php esc_html_e('Doanh thu', 'twmp-revenue-shifts'); ?></th>
-                                <?php for ($day = 1; $day <= $days_in_month; $day++) : ?>
-                                    <?php
-                                    $date = sprintf('%s-%02d', $month, $day);
-                                    $is_today = $date === $today;
-                                    foreach ($shifts as $shift => $shift_label) :
-                                        ?>
-                                        <th class="<?php echo $is_today ? 'is-today' : ''; ?>" data-date="<?php echo esc_attr($date); ?>" data-shift="<?php echo esc_attr($shift); ?>">
-                                            <?php echo esc_html($shift_label); ?>
-                                        </th>
-                                    <?php endforeach; ?>
-                                <?php endfor; ?>
+                                <th class="twmp-revenue__sticky"><?php esc_html_e('Ngày', 'twmp-revenue-shifts'); ?></th>
+                                <th class="is-today" data-date="<?php echo esc_attr($today); ?>" data-shift="<?php echo esc_attr($shift); ?>" data-revenue-today="1">
+                                    <?php echo esc_html(wp_date('d/m/Y', strtotime($today))); ?>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($rows as $field => $label) : ?>
                                 <tr>
                                     <th class="twmp-revenue__sticky"><?php echo esc_html($label); ?></th>
-                                    <?php for ($day = 1; $day <= $days_in_month; $day++) : ?>
+                                    <?php
+                                    $entry = isset($entries[$today][$shift]) ? $entries[$today][$shift] : [];
+                                    $calc = twmp_revenue_shifts_calculate($entry);
+                                    $value = isset($entry[$field]) ? $entry[$field] : (isset($calc[$field]) ? $calc[$field] : 0);
+                                    ?>
+                                    <td class="is-today" data-date="<?php echo esc_attr($today); ?>" data-shift="<?php echo esc_attr($shift); ?>">
                                         <?php
-                                        $date = sprintf('%s-%02d', $month, $day);
-                                        foreach ($shifts as $shift => $shift_label) :
-                                            $entry = isset($entries[$date][$shift]) ? $entries[$date][$shift] : [];
-                                            $calc = twmp_revenue_shifts_calculate($entry);
-                                            $value = isset($entry[$field]) ? $entry[$field] : (isset($calc[$field]) ? $calc[$field] : 0);
-                                            ?>
-                                            <td class="<?php echo $date === $today ? 'is-today' : ''; ?>" data-date="<?php echo esc_attr($date); ?>" data-shift="<?php echo esc_attr($shift); ?>">
-                                                <?php
-                                                if ('staff_user_id' === $field) {
-                                                    echo twmp_revenue_shifts_render_staff_select($date, $shift, $value ? $value : get_current_user_id(), $staff_users); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                                } elseif (in_array($field, twmp_revenue_shifts_money_fields(), true)) {
-                                                    echo twmp_revenue_shifts_render_money_input($date, $shift, $field, $value); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                                } else {
-                                                    echo twmp_revenue_shifts_render_readonly_value($date, $shift, $field, $value); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                                }
-                                                ?>
-                                            </td>
-                                        <?php endforeach; ?>
-                                    <?php endfor; ?>
+                                        if (in_array($field, twmp_revenue_shifts_money_fields(), true)) {
+                                            echo twmp_revenue_shifts_render_money_input($today, $shift, $field, $value); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        } else {
+                                            echo twmp_revenue_shifts_render_readonly_value($today, $shift, $field, $value); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        }
+                                        ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
                 <div class="twmp-revenue__actions">
+                    <a class="twmp-revenue__export" href="<?php echo esc_url($export_url); ?>"><?php esc_html_e('Xuất Excel', 'twmp-revenue-shifts'); ?></a>
                     <button type="button" class="twmp-revenue__import" data-revenue-import><?php esc_html_e('Lấy từ đơn hàng', 'twmp-revenue-shifts'); ?></button>
                     <button type="submit" class="twmp-revenue__save"><?php esc_html_e('Lưu doanh thu', 'twmp-revenue-shifts'); ?></button>
                 </div>
@@ -505,6 +534,100 @@ function twmp_revenue_shifts_render_shortcode()
     </div>
     <?php
     return ob_get_clean();
+}
+
+function twmp_revenue_shifts_get_export_url($branch_id, $date)
+{
+    $branch_id = absint($branch_id);
+    $date = preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $date) ? (string) $date : current_time('Y-m-d');
+
+    return add_query_arg(
+        [
+            'action'    => 'twmp_revenue_export_month',
+            'branch_id' => $branch_id,
+            'date'      => $date,
+            'nonce'     => wp_create_nonce('twmp_revenue_export_day_' . $branch_id . '_' . $date),
+        ],
+        admin_url('admin-post.php')
+    );
+}
+
+function twmp_revenue_shifts_export_month()
+{
+    if (!twmp_revenue_shifts_user_can_view()) {
+        wp_die(esc_html__('Bạn không có quyền xuất doanh thu.', 'twmp-revenue-shifts'), '', ['response' => 403]);
+    }
+
+    $branch_id = isset($_GET['branch_id']) ? absint(wp_unslash($_GET['branch_id'])) : 0;
+    $date = isset($_GET['date']) ? sanitize_text_field(wp_unslash($_GET['date'])) : '';
+    $nonce = isset($_GET['nonce']) ? sanitize_text_field(wp_unslash($_GET['nonce'])) : '';
+
+    if (!$branch_id || !twmp_revenue_shifts_user_can_access_branch($branch_id)) {
+        wp_die(esc_html__('Chi nhánh không hợp lệ.', 'twmp-revenue-shifts'), '', ['response' => 400]);
+    }
+
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+        wp_die(esc_html__('Ngày không hợp lệ.', 'twmp-revenue-shifts'), '', ['response' => 400]);
+    }
+
+    if (!wp_verify_nonce($nonce, 'twmp_revenue_export_day_' . $branch_id . '_' . $date)) {
+        wp_die(esc_html__('Liên kết xuất file không hợp lệ.', 'twmp-revenue-shifts'), '', ['response' => 403]);
+    }
+
+    $month = substr($date, 0, 7);
+    $entries = twmp_revenue_shifts_get_month_entries($branch_id, $month);
+    $branch_options = twmp_revenue_shifts_get_branch_options(false);
+    $branch_name = isset($branch_options[$branch_id]) ? $branch_options[$branch_id] : sprintf(__('Chi nhánh %d', 'twmp-revenue-shifts'), $branch_id);
+    $filename = sanitize_file_name('doanh-thu-' . $date . '-chi-nhanh-' . $branch_id . '.xls');
+    $entry = isset($entries[$date]['day']) ? $entries[$date]['day'] : [];
+    $calc = twmp_revenue_shifts_calculate($entry);
+    $cash = isset($entry['cash_sales']) ? (int) $entry['cash_sales'] : 0;
+    $bank = isset($entry['bank_transfer_sales']) ? (int) $entry['bank_transfer_sales'] : 0;
+    $revenue = isset($calc['revenue_actual']) ? (int) $calc['revenue_actual'] : 0;
+
+    nocache_headers();
+    header('Content-Type: application/vnd.ms-excel; charset=UTF-8');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Pragma: no-cache');
+
+    echo "\xEF\xBB\xBF";
+    ?>
+    <!doctype html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            table { border-collapse: collapse; }
+            th, td { border: 1px solid #000; padding: 6px 8px; }
+            th { background: #f2f2f2; font-weight: bold; }
+            td.number { mso-number-format: "0"; text-align: right; }
+        </style>
+    </head>
+    <body>
+        <h2><?php echo esc_html(sprintf(__('Doanh thu ngày %s', 'twmp-revenue-shifts'), wp_date('d/m/Y', strtotime($date)))); ?></h2>
+        <p><?php echo esc_html($branch_name); ?></p>
+        <table>
+            <thead>
+                <tr>
+                    <th><?php esc_html_e('Ngày', 'twmp-revenue-shifts'); ?></th>
+                    <th><?php esc_html_e('Tiền mặt', 'twmp-revenue-shifts'); ?></th>
+                    <th><?php esc_html_e('Chuyển khoản', 'twmp-revenue-shifts'); ?></th>
+                    <th><?php esc_html_e('Doanh thu', 'twmp-revenue-shifts'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?php echo esc_html(wp_date('d/m/Y', strtotime($date))); ?></td>
+                    <td class="number"><?php echo esc_html($cash); ?></td>
+                    <td class="number"><?php echo esc_html($bank); ?></td>
+                    <td class="number"><?php echo esc_html($revenue); ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+    </html>
+    <?php
+    exit;
 }
 
 function twmp_revenue_shifts_ajax_save_month()
@@ -555,6 +678,7 @@ function twmp_revenue_shifts_ajax_import_orders()
 
     $branch_id = isset($_POST['branch_id']) ? absint(wp_unslash($_POST['branch_id'])) : 0;
     $month = isset($_POST['month']) ? sanitize_text_field(wp_unslash($_POST['month'])) : '';
+    $date = isset($_POST['date']) ? sanitize_text_field(wp_unslash($_POST['date'])) : '';
 
     if (!$branch_id || !twmp_revenue_shifts_user_can_access_branch($branch_id)) {
         wp_send_json_error(['message' => __('Chi nhánh không hợp lệ.', 'twmp-revenue-shifts')], 400);
@@ -564,7 +688,11 @@ function twmp_revenue_shifts_ajax_import_orders()
         wp_send_json_error(['message' => __('Tháng không hợp lệ.', 'twmp-revenue-shifts')], 400);
     }
 
-    $result = twmp_revenue_shifts_import_orders($branch_id, $month);
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) || 0 !== strpos($date, $month . '-')) {
+        wp_send_json_error(['message' => __('Ngày không hợp lệ.', 'twmp-revenue-shifts')], 400);
+    }
+
+    $result = twmp_revenue_shifts_import_orders($branch_id, $month, $date);
 
     wp_send_json_success([
         'entries' => $result['entries'],
@@ -585,10 +713,12 @@ function twmp_revenue_shifts_get_import_message($summary)
     );
 }
 
-function twmp_revenue_shifts_import_orders($branch_id, $month)
+function twmp_revenue_shifts_import_orders($branch_id, $month, $date = '')
 {
     $branch_id = absint($branch_id);
-    $range = twmp_revenue_shifts_get_month_range($month);
+    $range = preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $date)
+        ? twmp_revenue_shifts_get_day_range((string) $date)
+        : twmp_revenue_shifts_get_month_range($month);
     $orders = twmp_revenue_shifts_get_orders_for_import($branch_id, $range['start'], $range['end']);
     $cash_methods = apply_filters('twmp_revenue_shifts_cash_payment_methods', ['cod']);
     $bank_methods = apply_filters('twmp_revenue_shifts_bank_payment_methods', ['bacs']);
@@ -614,7 +744,7 @@ function twmp_revenue_shifts_import_orders($branch_id, $month)
         }
 
         $business_date = $date->date_i18n('Y-m-d');
-        $shift_key = twmp_revenue_shifts_get_shift_key_for_datetime($date);
+        $shift_key = 'day';
 
         if (!isset($entries[$business_date])) {
             $entries[$business_date] = [];
@@ -688,6 +818,18 @@ function twmp_revenue_shifts_get_month_range($month)
     ];
 }
 
+function twmp_revenue_shifts_get_day_range($date)
+{
+    $timezone = wp_timezone();
+    $start = new DateTimeImmutable($date . ' 00:00:00', $timezone);
+    $end = $start->setTime(23, 59, 59);
+
+    return [
+        'start' => $start,
+        'end' => $end,
+    ];
+}
+
 function twmp_revenue_shifts_get_shift_key_for_datetime($date)
 {
     if ($date instanceof WC_DateTime) {
@@ -734,7 +876,7 @@ function twmp_revenue_shifts_save_entries($branch_id, $month, $entries)
     $branch_id = absint($branch_id);
     $table = twmp_revenue_shifts_table();
     $saved = 0;
-    $valid_shifts = ['morning', 'afternoon'];
+    $valid_shifts = ['day'];
     $money_fields = twmp_revenue_shifts_money_fields();
     $now = current_time('mysql');
 
