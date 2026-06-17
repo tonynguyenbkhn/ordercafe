@@ -20,7 +20,7 @@ $order_id_filter  = function_exists('twmp_staff_orders_get_query_order_id') ? tw
 $order_date_filter = function_exists('twmp_staff_orders_get_query_order_date') ? twmp_staff_orders_get_query_order_date() : current_time('Y-m-d');
 $orders           = function_exists('twmp_staff_orders_get_orders') ? twmp_staff_orders_get_orders() : array();
 $allowed_statuses = function_exists('twmp_staff_orders_get_allowed_statuses') ? twmp_staff_orders_get_allowed_statuses() : array();
-$payment_methods  = function_exists('twmp_staff_orders_get_payment_methods') ? twmp_staff_orders_get_payment_methods() : array('cod' => __('Tiền mặt', 'twmp-ath'), 'bacs' => __('Chuyển khoản', 'twmp-ath'));
+$payment_methods  = function_exists('twmp_staff_orders_get_payment_methods') ? twmp_staff_orders_get_payment_methods() : array('cod' => __('Tiá»n máº·t', 'twmp-ath'), 'bacs' => __('Chuyá»ƒn khoáº£n', 'twmp-ath'));
 $board_statuses   = function_exists('twmp_staff_orders_get_board_statuses') ? twmp_staff_orders_get_board_statuses() : array('on-hold', 'processing', 'completed');
 $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_all_orders') && twmp_staff_orders_current_user_can_manage_all_orders();
 $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? twmp_staff_orders_get_orders_signature($orders) : '';
@@ -231,6 +231,26 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         cursor: default;
     }
 
+    .twmp-staff-orders__payment-button.is-pending,
+    .twmp-staff-orders__status-form.is-pending select {
+        opacity: .58;
+        pointer-events: none;
+    }
+
+    .twmp-staff-orders__row-updated {
+        animation: twmpStaffOrderUpdated .7s ease;
+    }
+
+    @keyframes twmpStaffOrderUpdated {
+        0% {
+            background: #fff4d6;
+        }
+
+        100% {
+            background: transparent;
+        }
+    }
+
     .twmp-staff-orders__dialog {
         border: 0;
         border-radius: 8px;
@@ -383,7 +403,8 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
     data-staff-orders-root
     data-staff-orders-signature="<?php echo esc_attr($orders_signature); ?>"
     data-staff-orders-ajax-url="<?php echo esc_url(admin_url('admin-ajax.php')); ?>"
-    data-staff-orders-nonce="<?php echo esc_attr(wp_create_nonce('twmp_staff_orders_poll')); ?>">
+    data-staff-orders-nonce="<?php echo esc_attr(wp_create_nonce('twmp_staff_orders_poll')); ?>"
+    data-staff-orders-update-nonce="<?php echo esc_attr(wp_create_nonce('twmp_staff_order_update_status')); ?>">
     <div class="twmp-staff-orders__container">
         <header class="twmp-staff-orders__header">
             <div>
@@ -398,18 +419,18 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
             <?php
             echo function_exists('twmp_render_access_notice') ? twmp_render_access_notice(array(
                 'type'        => 'login',
-                'title'       => __('Vui lòng đăng nhập', 'twmp-ath'),
-                'message'     => __('Bạn cần đăng nhập bằng tài khoản được cấp quyền để xem khu vực này.', 'twmp-ath'),
+                'title'       => __('Vui lÃ²ng Ä‘Äƒng nháº­p', 'twmp-ath'),
+                'message'     => __('Báº¡n cáº§n Ä‘Äƒng nháº­p báº±ng tÃ i khoáº£n Ä‘Æ°á»£c cáº¥p quyá»n Ä‘á»ƒ xem khu vá»±c nÃ y.', 'twmp-ath'),
                 'action_url'  => wp_login_url(get_permalink()),
-                'action_text' => __('Đăng nhập', 'twmp-ath'),
-            )) : '<div class="twmp-staff-orders__message">' . esc_html__('Vui lòng đăng nhập để xem khu vực này.', 'twmp-ath') . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                'action_text' => __('ÄÄƒng nháº­p', 'twmp-ath'),
+            )) : '<div class="twmp-staff-orders__message">' . esc_html__('Vui lÃ²ng Ä‘Äƒng nháº­p Ä‘á»ƒ xem khu vá»±c nÃ y.', 'twmp-ath') . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             ?>
         <?php elseif (!twmp_staff_orders_current_user_can_view_board()) : ?>
             <?php
             echo function_exists('twmp_render_access_notice') ? twmp_render_access_notice(array(
-                'title'   => __('Bạn không có quyền truy cập', 'twmp-ath'),
-                'message' => __('Tài khoản của bạn chưa được cấp quyền xem đơn chờ hoặc chưa được gán chi nhánh.', 'twmp-ath'),
-            )) : '<div class="twmp-staff-orders__message">' . esc_html__('Bạn không có quyền truy cập khu vực này.', 'twmp-ath') . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                'title'   => __('Báº¡n khÃ´ng cÃ³ quyá»n truy cáº­p', 'twmp-ath'),
+                'message' => __('TÃ i khoáº£n cá»§a báº¡n chÆ°a Ä‘Æ°á»£c cáº¥p quyá»n xem Ä‘Æ¡n chá» hoáº·c chÆ°a Ä‘Æ°á»£c gÃ¡n chi nhÃ¡nh.', 'twmp-ath'),
+            )) : '<div class="twmp-staff-orders__message">' . esc_html__('Báº¡n khÃ´ng cÃ³ quyá»n truy cáº­p khu vá»±c nÃ y.', 'twmp-ath') . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             ?>
         <?php else : ?>
             <?php if (!empty($_GET['twmp_staff_updated'])) : ?>
@@ -472,113 +493,8 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                                 <th style="width: 200px;"><?php esc_html_e('Update', 'twmp-ath'); ?></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php if (empty($orders)) : ?>
-                                <tr>
-                                    <td colspan="7" class="no-order"><?php esc_html_e('No orders found.', 'twmp-ath'); ?></td>
-                                </tr>
-                            <?php endif; ?>
-
-                            <?php foreach ($orders as $order) : ?>
-                                <?php
-                                if (!$order instanceof WC_Order || !twmp_staff_orders_user_can_access_order($order)) {
-                                    continue;
-                                }
-
-                                $order_date = $order->get_date_created();
-                                $status_key = 'wc-' . $order->get_status();
-                                $payment_method = $order->get_payment_method();
-                                $payment_method_label = function_exists('twmp_staff_orders_get_payment_method_label') ? twmp_staff_orders_get_payment_method_label($payment_method) : $order->get_payment_method_title();
-                                ?>
-                                <tr>
-                                    <td>
-                                        <?php if (current_user_can('edit_shop_order', $order->get_id())) : ?>
-                                            <a class="twmp-staff-orders__order" href="<?php echo esc_url($order->get_edit_order_url()); ?>">
-                                                #<?php echo esc_html($order->get_order_number()); ?>
-                                            </a>
-                                        <?php else : ?>
-                                            <strong class="twmp-staff-orders__order">#<?php echo esc_html($order->get_order_number()); ?></strong>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo esc_html($order_date ? $order_date->date_i18n('H:i') : ''); ?>
-                                    </td>
-                                    <td>
-                                        <?php echo esc_html($order->get_formatted_billing_full_name() ? $order->get_formatted_billing_full_name() : __('Guest', 'twmp-ath')); ?>
-                                        <?php if ($order->get_billing_phone()) : ?>
-                                            <span class="twmp-staff-orders__meta"><?php echo esc_html($order->get_billing_phone()); ?></span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <ul class="twmp-staff-orders__items">
-                                            <?php foreach ($order->get_items() as $item) : ?>
-                                                <li>
-                                                    <span class="twmp-staff-orders__item-name"><?php echo esc_html($item->get_name()); ?></span>
-                                                    <strong>x<?php echo esc_html($item->get_quantity()); ?></strong>
-                                                    <?php
-                                                    $item_meta = wc_display_item_meta($item, array('echo' => false));
-                                                    if ($item_meta) {
-                                                    ?>
-                                                        <div class="twmp-staff-orders__item-meta">
-                                                            <?php echo wp_kses_post($item_meta); ?>
-                                                        </div>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </td>
-                                    <td><?php echo wp_kses_post($order->get_formatted_order_total()); ?></td>
-                                    <td style="display: none;"><span class="twmp-staff-orders__status"><?php echo esc_html(wc_get_order_status_name($order->get_status())); ?></span></td>
-                                    <td>
-                                        <form class="twmp-staff-orders__status-form" method="post">
-                                            <?php wp_nonce_field('twmp_staff_order_update_status', 'twmp_staff_order_nonce'); ?>
-                                            <input type="hidden" name="twmp_staff_order_action" value="update_status">
-                                            <input type="hidden" name="twmp_order_id" value="<?php echo esc_attr($order->get_id()); ?>">
-                                            <input type="hidden" name="twmp_staff_redirect" value="<?php echo esc_url(get_permalink()); ?>">
-                                            <select name="twmp_order_status" aria-label="<?php esc_attr_e('New order status', 'twmp-ath'); ?>" onchange="this.form.submit();">
-                                                <?php foreach ($allowed_statuses as $allowed_key => $allowed_label) : ?>
-                                                    <?php $allowed_value = str_replace('wc-', '', $allowed_key); ?>
-                                                    <option value="<?php echo esc_attr($allowed_value); ?>" <?php selected($status_key, $allowed_key); ?>>
-                                                        <?php echo esc_html($allowed_label); ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </form>
-                                        <?php /* if ('completed' === $order->get_status()) : ?>
-                                            <span class="twmp-staff-orders__meta"><?php esc_html_e('Completed orders cannot be changed here.', 'twmp-ath'); ?></span>
-                                        <?php else : ?>
-
-                                        <?php endif; */ ?>
-                                        <span class="twmp-staff-orders__meta">
-                                            <?php
-                                            printf(
-                                                /* translators: %s: payment method label */
-                                                esc_html__('Thanh toán: %s', 'twmp-ath'),
-                                                esc_html($payment_method_label ? $payment_method_label : __('Chưa rõ', 'twmp-ath'))
-                                            );
-                                            ?>
-                                        </span>
-                                        <form class="twmp-staff-orders__payment-form" method="post">
-                                            <?php wp_nonce_field('twmp_staff_order_update_status', 'twmp_staff_order_nonce'); ?>
-                                            <input type="hidden" name="twmp_staff_order_action" value="update_payment_method">
-                                            <input type="hidden" name="twmp_order_id" value="<?php echo esc_attr($order->get_id()); ?>">
-                                            <input type="hidden" name="twmp_staff_redirect" value="<?php echo esc_url(get_permalink()); ?>">
-                                            <?php foreach ($payment_methods as $method_key => $method_label) : ?>
-                                                <button
-                                                    class="twmp-staff-orders__payment-button <?php echo $payment_method === $method_key ? 'is-active' : ''; ?>"
-                                                    type="submit"
-                                                    name="twmp_payment_method"
-                                                    value="<?php echo esc_attr($method_key); ?>"
-                                                    <?php disabled($payment_method, $method_key); ?>>
-                                                    <?php echo esc_html($method_label); ?>
-                                                </button>
-                                            <?php endforeach; ?>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                        <tbody data-staff-orders-body>
+                            <?php echo function_exists('twmp_staff_orders_render_table_rows') ? twmp_staff_orders_render_table_rows($orders) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         </tbody>
                     </table>
                 </div>
@@ -595,57 +511,92 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
             <script>
                 (function() {
                     var dialog = document.querySelector('[data-staff-order-meta-dialog]');
-                    if (!dialog) {
-                        return;
-                    }
+                    if (dialog) {
+                        var title = dialog.querySelector('[data-staff-order-meta-title]');
+                        var body = dialog.querySelector('[data-staff-order-meta-body]');
+                        var close = dialog.querySelector('[data-staff-order-meta-close]');
 
-                    var title = dialog.querySelector('[data-staff-order-meta-title]');
-                    var body = dialog.querySelector('[data-staff-order-meta-body]');
-                    var close = dialog.querySelector('[data-staff-order-meta-close]');
+                        document.addEventListener('click', function(event) {
+                            var trigger = event.target.closest('[data-staff-order-meta-trigger]');
+                            if (!trigger) {
+                                return;
+                            }
 
-                    document.addEventListener('click', function(event) {
-                        var trigger = event.target.closest('[data-staff-order-meta-trigger]');
-                        if (!trigger) {
-                            return;
-                        }
+                            var item = trigger.closest('li');
+                            var meta = item ? item.querySelector('.twmp-staff-orders__item-meta') : null;
+                            var itemName = item ? item.querySelector('.twmp-staff-orders__item-name') : null;
 
-                        var item = trigger.closest('li');
-                        var meta = item ? item.querySelector('.twmp-staff-orders__item-meta') : null;
-                        var itemName = item ? item.querySelector('.twmp-staff-orders__item-name') : null;
+                            if (!meta || !body) {
+                                return;
+                            }
 
-                        if (!meta || !body) {
-                            return;
-                        }
+                            title.textContent = itemName ? itemName.textContent.trim() : '<?php echo esc_js(__('Item details', 'twmp-ath')); ?>';
+                            body.innerHTML = meta.innerHTML;
 
-                        title.textContent = itemName ? itemName.textContent.trim() : '<?php echo esc_js(__('Item details', 'twmp-ath')); ?>';
-                        body.innerHTML = meta.innerHTML;
+                            if (typeof dialog.showModal === 'function') {
+                                dialog.showModal();
+                            } else {
+                                dialog.setAttribute('open', 'open');
+                            }
+                        });
 
-                        if (typeof dialog.showModal === 'function') {
-                            dialog.showModal();
-                        } else {
-                            dialog.setAttribute('open', 'open');
-                        }
-                    });
-
-                    close.addEventListener('click', function() {
-                        dialog.close();
-                    });
-
-                    dialog.addEventListener('click', function(event) {
-                        if (event.target === dialog) {
+                        close.addEventListener('click', function() {
                             dialog.close();
-                        }
-                    });
+                        });
+
+                        dialog.addEventListener('click', function(event) {
+                            if (event.target === dialog) {
+                                dialog.close();
+                            }
+                        });
+                    }
 
                     var root = document.querySelector('[data-staff-orders-root]');
                     var filters = root ? root.querySelector('.twmp-staff-orders__filters') : null;
+                    var ordersBody = root ? root.querySelector('[data-staff-orders-body]') : null;
                     var signature = root ? root.getAttribute('data-staff-orders-signature') : '';
+                    var pollRequest = null;
 
-                    if (!root || !filters || !signature) {
+                    if (!root || !filters || !ordersBody) {
                         return;
                     }
 
-                    window.setInterval(function() {
+                    function request(action, formData) {
+                        new FormData(filters).forEach(function(value, key) {
+                            if (!formData.has(key)) {
+                                formData.append(key, value);
+                            }
+                        });
+
+                        formData.append('action', action);
+
+                        return fetch(root.getAttribute('data-staff-orders-ajax-url') || '/wp-admin/admin-ajax.php', {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            body: formData
+                        }).then(function(response) {
+                            return response.json();
+                        });
+                    }
+
+                    function updateUrlFromFilters() {
+                        if (!window.history || !window.URLSearchParams) {
+                            return;
+                        }
+
+                        var params = new URLSearchParams(new FormData(filters));
+                        var nextUrl = window.location.pathname + '?' + params.toString();
+
+                        window.history.replaceState(null, '', nextUrl);
+                    }
+
+                    function refreshOrders(updateUrl) {
+                        if (pollRequest) {
+                            pollRequest.abort();
+                        }
+
+                        pollRequest = new AbortController();
+
                         var body = new FormData(filters);
 
                         body.append('action', 'twmp_staff_orders_poll');
@@ -654,20 +605,161 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                         fetch(root.getAttribute('data-staff-orders-ajax-url') || '/wp-admin/admin-ajax.php', {
                             method: 'POST',
                             credentials: 'same-origin',
-                            body: body
+                            body: body,
+                            signal: pollRequest.signal
                         })
                             .then(function(response) {
                                 return response.json();
                             })
                             .then(function(payload) {
-                                var nextSignature = payload && payload.success && payload.data ? payload.data.signature : '';
+                                var data = payload && payload.success && payload.data ? payload.data : null;
 
-                                if (nextSignature && nextSignature !== signature) {
-                                    window.location.reload();
+                                if (!data) {
+                                    return;
+                                }
+
+                                if (typeof data.html === 'string' && (updateUrl || data.signature !== signature)) {
+                                    ordersBody.innerHTML = data.html;
+                                    signature = data.signature || '';
+                                    root.setAttribute('data-staff-orders-signature', signature);
+                                }
+
+                                if (updateUrl) {
+                                    updateUrlFromFilters();
                                 }
                             })
-                            .catch(function() {});
-                    }, 10000);
+                            .catch(function(error) {
+                                if (!error || 'AbortError' !== error.name) {
+                                    // Keep current rows on network errors.
+                                }
+                            });
+                    }
+
+                    function flashRow(row) {
+                        row.classList.remove('twmp-staff-orders__row-updated');
+                        row.offsetHeight;
+                        row.classList.add('twmp-staff-orders__row-updated');
+                    }
+
+                    function updatePaymentButtons(row, activeMethod) {
+                        row.querySelectorAll('.twmp-staff-orders__payment-button').forEach(function(button) {
+                            var isActive = button.value === activeMethod;
+
+                            button.classList.toggle('is-active', isActive);
+                            button.disabled = isActive;
+                            button.classList.remove('is-pending');
+                        });
+                    }
+
+                    function applyOrderUpdate(row, data) {
+                        var statusSelect = row.querySelector('[name="twmp_order_status"]');
+                        var statusLabel = row.querySelector('[data-staff-order-status-label]');
+                        var paymentLabel = row.querySelector('[data-staff-order-payment-label]');
+
+                        if (statusSelect && data.status) {
+                            statusSelect.value = data.status;
+                        }
+
+                        if (statusLabel && data.status_name) {
+                            statusLabel.textContent = data.status_name;
+                        }
+
+                        if (paymentLabel && data.payment_method_label) {
+                            paymentLabel.textContent = 'Payment: ' + data.payment_method_label;
+                        }
+
+                        if (data.payment_method) {
+                            updatePaymentButtons(row, data.payment_method);
+                        }
+
+                        if (data.signature) {
+                            signature = data.signature;
+                            root.setAttribute('data-staff-orders-signature', signature);
+                        }
+
+                        row.querySelectorAll('.is-pending').forEach(function(node) {
+                            node.classList.remove('is-pending');
+                        });
+
+                        flashRow(row);
+                    }
+
+                    filters.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        refreshOrders(true);
+                    });
+
+                    filters.addEventListener('change', function(event) {
+                        if (event.target.matches('select, input[type="date"]')) {
+                            refreshOrders(true);
+                        }
+                    });
+
+                    root.addEventListener('change', function(event) {
+                        var select = event.target.closest('[data-staff-order-status-form] select');
+                        if (!select) {
+                            return;
+                        }
+
+                        var form = select.form;
+                        var row = select.closest('[data-staff-order-row]');
+                        var body = new FormData(form);
+
+                        event.preventDefault();
+                        form.classList.add('is-pending');
+                        body.append('nonce', root.getAttribute('data-staff-orders-update-nonce') || '');
+
+                        request('twmp_staff_orders_update', body)
+                            .then(function(payload) {
+                                if (!payload || !payload.success) {
+                                    window.location.reload();
+                                    return;
+                                }
+
+                                form.classList.remove('is-pending');
+                                applyOrderUpdate(row, payload.data || {});
+                            })
+                            .catch(function() {
+                                form.submit();
+                            });
+                    });
+
+                    root.addEventListener('submit', function(event) {
+                        var form = event.target.closest('[data-staff-order-payment-form]');
+                        if (!form) {
+                            return;
+                        }
+
+                        var submitter = event.submitter || document.activeElement;
+                        var row = form.closest('[data-staff-order-row]');
+                        var body = new FormData(form);
+
+                        event.preventDefault();
+
+                        if (submitter && submitter.name) {
+                            body.set(submitter.name, submitter.value);
+                            submitter.classList.add('is-pending');
+                        }
+
+                        body.append('nonce', root.getAttribute('data-staff-orders-update-nonce') || '');
+
+                        request('twmp_staff_orders_update', body)
+                            .then(function(payload) {
+                                if (!payload || !payload.success) {
+                                    window.location.reload();
+                                    return;
+                                }
+
+                                applyOrderUpdate(row, payload.data || {});
+                            })
+                            .catch(function() {
+                                form.submit();
+                            });
+                    });
+
+                    window.setInterval(function() {
+                        refreshOrders(false);
+                    }, 7000);
                 })();
             </script>
         <?php endif; ?>
