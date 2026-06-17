@@ -528,9 +528,9 @@ const openModal = (product, cartItem = null) => {
 	renderModal()
 
 	const noteInput = qs('[data-cafe-modal-note]', modal)
-	if (noteInput) {
-		noteInput.focus({ preventScroll: true })
-	}
+	// if (noteInput) {
+	// 	noteInput.focus({ preventScroll: true })
+	// }
 }
 
 const closeModal = () => {
