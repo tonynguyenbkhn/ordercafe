@@ -2,7 +2,6 @@
 
 namespace TWMP_THEME\Inc;
 
-use Awf\Download\Download;
 use TWMP_THEME\Inc\Traits\Singleton;
 
 class TWMP_THEME
@@ -14,10 +13,8 @@ class TWMP_THEME
 		Sidebars_Theme::get_instance();
 		Menus_Theme::get_instance();
 		Assets_Theme::get_instance();
-		// Views_Theme::get_instance();
 		Admin_Theme::get_instance();
 		Woo_Theme::get_instance();
-		// Calendar_Theme::get_instance();
 		$this->setup_hooks();
 	}
 
