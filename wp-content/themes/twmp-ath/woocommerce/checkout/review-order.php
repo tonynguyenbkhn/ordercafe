@@ -40,6 +40,13 @@ defined( 'ABSPATH' ) || exit;
 						<?php
 						$variation_data = array();
 
+						if ( ! empty( $cart_item['twmp_note'] ) ) {
+							$variation_data[] = array(
+								'label' => __( 'Ghi chú', 'twmp-ath' ),
+								'value' => (string) $cart_item['twmp_note'],
+							);
+						}
+
 						if ( ! empty( $cart_item['twmp_staff_notes'] ) && is_array( $cart_item['twmp_staff_notes'] ) ) {
 							foreach ( $cart_item['twmp_staff_notes'] as $attribute_key => $attribute_value ) {
 								$attribute_name = (string) $attribute_key;

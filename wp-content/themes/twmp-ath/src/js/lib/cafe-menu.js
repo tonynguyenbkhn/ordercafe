@@ -870,7 +870,7 @@ const observeSections = () => {
 	const sections = qsa('[data-menu-section]')
 	const categories = qsa('.js-cafe-category')
 
-	if (!sections.length || !categories.length || !('IntersectionObserver' in window)) {
+	if (!sections.length || !categories.length) {
 		return
 	}
 
@@ -880,20 +880,37 @@ const observeSections = () => {
 		})
 	}
 
-	const observer = new IntersectionObserver(entries => {
-		const visible = entries
-			.filter(entry => entry.isIntersecting)
-			.sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+	const getScrollOffset = () => {
+		const topbar = qs('.twmp-cafe-menu__topbar')
+		return (topbar ? topbar.offsetHeight : 0) + 24
+	}
 
-		if (visible) {
-			setActive(visible.target.id)
+	let ticking = false
+
+	const updateActiveSection = () => {
+		const triggerY = window.pageYOffset + getScrollOffset()
+		let activeId = 'twmp-cafe-menu'
+
+		sections.forEach(section => {
+			if (section.offsetTop <= triggerY) {
+				activeId = section.id
+			}
+		})
+
+		setActive(activeId)
+		ticking = false
+	}
+
+	const requestUpdate = () => {
+		if (!ticking) {
+			window.requestAnimationFrame(updateActiveSection)
+			ticking = true
 		}
-	}, {
-		rootMargin: '-20% 0px -65% 0px',
-		threshold: [0.15, 0.35, 0.5]
-	})
+	}
 
-	sections.forEach(section => observer.observe(section))
+	updateActiveSection()
+	window.addEventListener('scroll', requestUpdate, { passive: true })
+	window.addEventListener('resize', requestUpdate)
 }
 
 const boot = () => {

@@ -17,9 +17,11 @@ $branch_id        = function_exists('twmp_staff_orders_get_query_branch_id') ? t
 $branch_options   = function_exists('twmp_staff_orders_get_branch_options') ? twmp_staff_orders_get_branch_options(true) : array();
 $status_filter    = function_exists('twmp_staff_orders_get_query_status') ? twmp_staff_orders_get_query_status() : 'all';
 $order_id_filter  = function_exists('twmp_staff_orders_get_query_order_id') ? twmp_staff_orders_get_query_order_id() : 0;
+$order_date_filter = function_exists('twmp_staff_orders_get_query_order_date') ? twmp_staff_orders_get_query_order_date() : current_time('Y-m-d');
 $orders           = function_exists('twmp_staff_orders_get_orders') ? twmp_staff_orders_get_orders() : array();
 $allowed_statuses = function_exists('twmp_staff_orders_get_allowed_statuses') ? twmp_staff_orders_get_allowed_statuses() : array();
-$board_statuses   = function_exists('twmp_staff_orders_get_board_statuses') ? twmp_staff_orders_get_board_statuses() : array('on-hold', 'processing');
+$payment_methods  = function_exists('twmp_staff_orders_get_payment_methods') ? twmp_staff_orders_get_payment_methods() : array('cod' => __('Tiền mặt', 'twmp-ath'), 'bacs' => __('Chuyển khoản', 'twmp-ath'));
+$board_statuses   = function_exists('twmp_staff_orders_get_board_statuses') ? twmp_staff_orders_get_board_statuses() : array('on-hold', 'processing', 'completed');
 $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_all_orders') && twmp_staff_orders_current_user_can_manage_all_orders();
 ?>
 
@@ -60,10 +62,9 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
     }
 
     .twmp-staff-orders__panel {
-        background: #fff;
-        border: 1px solid #dde3ea;
+        background: transparent;
+        border: 0;
         border-radius: 8px;
-        box-shadow: 0 12px 40px rgba(21, 31, 42, .06);
         overflow: hidden;
     }
 
@@ -89,6 +90,7 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
     }
 
     .twmp-staff-orders select,
+    .twmp-staff-orders input[type="date"],
     .twmp-staff-orders__button {
         border: 1px solid #cfd8e3;
         border-radius: 6px;
@@ -201,6 +203,33 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
         min-width: 230px;
     }
 
+    .twmp-staff-orders__payment-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .twmp-staff-orders__payment-button {
+        background: #eef3f7;
+        border: 1px solid #cfd8e3;
+        border-radius: 6px;
+        color: #263442;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 800;
+        min-height: 32px;
+        padding: 0 10px;
+    }
+
+    .twmp-staff-orders__payment-button.is-active,
+    .twmp-staff-orders__payment-button:disabled {
+        background: #18212b;
+        border-color: #18212b;
+        color: #fff;
+        cursor: default;
+    }
+
     .twmp-staff-orders__dialog {
         border: 0;
         border-radius: 8px;
@@ -266,6 +295,7 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
         display: flex;
         gap: 6px;
         align-items: center;
+        flex-flow: row wrap;
 
         li {
             display: flex;
@@ -277,6 +307,10 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
                 font-size: 13px;
             }
         }
+    }
+
+    .wc-item-meta li:first-child {
+        width: 100%;
     }
 
     @media (max-width: 760px) {
@@ -292,7 +326,7 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
         }
 
         .twmp-staff-orders__filters {
-            padding: 10px;
+            padding: 10px 0;
             margin-bottom: 10px;
         }
 
@@ -308,15 +342,21 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
 
             td {
                 &:nth-child(1) {
-                    
+                     width: 50px;
                 }
+
+    &.no-order {
+         width: 100%;
+     }
 
                 &:nth-child(2) {
                     width: 50px;
                 }
                 
                 &:nth-child(3) {
-                    width: calc(100% - 100px);
+                    width: calc(100% - 170px);
+                    display: flex;
+                    gap: 10px;
                 }
                 &:nth-child(4) {
                     width: calc(100% - 20px);
@@ -349,19 +389,28 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
         <?php if (!function_exists('wc_get_orders')) : ?>
             <div class="twmp-staff-orders__message"><?php esc_html_e('WooCommerce is required for this page.', 'twmp-ath'); ?></div>
         <?php elseif (!is_user_logged_in()) : ?>
-            <div class="twmp-staff-orders__message">
-                <?php
-                printf(
-                    wp_kses_post(__('Please <a href="%s">log in</a> to view staff orders.', 'twmp-ath')),
-                    esc_url(wp_login_url(get_permalink()))
-                );
-                ?>
-            </div>
+            <?php
+            echo function_exists('twmp_render_access_notice') ? twmp_render_access_notice(array(
+                'type'        => 'login',
+                'title'       => __('Vui lòng đăng nhập', 'twmp-ath'),
+                'message'     => __('Bạn cần đăng nhập bằng tài khoản được cấp quyền để xem khu vực này.', 'twmp-ath'),
+                'action_url'  => wp_login_url(get_permalink()),
+                'action_text' => __('Đăng nhập', 'twmp-ath'),
+            )) : '<div class="twmp-staff-orders__message">' . esc_html__('Vui lòng đăng nhập để xem khu vực này.', 'twmp-ath') . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            ?>
         <?php elseif (!twmp_staff_orders_current_user_can_view_board()) : ?>
-            <div class="twmp-staff-orders__message"><?php esc_html_e('Your account cannot access Staff Orders or is not assigned to a branch.', 'twmp-ath'); ?></div>
+            <?php
+            echo function_exists('twmp_render_access_notice') ? twmp_render_access_notice(array(
+                'title'   => __('Bạn không có quyền truy cập', 'twmp-ath'),
+                'message' => __('Tài khoản của bạn chưa được cấp quyền xem đơn chờ hoặc chưa được gán chi nhánh.', 'twmp-ath'),
+            )) : '<div class="twmp-staff-orders__message">' . esc_html__('Bạn không có quyền truy cập khu vực này.', 'twmp-ath') . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            ?>
         <?php else : ?>
             <?php if (!empty($_GET['twmp_staff_updated'])) : ?>
                 <div class="twmp-staff-orders__notice"><?php esc_html_e('Order status updated.', 'twmp-ath'); ?></div>
+            <?php endif; ?>
+            <?php if (!empty($_GET['twmp_staff_payment_updated'])) : ?>
+                <div class="twmp-staff-orders__notice"><?php esc_html_e('Payment method updated.', 'twmp-ath'); ?></div>
             <?php endif; ?>
 
             <section class="twmp-staff-orders__panel">
@@ -382,6 +431,10 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
                             </select>
                         </div>
                     <?php endif; ?>
+                    <div class="twmp-staff-orders__field">
+                        <label for="order_date"><?php esc_html_e('Date', 'twmp-ath'); ?></label>
+                        <input type="date" name="order_date" id="order_date" value="<?php echo esc_attr($order_date_filter); ?>">
+                    </div>
                     <div class="twmp-staff-orders__field">
                         <label for="order_status"><?php esc_html_e('Status', 'twmp-ath'); ?></label>
                         <select name="order_status" id="order_status">
@@ -404,7 +457,7 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
                     <table class="twmp-staff-orders__table">
                         <thead>
                             <tr>
-                                <th style="display: none;"><?php esc_html_e('Order', 'twmp-ath'); ?></th>
+                                <th style="width: 70px;"><?php esc_html_e('Order', 'twmp-ath'); ?></th>
                                 <th style="width: 45px;"><?php esc_html_e('Time', 'twmp-ath'); ?></th>
                                 <th style="width: 100px;"><?php esc_html_e('Customer', 'twmp-ath'); ?></th>
                                 <th><?php esc_html_e('Items', 'twmp-ath'); ?></th>
@@ -416,7 +469,7 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
                         <tbody>
                             <?php if (empty($orders)) : ?>
                                 <tr>
-                                    <td colspan="7"><?php esc_html_e('No orders found.', 'twmp-ath'); ?></td>
+                                    <td colspan="7" class="no-order"><?php esc_html_e('No orders found.', 'twmp-ath'); ?></td>
                                 </tr>
                             <?php endif; ?>
 
@@ -428,18 +481,17 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
 
                                 $order_date = $order->get_date_created();
                                 $status_key = 'wc-' . $order->get_status();
+                                $payment_method = $order->get_payment_method();
+                                $payment_method_label = function_exists('twmp_staff_orders_get_payment_method_label') ? twmp_staff_orders_get_payment_method_label($payment_method) : $order->get_payment_method_title();
                                 ?>
                                 <tr>
-                                    <td style="display: none;">
+                                    <td>
                                         <?php if (current_user_can('edit_shop_order', $order->get_id())) : ?>
                                             <a class="twmp-staff-orders__order" href="<?php echo esc_url($order->get_edit_order_url()); ?>">
                                                 #<?php echo esc_html($order->get_order_number()); ?>
                                             </a>
                                         <?php else : ?>
                                             <strong class="twmp-staff-orders__order">#<?php echo esc_html($order->get_order_number()); ?></strong>
-                                        <?php endif; ?>
-                                        <?php if ($can_manage_all && twmp_staff_orders_get_order_branch_id($order)) : ?>
-                                            <span class="twmp-staff-orders__meta"><?php echo esc_html(get_the_title(twmp_staff_orders_get_order_branch_id($order))); ?></span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -474,24 +526,50 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
                                     <td><?php echo wp_kses_post($order->get_formatted_order_total()); ?></td>
                                     <td style="display: none;"><span class="twmp-staff-orders__status"><?php echo esc_html(wc_get_order_status_name($order->get_status())); ?></span></td>
                                     <td>
-                                        <?php if ('completed' === $order->get_status()) : ?>
+                                        <form class="twmp-staff-orders__status-form" method="post">
+                                            <?php wp_nonce_field('twmp_staff_order_update_status', 'twmp_staff_order_nonce'); ?>
+                                            <input type="hidden" name="twmp_staff_order_action" value="update_status">
+                                            <input type="hidden" name="twmp_order_id" value="<?php echo esc_attr($order->get_id()); ?>">
+                                            <input type="hidden" name="twmp_staff_redirect" value="<?php echo esc_url(get_permalink()); ?>">
+                                            <select name="twmp_order_status" aria-label="<?php esc_attr_e('New order status', 'twmp-ath'); ?>" onchange="this.form.submit();">
+                                                <?php foreach ($allowed_statuses as $allowed_key => $allowed_label) : ?>
+                                                    <?php $allowed_value = str_replace('wc-', '', $allowed_key); ?>
+                                                    <option value="<?php echo esc_attr($allowed_value); ?>" <?php selected($status_key, $allowed_key); ?>>
+                                                        <?php echo esc_html($allowed_label); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </form>
+                                        <?php /* if ('completed' === $order->get_status()) : ?>
                                             <span class="twmp-staff-orders__meta"><?php esc_html_e('Completed orders cannot be changed here.', 'twmp-ath'); ?></span>
                                         <?php else : ?>
-                                            <form class="twmp-staff-orders__status-form" method="post">
-                                                <?php wp_nonce_field('twmp_staff_order_update_status', 'twmp_staff_order_nonce'); ?>
-                                                <input type="hidden" name="twmp_staff_order_action" value="update_status">
-                                                <input type="hidden" name="twmp_order_id" value="<?php echo esc_attr($order->get_id()); ?>">
-                                                <input type="hidden" name="twmp_staff_redirect" value="<?php echo esc_url(get_permalink()); ?>">
-                                                <select name="twmp_order_status" aria-label="<?php esc_attr_e('New order status', 'twmp-ath'); ?>" onchange="this.form.submit();">
-                                                    <?php foreach ($allowed_statuses as $allowed_key => $allowed_label) : ?>
-                                                        <?php $allowed_value = str_replace('wc-', '', $allowed_key); ?>
-                                                        <option value="<?php echo esc_attr($allowed_value); ?>" <?php selected($status_key, $allowed_key); ?>>
-                                                            <?php echo esc_html($allowed_label); ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </form>
-                                        <?php endif; ?>
+
+                                        <?php endif; */ ?>
+                                        <span class="twmp-staff-orders__meta">
+                                            <?php
+                                            printf(
+                                                /* translators: %s: payment method label */
+                                                esc_html__('Thanh toán: %s', 'twmp-ath'),
+                                                esc_html($payment_method_label ? $payment_method_label : __('Chưa rõ', 'twmp-ath'))
+                                            );
+                                            ?>
+                                        </span>
+                                        <form class="twmp-staff-orders__payment-form" method="post">
+                                            <?php wp_nonce_field('twmp_staff_order_update_status', 'twmp_staff_order_nonce'); ?>
+                                            <input type="hidden" name="twmp_staff_order_action" value="update_payment_method">
+                                            <input type="hidden" name="twmp_order_id" value="<?php echo esc_attr($order->get_id()); ?>">
+                                            <input type="hidden" name="twmp_staff_redirect" value="<?php echo esc_url(get_permalink()); ?>">
+                                            <?php foreach ($payment_methods as $method_key => $method_label) : ?>
+                                                <button
+                                                    class="twmp-staff-orders__payment-button <?php echo $payment_method === $method_key ? 'is-active' : ''; ?>"
+                                                    type="submit"
+                                                    name="twmp_payment_method"
+                                                    value="<?php echo esc_attr($method_key); ?>"
+                                                    <?php disabled($payment_method, $method_key); ?>>
+                                                    <?php echo esc_html($method_label); ?>
+                                                </button>
+                                            <?php endforeach; ?>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

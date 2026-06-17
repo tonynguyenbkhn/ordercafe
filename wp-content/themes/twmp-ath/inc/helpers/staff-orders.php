@@ -21,6 +21,7 @@ add_action('edit_user_profile_update', 'twmp_staff_orders_save_user_branch_field
 add_action('woocommerce_admin_order_data_after_order_details', 'twmp_staff_orders_render_admin_order_branch_field');
 add_action('woocommerce_process_shop_order_meta', 'twmp_staff_orders_save_admin_order_branch_field', 10, 2);
 add_filter('woocommerce_checkout_fields', 'twmp_staff_orders_add_checkout_branch_field', 30);
+add_filter('woocommerce_checkout_get_value', 'twmp_staff_orders_force_checkout_branch_field_value', 10, 2);
 add_action('woocommerce_checkout_process', 'twmp_staff_orders_validate_checkout_branch_field');
 add_action('woocommerce_checkout_create_order', 'twmp_staff_orders_save_checkout_branch_field', 10, 2);
 add_action('template_redirect', 'twmp_staff_orders_handle_status_update');
@@ -77,6 +78,13 @@ function twmp_staff_orders_get_user_branch_id($user_id = 0)
     $user_id = $user_id ? absint($user_id) : get_current_user_id();
 
     return absint(get_user_meta($user_id, TWMP_STAFF_ORDERS_USER_BRANCH_META, true));
+}
+
+function twmp_staff_orders_get_branch_name($branch_id)
+{
+    $branch_id = absint($branch_id);
+
+    return $branch_id ? get_the_title($branch_id) : '';
 }
 
 function twmp_staff_orders_is_valid_branch($branch_id)
@@ -156,6 +164,64 @@ function twmp_staff_orders_get_allowed_statuses()
     }
 
     return apply_filters('twmp_staff_orders_allowed_statuses', $allowed);
+}
+
+function twmp_staff_orders_get_payment_methods()
+{
+    return apply_filters(
+        'twmp_staff_orders_payment_methods',
+        array(
+            'cod'  => __('Tiền mặt', 'twmp-ath'),
+            'bacs' => __('Chuyển khoản', 'twmp-ath'),
+        )
+    );
+}
+
+function twmp_staff_orders_get_payment_method_label($payment_method)
+{
+    $payment_methods = twmp_staff_orders_get_payment_methods();
+
+    return isset($payment_methods[$payment_method]) ? $payment_methods[$payment_method] : $payment_method;
+}
+
+function twmp_staff_orders_update_order_payment_method($order, $payment_method)
+{
+    if (!$order instanceof WC_Order) {
+        return false;
+    }
+
+    $payment_methods = twmp_staff_orders_get_payment_methods();
+
+    if (!isset($payment_methods[$payment_method])) {
+        return false;
+    }
+
+    $label = $payment_methods[$payment_method];
+
+    if (function_exists('WC') && WC()->payment_gateways()) {
+        $gateways = WC()->payment_gateways()->payment_gateways();
+
+        if (isset($gateways[$payment_method])) {
+            $order->set_payment_method($gateways[$payment_method]);
+        } else {
+            $order->set_payment_method($payment_method);
+        }
+    } else {
+        $order->set_payment_method($payment_method);
+    }
+
+    $order->set_payment_method_title($label);
+    $order->add_order_note(
+        sprintf(
+            /* translators: 1: payment method label, 2: staff display name */
+            __('Payment method changed to %1$s from staff order board by %2$s.', 'twmp-ath'),
+            $label,
+            wp_get_current_user()->display_name
+        )
+    );
+    $order->save();
+
+    return true;
 }
 
 function twmp_staff_orders_render_user_branch_field($user)
@@ -251,35 +317,46 @@ function twmp_staff_orders_save_admin_order_branch_field($order_id, $post)
 
 function twmp_staff_orders_add_checkout_branch_field($fields)
 {
-    $branches = twmp_staff_orders_get_branch_options(true);
+    if (!is_checkout()) {
+        return $fields;
+    }
 
-    if (count($branches) <= 1) {
+    $branch_id = twmp_staff_orders_get_user_branch_id();
+
+    if (!$branch_id || !twmp_staff_orders_is_valid_branch($branch_id)) {
         return $fields;
     }
 
     $fields['billing']['twmp_branch_id'] = array(
-        'type'     => 'select',
-        'label'    => __('Chi nhánh', 'twmp-ath'),
-        'required' => false,
-        'class'    => array('form-row-wide'),
-        'priority' => 30,
-        'default'  => twmp_staff_orders_get_user_branch_id(),
-        'options'  => $branches,
+        'type'              => 'text',
+        'label'             => __('Chi nhánh', 'twmp-ath'),
+        'required'          => false,
+        'class'             => array('form-row-wide'),
+        'priority'          => 30,
+        'default'           => twmp_staff_orders_get_branch_name($branch_id),
+        'custom_attributes' => array(
+            'readonly' => 'readonly',
+        ),
     );
 
     return $fields;
 }
 
-function twmp_staff_orders_validate_checkout_branch_field()
+function twmp_staff_orders_force_checkout_branch_field_value($value, $input)
 {
-    if (empty(twmp_staff_orders_get_branch_options())) {
-        return;
+    if ('twmp_branch_id' !== $input || !is_checkout()) {
+        return $value;
     }
 
-    $branch_id = isset($_POST['twmp_branch_id']) ? absint(wp_unslash($_POST['twmp_branch_id'])) : 0;
+    return twmp_staff_orders_get_branch_name(twmp_staff_orders_get_user_branch_id());
+}
+
+function twmp_staff_orders_validate_checkout_branch_field()
+{
+    $branch_id = twmp_staff_orders_get_user_branch_id();
 
     if (!$branch_id || !twmp_staff_orders_is_valid_branch($branch_id)) {
-        wc_add_notice(__('Please select a branch.', 'twmp-ath'), 'error');
+        wc_add_notice(__('Tài khoản của bạn chưa được gán chi nhánh.', 'twmp-ath'), 'error');
     }
 }
 
@@ -289,11 +366,7 @@ function twmp_staff_orders_save_checkout_branch_field($order, $data)
         return;
     }
 
-    $branch_id = isset($_POST['twmp_branch_id']) ? absint(wp_unslash($_POST['twmp_branch_id'])) : 0;
-
-    if (!$branch_id && is_user_logged_in()) {
-        $branch_id = twmp_staff_orders_get_user_branch_id();
-    }
+    $branch_id = twmp_staff_orders_get_user_branch_id();
 
     if ($branch_id && twmp_staff_orders_is_valid_branch($branch_id)) {
         $order->update_meta_data(TWMP_STAFF_ORDERS_ORDER_BRANCH_META, $branch_id);
@@ -302,10 +375,13 @@ function twmp_staff_orders_save_checkout_branch_field($order, $data)
 
 function twmp_staff_orders_handle_status_update()
 {
-    if (
-        empty($_POST['twmp_staff_order_action']) ||
-        'update_status' !== $_POST['twmp_staff_order_action']
-    ) {
+    if (empty($_POST['twmp_staff_order_action'])) {
+        return;
+    }
+
+    $action = sanitize_key(wp_unslash($_POST['twmp_staff_order_action']));
+
+    if (!in_array($action, array('update_status', 'update_payment_method'), true)) {
         return;
     }
 
@@ -325,6 +401,25 @@ function twmp_staff_orders_handle_status_update()
 
     if (!$order || !twmp_staff_orders_user_can_access_order($order)) {
         wp_die(esc_html__('You cannot update this order.', 'twmp-ath'));
+    }
+
+    $redirect_url = !empty($_POST['twmp_staff_redirect'])
+        ? esc_url_raw(wp_unslash($_POST['twmp_staff_redirect']))
+        : wp_get_referer();
+
+    if (!$redirect_url) {
+        $redirect_url = home_url('/staff-orders/');
+    }
+
+    if ('update_payment_method' === $action) {
+        $payment_method = isset($_POST['twmp_payment_method']) ? sanitize_key(wp_unslash($_POST['twmp_payment_method'])) : '';
+
+        if (!twmp_staff_orders_update_order_payment_method($order, $payment_method)) {
+            wp_die(esc_html__('Invalid payment method.', 'twmp-ath'));
+        }
+
+        wp_safe_redirect(add_query_arg('twmp_staff_payment_updated', '1', $redirect_url));
+        exit;
     }
 
     if ('completed' === $order->get_status()) {
@@ -347,14 +442,6 @@ function twmp_staff_orders_handle_status_update()
         ),
         true
     );
-
-    $redirect_url = !empty($_POST['twmp_staff_redirect'])
-        ? esc_url_raw(wp_unslash($_POST['twmp_staff_redirect']))
-        : wp_get_referer();
-
-    if (!$redirect_url) {
-        $redirect_url = home_url('/staff-orders/');
-    }
 
     wp_safe_redirect(add_query_arg('twmp_staff_updated', '1', $redirect_url));
     exit;
@@ -381,14 +468,37 @@ function twmp_staff_orders_get_query_order_id()
     return isset($_GET['twmp_order_id']) ? absint(wp_unslash($_GET['twmp_order_id'])) : 0;
 }
 
+function twmp_staff_orders_get_query_order_date()
+{
+    $date = isset($_GET['order_date']) ? sanitize_text_field(wp_unslash($_GET['order_date'])) : current_time('Y-m-d');
+
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+        return current_time('Y-m-d');
+    }
+
+    return $date;
+}
+
+function twmp_staff_orders_get_day_range($date)
+{
+    $timezone = wp_timezone();
+    $start = new DateTimeImmutable($date . ' 00:00:00', $timezone);
+    $end = $start->setTime(23, 59, 59);
+
+    return array(
+        'start' => $start,
+        'end'   => $end,
+    );
+}
+
 function twmp_staff_orders_get_board_statuses()
 {
     if (!function_exists('wc_get_order_statuses')) {
-        return array('on-hold', 'processing');
+        return array('on-hold', 'processing', 'completed');
     }
 
     $statuses = array();
-    $board_statuses = apply_filters('twmp_staff_orders_board_statuses', array('on-hold', 'processing'));
+    $board_statuses = apply_filters('twmp_staff_orders_board_statuses', array('on-hold', 'processing', 'completed'));
 
     foreach (array_keys(wc_get_order_statuses()) as $status_key) {
         $status = str_replace('wc-', '', $status_key);
@@ -414,12 +524,15 @@ function twmp_staff_orders_get_orders()
     $branch_id = twmp_staff_orders_get_query_branch_id();
     $status    = twmp_staff_orders_get_query_status();
     $order_id  = twmp_staff_orders_get_query_order_id();
+    $date      = twmp_staff_orders_get_query_order_date();
+    $range     = twmp_staff_orders_get_day_range($date);
     $args      = array(
         'limit'   => 50,
         'orderby' => 'date',
         'order'   => 'DESC',
         'return'  => 'objects',
         'status'  => twmp_staff_orders_get_board_statuses(),
+        'date_created' => $range['start']->getTimestamp() . '...' . $range['end']->getTimestamp(),
     );
 
     if ($order_id) {

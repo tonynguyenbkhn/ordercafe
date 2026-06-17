@@ -211,6 +211,86 @@ function mytheme_enqueue_styles()
 }
 add_action('wp_enqueue_scripts', 'mytheme_enqueue_styles');
 
+add_filter('show_admin_bar', '__return_false');
+
+function twmp_current_user_has_role($roles)
+{
+    $user = wp_get_current_user();
+
+    if (!$user instanceof WP_User) {
+        return false;
+    }
+
+    return (bool) array_intersect((array) $roles, (array) $user->roles);
+}
+
+function twmp_current_user_can_access_private_pages()
+{
+    return twmp_current_user_has_role(array('administrator', 'shop_manager'));
+}
+
+function twmp_render_access_notice($args = array())
+{
+    $defaults = array(
+        'type'        => 'denied',
+        'eyebrow'     => __('Khu vực nội bộ', 'twmp-ath'),
+        'title'       => __('Bạn không có quyền truy cập', 'twmp-ath'),
+        'message'     => __('Tài khoản của bạn chưa được cấp quyền phù hợp hoặc chưa được gán chi nhánh.', 'twmp-ath'),
+        'action_url'  => '',
+        'action_text' => '',
+    );
+    $args = wp_parse_args($args, $defaults);
+    $classes = 'twmp-access-notice twmp-access-notice--' . sanitize_html_class($args['type']);
+
+    ob_start();
+    ?>
+    <section class="<?php echo esc_attr($classes); ?>">
+        <div class="twmp-access-notice__icon" aria-hidden="true"><span></span></div>
+        <div class="twmp-access-notice__body">
+            <p class="twmp-access-notice__eyebrow"><?php echo esc_html($args['eyebrow']); ?></p>
+            <h2 class="twmp-access-notice__title"><?php echo esc_html($args['title']); ?></h2>
+            <p class="twmp-access-notice__message"><?php echo esc_html($args['message']); ?></p>
+            <?php if (!empty($args['action_url']) && !empty($args['action_text'])) : ?>
+                <a class="twmp-access-notice__action" href="<?php echo esc_url($args['action_url']); ?>">
+                    <?php echo esc_html($args['action_text']); ?>
+                </a>
+            <?php endif; ?>
+        </div>
+    </section>
+    <?php
+    return ob_get_clean();
+}
+
+add_action('template_redirect', function () {
+    if (is_admin() || wp_doing_ajax() || is_user_logged_in() || !is_page()) {
+        return;
+    }
+
+    wp_safe_redirect(wp_login_url(get_permalink()));
+    exit;
+}, 1);
+
+add_filter('the_content', function ($content) {
+    if (is_admin() || !is_page() || !is_main_query() || !in_the_loop() || !is_user_logged_in()) {
+        return $content;
+    }
+
+    if (twmp_current_user_can_access_private_pages()) {
+        return $content;
+    }
+
+    return twmp_render_access_notice(array(
+        'title'   => __('Bạn không có quyền truy cập', 'twmp-ath'),
+        'message' => __('Tài khoản của bạn không thuộc nhóm được phép xem nội dung nội bộ. Vui lòng liên hệ quản trị viên nếu cần cấp quyền.', 'twmp-ath'),
+    ));
+}, 5);
+
+add_action('wp_enqueue_scripts', function () {
+    $css = '.twmp-access-notice{align-items:flex-start;background:#fff;border:1px solid #dbe3e8;border-radius:8px;box-shadow:0 14px 38px rgba(16,24,40,.08);color:#17202a;display:flex;gap:16px;margin:24px auto;max-width:720px;padding:22px}.twmp-access-notice__icon{align-items:center;background:#fff4ec;border-radius:8px;color:#ef6f1a;display:inline-flex;flex:0 0 44px;height:44px;justify-content:center;width:44px}.twmp-access-notice__icon span{border:2px solid currentColor;border-radius:999px;display:block;height:18px;position:relative;width:18px}.twmp-access-notice__icon span:after{background:currentColor;content:"";height:8px;left:50%;position:absolute;top:7px;transform:translateX(-50%);width:2px}.twmp-access-notice__eyebrow{color:#ef6f1a;font-size:12px;font-weight:800;letter-spacing:.04em;margin:0 0 5px;text-transform:uppercase}.twmp-access-notice__title{color:#111827;font-size:22px;font-weight:700;line-height:1.25;margin:0 0 8px}.twmp-access-notice__message{color:#52616d;font-size:15px;line-height:1.55;margin:0}.twmp-access-notice__action{align-items:center;background:#17202a;border-radius:6px;color:#fff;display:inline-flex;font-size:14px;font-weight:700;justify-content:center;margin-top:16px;min-height:40px;padding:0 14px;text-decoration:none}.twmp-access-notice__action:hover{background:#ef6f1a;color:#fff}@media (max-width:575px){.twmp-access-notice{flex-direction:column;margin:16px 0;padding:18px}}';
+
+    wp_add_inline_style('mytheme-style', $css);
+}, 20);
+
 add_action('init', function () {
     register_block_style(
         'core/paragraph',

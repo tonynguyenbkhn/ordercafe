@@ -167,6 +167,9 @@ body.woocommerce-checkout.woocommerce-order-received {
 
 		.wc-item-meta {
 			&>li {
+				&:first-child {
+					width: 100%;
+				}
 				&>p {
 					display: inline;
 					padding-left: 0.15em;

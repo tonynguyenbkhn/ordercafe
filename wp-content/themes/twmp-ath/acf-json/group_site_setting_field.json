@@ -523,6 +523,144 @@
             "placeholder": ""
         },
         {
+            "key": "field_twmp_cafe_menu_tab",
+            "label": "Cafe Menu",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_twmp_cafe_menu_hero_eyebrow",
+            "label": "Hero eyebrow",
+            "name": "cafe_menu_hero_eyebrow",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Small text shown above the cafe menu title.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Cafe Take Away",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_twmp_cafe_menu_hero_title",
+            "label": "Hero title",
+            "name": "cafe_menu_hero_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Main title shown on the cafe menu page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Menu",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_twmp_cafe_menu_hero_description",
+            "label": "Hero description",
+            "name": "cafe_menu_hero_description",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "Description shown below the cafe menu title.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Chọn món, tuỳ biến size / topping, thêm vào giỏ và lấy nhanh tại quán.",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_twmp_cafe_menu_hero_card_label",
+            "label": "Hero card label",
+            "name": "cafe_menu_hero_card_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Small label shown at the top of the cafe menu hero card.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Pickup only",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_twmp_cafe_menu_hero_card_title",
+            "label": "Hero card title",
+            "name": "cafe_menu_hero_card_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Main bold text shown in the cafe menu hero card.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Đặt trước, lấy nhanh",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_twmp_cafe_menu_hero_card_description",
+            "label": "Hero card description",
+            "name": "cafe_menu_hero_card_description",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "Description shown below the cafe menu hero card title.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Món nóng, món lạnh và topping đều được gom theo danh mục để chọn nhanh hơn.",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
             "key": "field_twmp_revenue_tab",
             "label": "Revenue",
             "name": "",

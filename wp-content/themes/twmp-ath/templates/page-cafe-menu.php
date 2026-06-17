@@ -24,16 +24,41 @@ if (!function_exists('twmp_cafe_menu_ensure_cart') || !twmp_cafe_menu_ensure_car
     return;
 }
 
-$page_title = '';
-$page_content = '';
-
 while (have_posts()) :
     the_post();
-    $page_title   = get_the_title();
-    $page_content = trim((string) get_the_content());
 endwhile;
 
 $terms = twmp_cafe_menu_get_terms();
+$hero_eyebrow = function_exists('get_field') ? (string) get_field('cafe_menu_hero_eyebrow', 'option') : '';
+$hero_title = function_exists('get_field') ? (string) get_field('cafe_menu_hero_title', 'option') : '';
+$hero_description = function_exists('get_field') ? (string) get_field('cafe_menu_hero_description', 'option') : '';
+$hero_card_label = function_exists('get_field') ? (string) get_field('cafe_menu_hero_card_label', 'option') : '';
+$hero_card_title = function_exists('get_field') ? (string) get_field('cafe_menu_hero_card_title', 'option') : '';
+$hero_card_description = function_exists('get_field') ? (string) get_field('cafe_menu_hero_card_description', 'option') : '';
+
+if ('' === $hero_eyebrow) {
+    $hero_eyebrow = __('Cafe Take Away', 'twmp-ath');
+}
+
+if ('' === $hero_title) {
+    $hero_title = __('Menu', 'twmp-ath');
+}
+
+if ('' === $hero_description) {
+    $hero_description = '<p>' . esc_html__('Chọn món, tuỳ biến size / topping, thêm vào giỏ và lấy nhanh tại quán.', 'twmp-ath') . '</p>';
+}
+
+if ('' === $hero_card_label) {
+    $hero_card_label = __('Pickup only', 'twmp-ath');
+}
+
+if ('' === $hero_card_title) {
+    $hero_card_title = __('Đặt trước, lấy nhanh', 'twmp-ath');
+}
+
+if ('' === $hero_card_description) {
+    $hero_card_description = '<p>' . esc_html__('Món nóng, món lạnh và topping đều được gom theo danh mục để chọn nhanh hơn.', 'twmp-ath') . '</p>';
+}
 
 get_header();
 ?>
@@ -41,18 +66,10 @@ get_header();
     <div class="twmp-cafe-menu__container">
         <header class="twmp-cafe-menu__hero">
             <div class="twmp-cafe-menu__hero-copy">
-                <p class="twmp-cafe-menu__eyebrow"><?php esc_html_e('Cafe Take Away', 'twmp-ath'); ?></p>
-                <h1 class="twmp-cafe-menu__title"><?php echo esc_html($page_title ? $page_title : __('Menu', 'twmp-ath')); ?></h1>
+                <p class="twmp-cafe-menu__eyebrow"><?php echo esc_html($hero_eyebrow); ?></p>
+                <h1 class="twmp-cafe-menu__title"><?php echo esc_html($hero_title); ?></h1>
                 <div class="twmp-cafe-menu__description">
-                    <?php
-                    if ($page_content) {
-                        echo apply_filters('the_content', $page_content); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    } else {
-                        ?>
-                        <p><?php esc_html_e('Chọn món, tuỳ biến size / topping, thêm vào giỏ và lấy nhanh tại quán.', 'twmp-ath'); ?></p>
-                        <?php
-                    }
-                    ?>
+                    <?php echo wp_kses_post($hero_description); ?>
                 </div>
                 <div class="twmp-cafe-menu__hero-actions">
                     <a href="#twmp-cafe-menu" class="twmp-cafe-menu__cta">
@@ -65,9 +82,11 @@ get_header();
                 </div>
             </div>
             <div class="twmp-cafe-menu__hero-card">
-                <span class="twmp-cafe-menu__hero-card-label"><?php esc_html_e('Pickup only', 'twmp-ath'); ?></span>
-                <strong><?php esc_html_e('Đặt trước, lấy nhanh', 'twmp-ath'); ?></strong>
-                <p><?php esc_html_e('Món nóng, món lạnh và topping đều được gom theo danh mục để chọn nhanh hơn.', 'twmp-ath'); ?></p>
+                <span class="twmp-cafe-menu__hero-card-label"><?php echo esc_html($hero_card_label); ?></span>
+                <strong><?php echo esc_html($hero_card_title); ?></strong>
+                <div class="twmp-cafe-menu__hero-card-description">
+                    <?php echo wp_kses_post($hero_card_description); ?>
+                </div>
             </div>
         </header>
 

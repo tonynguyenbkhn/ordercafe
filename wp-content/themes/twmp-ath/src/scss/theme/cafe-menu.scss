@@ -146,12 +146,15 @@
   margin-bottom: 24px;
   overflow: auto hidden;
   padding: 14px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 900;
 }
 
 .twmp-cafe-menu__categories {
-  display: inline-flex;
+  display: flex;
   gap: 10px;
-  min-width: max-content;
+  flex-flow: row wrap;
 }
 
 .twmp-cafe-menu__category {
@@ -734,7 +737,7 @@ body {
     left: 0;
     max-height: 82vh;
     overflow: auto;
-    padding-bottom: 24px;
+    padding-bottom: 80px;
     position: fixed;
     transform: translateY(105%);
     transition: transform 0.22s ease;

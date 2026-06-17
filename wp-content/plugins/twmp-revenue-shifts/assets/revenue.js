@@ -58,13 +58,8 @@
     }
 
     function calculate(entry) {
-        var cashActual = digits(entry.cash_sales) - digits(entry.exchange_cash_out) - digits(entry.expenses_cash);
-        var bankActual = digits(entry.bank_transfer_sales) + digits(entry.exchange_cash_out);
-
         return {
-            cash_actual: cashActual,
-            bank_transfer_actual: bankActual,
-            revenue_actual: cashActual + bankActual
+            revenue_actual: digits(entry.cash_sales) + digits(entry.bank_transfer_sales) - digits(entry.expenses_cash)
         };
     }
 
@@ -76,6 +71,35 @@
 
             if (output) {
                 output.textContent = money(totals[field]);
+            }
+        });
+
+        updateDaySummary(root);
+    }
+
+    function updateDaySummary(root) {
+        var summaries = {
+            cash_sales: 0,
+            bank_transfer_sales: 0,
+            expenses_cash: 0,
+            revenue_actual: 0
+        };
+
+        root.querySelectorAll('[data-revenue-total][data-field="revenue_actual"]').forEach(function (output) {
+            summaries.revenue_actual += digits(output.textContent);
+        });
+
+        ['cash_sales', 'bank_transfer_sales', 'expenses_cash'].forEach(function (field) {
+            root.querySelectorAll('[data-revenue-input][data-revenue-money][data-field="' + field + '"]').forEach(function (input) {
+                summaries[field] += digits(input.value);
+            });
+        });
+
+        Object.keys(summaries).forEach(function (field) {
+            var output = root.querySelector('[data-revenue-day-total="' + field + '"]');
+
+            if (output) {
+                output.textContent = money(summaries[field]);
             }
         });
     }
@@ -124,11 +148,13 @@
         });
 
         if (!input) {
-            return;
+            return false;
         }
 
         input.value = value ? money(value) : '';
         updateTotals(root, date, shift);
+
+        return true;
     }
 
     function applyImportedEntries(root, entries) {
@@ -143,9 +169,12 @@
             Object.keys(entries[date] || {}).forEach(function (shift) {
                 var entry = entries[date][shift] || {};
 
-                setMoneyInput(root, date, shift, 'cash_sales', digits(entry.cash_sales));
-                setMoneyInput(root, date, shift, 'bank_transfer_sales', digits(entry.bank_transfer_sales));
-                applied += 1;
+                var cashApplied = setMoneyInput(root, date, shift, 'cash_sales', digits(entry.cash_sales));
+                var bankApplied = setMoneyInput(root, date, shift, 'bank_transfer_sales', digits(entry.bank_transfer_sales));
+
+                if (cashApplied || bankApplied) {
+                    applied += 1;
+                }
             });
         });
 
@@ -169,6 +198,7 @@
             body.append('nonce', config.nonce || '');
             body.append('branch_id', root.querySelector('[data-revenue-branch]').value || '');
             body.append('month', root.querySelector('[data-revenue-month]').value || '');
+            body.append('date', root.querySelector('[data-revenue-date]').value || '');
 
             fetch(config.ajaxUrl || '/wp-admin/admin-ajax.php', {
                 method: 'POST',
@@ -187,7 +217,7 @@
                     var message = payload.data && payload.data.message ? payload.data.message : 'Đã lấy từ đơn hàng.';
 
                     if (!applied) {
-                        message += ' Không có ca nào khớp với bảng đang mở.';
+                        message += ' Không có ca nào khớp với bảng hôm nay.';
                     }
 
                     setStatus(root, message, false);
@@ -236,6 +266,16 @@
         window.setTimeout(function () {
             scrollToToday(root);
         }, 0);
+
+        if (window.twmpRevenueShifts && window.twmpRevenueShifts.autoImport) {
+            window.setTimeout(function () {
+                var importButton = root.querySelector('[data-revenue-import]');
+
+                if (importButton) {
+                    importButton.click();
+                }
+            }, 0);
+        }
 
         var form = root.querySelector('[data-revenue-form]');
 
