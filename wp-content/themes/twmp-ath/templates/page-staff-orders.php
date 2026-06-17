@@ -23,6 +23,7 @@ $allowed_statuses = function_exists('twmp_staff_orders_get_allowed_statuses') ? 
 $payment_methods  = function_exists('twmp_staff_orders_get_payment_methods') ? twmp_staff_orders_get_payment_methods() : array('cod' => __('Tiền mặt', 'twmp-ath'), 'bacs' => __('Chuyển khoản', 'twmp-ath'));
 $board_statuses   = function_exists('twmp_staff_orders_get_board_statuses') ? twmp_staff_orders_get_board_statuses() : array('on-hold', 'processing', 'completed');
 $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_all_orders') && twmp_staff_orders_current_user_can_manage_all_orders();
+$orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? twmp_staff_orders_get_orders_signature($orders) : '';
 ?>
 
 <style>
@@ -377,7 +378,12 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
     }
 </style>
 
-<div class="twmp-staff-orders">
+<div
+    class="twmp-staff-orders"
+    data-staff-orders-root
+    data-staff-orders-signature="<?php echo esc_attr($orders_signature); ?>"
+    data-staff-orders-ajax-url="<?php echo esc_url(admin_url('admin-ajax.php')); ?>"
+    data-staff-orders-nonce="<?php echo esc_attr(wp_create_nonce('twmp_staff_orders_poll')); ?>">
     <div class="twmp-staff-orders__container">
         <header class="twmp-staff-orders__header">
             <div>
@@ -630,6 +636,38 @@ $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_a
                             dialog.close();
                         }
                     });
+
+                    var root = document.querySelector('[data-staff-orders-root]');
+                    var filters = root ? root.querySelector('.twmp-staff-orders__filters') : null;
+                    var signature = root ? root.getAttribute('data-staff-orders-signature') : '';
+
+                    if (!root || !filters || !signature) {
+                        return;
+                    }
+
+                    window.setInterval(function() {
+                        var body = new FormData(filters);
+
+                        body.append('action', 'twmp_staff_orders_poll');
+                        body.append('nonce', root.getAttribute('data-staff-orders-nonce') || '');
+
+                        fetch(root.getAttribute('data-staff-orders-ajax-url') || '/wp-admin/admin-ajax.php', {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            body: body
+                        })
+                            .then(function(response) {
+                                return response.json();
+                            })
+                            .then(function(payload) {
+                                var nextSignature = payload && payload.success && payload.data ? payload.data.signature : '';
+
+                                if (nextSignature && nextSignature !== signature) {
+                                    window.location.reload();
+                                }
+                            })
+                            .catch(function() {});
+                    }, 10000);
                 })();
             </script>
         <?php endif; ?>

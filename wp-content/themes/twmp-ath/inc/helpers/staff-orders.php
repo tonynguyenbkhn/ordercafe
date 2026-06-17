@@ -25,6 +25,7 @@ add_filter('woocommerce_checkout_get_value', 'twmp_staff_orders_force_checkout_b
 add_action('woocommerce_checkout_process', 'twmp_staff_orders_validate_checkout_branch_field');
 add_action('woocommerce_checkout_create_order', 'twmp_staff_orders_save_checkout_branch_field', 10, 2);
 add_action('template_redirect', 'twmp_staff_orders_handle_status_update');
+add_action('wp_ajax_twmp_staff_orders_poll', 'twmp_staff_orders_ajax_poll');
 
 function twmp_staff_orders_register_branch_post_type()
 {
@@ -555,4 +556,47 @@ function twmp_staff_orders_get_orders()
     }
 
     return wc_get_orders($args);
+}
+
+function twmp_staff_orders_get_orders_signature($orders)
+{
+    $parts = array();
+
+    foreach ((array) $orders as $order) {
+        if (!$order instanceof WC_Order) {
+            continue;
+        }
+
+        $modified = $order->get_date_modified();
+        $parts[] = implode(':', array(
+            $order->get_id(),
+            $order->get_status(),
+            $order->get_payment_method(),
+            $modified instanceof WC_DateTime ? $modified->getTimestamp() : 0,
+        ));
+    }
+
+    return md5(implode('|', $parts));
+}
+
+function twmp_staff_orders_ajax_poll()
+{
+    check_ajax_referer('twmp_staff_orders_poll', 'nonce');
+
+    if (!twmp_staff_orders_current_user_can_view_board()) {
+        wp_send_json_error(array('message' => __('Bạn không có quyền xem đơn chờ.', 'twmp-ath')), 403);
+    }
+
+    foreach (array('branch_id', 'order_status', 'twmp_order_id', 'order_date') as $key) {
+        if (isset($_POST[$key])) {
+            $_GET[$key] = wp_unslash($_POST[$key]);
+        }
+    }
+
+    $orders = twmp_staff_orders_get_orders();
+
+    wp_send_json_success(array(
+        'signature' => twmp_staff_orders_get_orders_signature($orders),
+        'count'     => count($orders),
+    ));
 }

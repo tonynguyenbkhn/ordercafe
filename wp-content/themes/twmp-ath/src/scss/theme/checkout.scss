@@ -20,6 +20,10 @@
 		text-align: center;
 	}
 
+	#customer_details {
+		display: none !important;
+	}
+
 	.page-block--checkout {
 		.woocommerce-form-coupon-toggle {
 			margin-top: 1em;
@@ -862,6 +866,7 @@
 
 	#twmp_branch_id_field {
 		width: 100%;
+		display: none;
 	}
 
 	.woocommerce-checkout .col2-set textarea {
