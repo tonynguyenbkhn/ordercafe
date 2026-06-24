@@ -41,6 +41,12 @@ function twmp_staff_orders_register_rest_routes()
         'callback'            => 'twmp_staff_orders_rest_update',
         'permission_callback' => 'twmp_staff_orders_current_user_can_view_board',
     ));
+
+    register_rest_route('twmp-ath/v1', '/staff-orders/create', array(
+        'methods'             => WP_REST_Server::CREATABLE,
+        'callback'            => 'twmp_staff_orders_rest_create',
+        'permission_callback' => 'twmp_staff_orders_current_user_can_view_board',
+    ));
 }
 
 function twmp_staff_orders_register_branch_post_type()
@@ -497,6 +503,205 @@ function twmp_staff_orders_get_order_response_data($order)
     );
 }
 
+function twmp_staff_orders_get_default_create_branch_id(WP_REST_Request $request)
+{
+    $branch_id = absint($request->get_param('branch_id'));
+
+    if ($branch_id && twmp_staff_orders_is_valid_branch($branch_id) && twmp_staff_orders_current_user_can_manage_all_orders()) {
+        return $branch_id;
+    }
+
+    $branch_id = twmp_staff_orders_get_user_branch_id();
+
+    if ($branch_id && twmp_staff_orders_is_valid_branch($branch_id)) {
+        return $branch_id;
+    }
+
+    if (twmp_staff_orders_current_user_can_manage_all_orders()) {
+        $branches = twmp_staff_orders_get_branch_options(false);
+        $first_branch_id = absint(key($branches));
+
+        if ($first_branch_id && twmp_staff_orders_is_valid_branch($first_branch_id)) {
+            return $first_branch_id;
+        }
+    }
+
+    return 0;
+}
+
+function twmp_staff_orders_add_cart_item_meta_to_order_item($item, $cart_item)
+{
+    if (!$item instanceof WC_Order_Item_Product || !is_array($cart_item)) {
+        return;
+    }
+
+    if (!empty($cart_item['twmp_note'])) {
+        $item->add_meta_data(__('Ghi chÃº', 'twmp-ath'), wc_clean($cart_item['twmp_note']), true);
+    }
+
+    if (!empty($cart_item['twmp_staff_notes']) && is_array($cart_item['twmp_staff_notes'])) {
+        foreach ($cart_item['twmp_staff_notes'] as $key => $value) {
+            $label = wc_attribute_label($key);
+            if ($label === $key) {
+                $label = ucwords(str_replace(array('pa_', '-', '_'), array('', ' ', ' '), (string) $key));
+            }
+
+            $item->add_meta_data($label, wc_clean($value), false);
+        }
+    }
+}
+
+function twmp_staff_orders_set_order_payment_method($order, $payment_method)
+{
+    if (!$order instanceof WC_Order) {
+        return;
+    }
+
+    $payment_methods = twmp_staff_orders_get_payment_methods();
+    $label = isset($payment_methods[$payment_method]) ? $payment_methods[$payment_method] : $payment_method;
+
+    if (function_exists('WC') && WC()->payment_gateways()) {
+        $gateways = WC()->payment_gateways()->payment_gateways();
+
+        if (isset($gateways[$payment_method])) {
+            $order->set_payment_method($gateways[$payment_method]);
+        } else {
+            $order->set_payment_method($payment_method);
+        }
+    } else {
+        $order->set_payment_method($payment_method);
+    }
+
+    $order->set_payment_method_title($label);
+}
+
+function twmp_staff_orders_rest_create(WP_REST_Request $request)
+{
+    if (!function_exists('wc_create_order') || !function_exists('WC')) {
+        return new WP_Error('twmp_staff_order_woocommerce_missing', __('WooCommerce is required to create orders.', 'twmp-ath'), array('status' => 500));
+    }
+
+    if (function_exists('twmp_cafe_menu_ensure_cart')) {
+        twmp_cafe_menu_ensure_cart();
+    } elseif (null === WC()->cart && function_exists('wc_load_cart')) {
+        wc_load_cart();
+    }
+
+    if (null === WC()->cart || WC()->cart->is_empty()) {
+        return new WP_Error('twmp_staff_order_empty_cart', __('Cart is empty.', 'twmp-ath'), array('status' => 400));
+    }
+
+    $branch_id = twmp_staff_orders_get_default_create_branch_id($request);
+
+    if (!$branch_id) {
+        return new WP_Error('twmp_staff_order_missing_branch', __('Staff account is not assigned to a valid branch.', 'twmp-ath'), array('status' => 403));
+    }
+
+    $payment_methods = twmp_staff_orders_get_payment_methods();
+    $payment_method = sanitize_key((string) $request->get_param('payment_method'));
+
+    if (!$payment_method) {
+        $payment_method = 'cod';
+    }
+
+    if (!isset($payment_methods[$payment_method])) {
+        return new WP_Error('twmp_staff_order_invalid_payment', __('Invalid payment method.', 'twmp-ath'), array('status' => 400));
+    }
+
+    $current_user = wp_get_current_user();
+    $customer_name = sanitize_text_field((string) $request->get_param('customer_name'));
+    $customer_phone = sanitize_text_field((string) $request->get_param('customer_phone'));
+
+    if ('' === $customer_name && $current_user instanceof WP_User) {
+        $customer_name = $current_user->display_name;
+    }
+
+    $order = wc_create_order(array(
+        'customer_id' => get_current_user_id(),
+        'created_via' => 'twmp_staff_order',
+    ));
+
+    if (is_wp_error($order)) {
+        $order->add_data(array('status' => 500));
+        return $order;
+    }
+
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        $product = isset($cart_item['data']) ? $cart_item['data'] : false;
+
+        if (!$product instanceof WC_Product || !$product->exists()) {
+            continue;
+        }
+
+        $item_id = $order->add_product(
+            $product,
+            isset($cart_item['quantity']) ? max(1, absint($cart_item['quantity'])) : 1,
+            array(
+                'variation' => isset($cart_item['variation']) && is_array($cart_item['variation']) ? $cart_item['variation'] : array(),
+                'totals' => array(
+                    'subtotal'     => isset($cart_item['line_subtotal']) ? $cart_item['line_subtotal'] : 0,
+                    'subtotal_tax' => isset($cart_item['line_subtotal_tax']) ? $cart_item['line_subtotal_tax'] : 0,
+                    'total'        => isset($cart_item['line_total']) ? $cart_item['line_total'] : 0,
+                    'tax'          => isset($cart_item['line_tax']) ? $cart_item['line_tax'] : 0,
+                    'tax_data'     => isset($cart_item['line_tax_data']) ? $cart_item['line_tax_data'] : array(),
+                ),
+            )
+        );
+
+        $item = $item_id ? $order->get_item($item_id) : false;
+        if ($item instanceof WC_Order_Item_Product) {
+            twmp_staff_orders_add_cart_item_meta_to_order_item($item, $cart_item);
+            $item->save();
+        }
+    }
+
+    if (!$order->get_items()) {
+        $order->delete(true);
+        return new WP_Error('twmp_staff_order_no_items', __('No valid cart items found.', 'twmp-ath'), array('status' => 400));
+    }
+
+    $order->set_billing_first_name($customer_name ? $customer_name : __('Guest', 'twmp-ath'));
+    $order->set_billing_phone($customer_phone);
+    twmp_staff_orders_set_order_payment_method($order, $payment_method);
+    $order->update_meta_data(TWMP_STAFF_ORDERS_ORDER_BRANCH_META, $branch_id);
+    $order->calculate_totals();
+    $order->update_status(
+        'processing',
+        sprintf(
+            /* translators: %s: staff display name */
+            __('Created from staff cafe menu by %s.', 'twmp-ath'),
+            $current_user instanceof WP_User ? $current_user->display_name : ''
+        ),
+        true
+    );
+    $order->save();
+
+    WC()->cart->empty_cart(true);
+    if (function_exists('twmp_cafe_menu_persist_cart')) {
+        twmp_cafe_menu_persist_cart();
+    }
+
+    $orders = twmp_staff_orders_get_orders_with_fallback();
+
+    return rest_ensure_response(array(
+        'success'          => true,
+        'order_id'         => $order->get_id(),
+        'order_number'     => $order->get_order_number(),
+        'status'           => $order->get_status(),
+        'status_name'      => wc_get_order_status_name($order->get_status()),
+        'staff_orders_url' => add_query_arg(
+            array(
+                'twmp_order_id'      => $order->get_id(),
+                'order_status'       => 'all',
+                'twmp_order_created' => '1',
+            ),
+            '/staff-orders/'
+        ),
+        'signature'        => twmp_staff_orders_get_orders_signature($orders),
+        'cart'             => function_exists('twmp_cafe_menu_render_cart_shell') ? twmp_cafe_menu_render_cart_shell() : null,
+    ));
+}
+
 function twmp_staff_orders_get_query_branch_id()
 {
     if (!twmp_staff_orders_current_user_can_manage_all_orders()) {
@@ -804,12 +1009,18 @@ function twmp_staff_orders_rest_poll(WP_REST_Request $request)
     twmp_staff_orders_apply_rest_request($request);
 
     $orders = function_exists('twmp_staff_orders_get_orders_with_fallback') ? twmp_staff_orders_get_orders_with_fallback() : twmp_staff_orders_get_orders();
-
-    return rest_ensure_response(array(
-        'signature' => twmp_staff_orders_get_orders_signature($orders),
+    $signature = twmp_staff_orders_get_orders_signature($orders);
+    $client_signature = sanitize_text_field((string) $request->get_param('signature'));
+    $response = array(
+        'signature' => $signature,
         'count'     => count($orders),
-        'html'      => function_exists('twmp_staff_orders_render_table_rows') ? twmp_staff_orders_render_table_rows($orders) : '',
-    ));
+    );
+
+    if (!$client_signature || $client_signature !== $signature || $request->get_param('force_html')) {
+        $response['html'] = function_exists('twmp_staff_orders_render_table_rows') ? twmp_staff_orders_render_table_rows($orders) : '';
+    }
+
+    return rest_ensure_response($response);
 }
 
 function twmp_staff_orders_rest_update(WP_REST_Request $request)

@@ -162,7 +162,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
     .twmp-staff-orders__toast {
         background: #18212b;
         border-radius: 8px;
-        bottom: 18px;
+        bottom: 70px;
         box-shadow: 0 14px 38px rgba(16, 24, 40, .22);
         color: #fff;
         font-size: 14px;
@@ -523,7 +523,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                 <div class="twmp-staff-orders__notice"><?php esc_html_e('Payment method updated.', 'twmp-ath'); ?></div>
             <?php endif; ?>
 
-            <div class="twmp-staff-orders__sound-panel" style="display: none" data-staff-orders-sound-panel>
+            <div class="twmp-staff-orders__sound-panel" data-staff-orders-sound-panel>
                 <p data-staff-orders-sound-status>Am bao dang tat. Bam de bat tieng khi co don moi hoac don hoan tat.</p>
                 <button class="twmp-staff-orders__sound-button" type="button" data-staff-orders-enable-sound>Bat am bao</button>
             </div>
@@ -660,17 +660,17 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                     }
 
                     function getRowStatus(row) {
-                        var select = row ? row.querySelector('[name="twmp_order_status"]') : null;
-
-                        if (select && select.value) {
-                            return select.value;
-                        }
-
                         var statusClass = row ? Array.from(row.classList).find(function(className) {
                             return className.indexOf('wc-') === 0;
                         }) : '';
 
-                        return statusClass ? statusClass.replace(/^wc-/, '') : '';
+                        if (statusClass) {
+                            return statusClass.replace(/^wc-/, '');
+                        }
+
+                        var select = row ? row.querySelector('[name="twmp_order_status"]') : null;
+
+                        return select && select.value ? select.value : '';
                     }
 
                     function collectOrderState(container) {
@@ -772,12 +772,12 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
                         if (soundStatus) {
                             soundStatus.textContent = soundEnabled
-                                ? 'Am bao da bat. Hay giu trang nay mo de nhan thong bao.'
-                                : 'Am bao dang tat. Bam de bat tieng khi co don moi hoac don hoan tat.';
+                                ? 'Âm báo đã bật'
+                                : 'Âm báo đang tắt.';
                         }
 
                         if (soundButton) {
-                            soundButton.textContent = soundEnabled ? 'Da bat am bao' : 'Bat am bao';
+                            soundButton.textContent = soundEnabled ? 'Đã bật âm báo' : 'Bật âm báo';
                             soundButton.disabled = soundEnabled;
                         }
 
@@ -799,8 +799,8 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
                     function notifyStaff(type, orderId) {
                         var message = type === 'completed'
-                            ? 'Don #' + orderId + ' da hoan tat.'
-                            : 'Co don moi #' + orderId + '.';
+                            ? 'Đơn #' + orderId + ' đã hoàn tất.'
+                            : 'Có đơn mới #' + orderId + '.';
 
                         showToast(message);
                         playNotificationSound(type);
@@ -816,11 +816,6 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                             var current = nextState[orderId] || null;
 
                             if (!current) {
-                                return;
-                            }
-
-                            if (!previous) {
-                                notifyStaff('new', orderId);
                                 return;
                             }
 
@@ -846,6 +841,29 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                             passive: true
                         });
                     }
+
+                    function notifyCreatedOrderFromUrl() {
+                        if (!window.URLSearchParams) {
+                            return;
+                        }
+
+                        var params = new URLSearchParams(window.location.search);
+                        if (params.get('twmp_order_created') !== '1') {
+                            return;
+                        }
+
+                        var orderId = params.get('twmp_order_id') || '';
+                        notifyStaff('new', orderId);
+                        params.delete('twmp_order_created');
+
+                        if (window.history && window.history.replaceState) {
+                            var nextQuery = params.toString();
+                            var nextUrl = window.location.pathname + (nextQuery ? '?' + nextQuery : '');
+                            window.history.replaceState(null, '', nextUrl);
+                        }
+                    }
+
+                    notifyCreatedOrderFromUrl();
 
                     function formDataToObject(formData) {
                         var data = {};
@@ -908,7 +926,12 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
                         pollRequest = new AbortController();
 
-                        fetch(restUrl(formDataToObject(new FormData(filters))), {
+                        var requestParams = formDataToObject(new FormData(filters));
+                        if (!updateUrl && signature) {
+                            requestParams.signature = signature;
+                        }
+
+                        fetch(restUrl(requestParams), {
                                 method: 'GET',
                                 credentials: 'same-origin',
                                 headers: {

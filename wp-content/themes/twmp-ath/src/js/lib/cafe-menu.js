@@ -91,7 +91,8 @@ const requestCart = async (action, data = {}, useAjax = false) => {
 		twmp_cafe_menu_get_cart: ['cart', 'GET'],
 		twmp_cafe_menu_add_to_cart: ['cart/add', 'POST'],
 		twmp_cafe_menu_update_cart: ['cart/update', 'PUT'],
-		twmp_cafe_menu_remove_cart: ['cart/remove', 'POST']
+		twmp_cafe_menu_remove_cart: ['cart/remove', 'POST'],
+		twmp_cafe_menu_clear_cart: ['cart/clear', 'POST']
 	}
 	const route = routes[action] || [action, 'POST']
 	const baseUrl = config.restUrl || '/wp-json/twmp-ath/v1/cafe-menu/'
@@ -120,6 +121,65 @@ const post = async (action, data = {}) => {
 	} catch (error) {
 		return requestCart(action, data, true)
 	}
+}
+
+const getLocalBusinessDate = (date = new Date()) => {
+	const year = date.getFullYear()
+	const month = String(date.getMonth() + 1).padStart(2, '0')
+	const day = String(date.getDate()).padStart(2, '0')
+
+	return `${year}-${month}-${day}`
+}
+
+const getNextLocalMidnightDelay = () => {
+	const now = new Date()
+	const nextMidnight = new Date(now)
+	nextMidnight.setHours(24, 0, 0, 0)
+
+	return Math.max(1000, nextMidnight.getTime() - now.getTime())
+}
+
+const clearCartForNewBusinessDay = async () => {
+	try {
+		const response = await post('twmp_cafe_menu_clear_cart')
+		if (response?.success) {
+			replaceCart(response.data)
+			closeCart()
+		}
+	} catch (error) {
+		// Keep current cart if the clear request fails; the next check will retry.
+	}
+}
+
+const bootDailyCartClear = () => {
+	const storageKey = 'twmp_cafe_menu_business_date'
+	const today = getLocalBusinessDate()
+
+	try {
+		const lastDate = window.localStorage ? localStorage.getItem(storageKey) : today
+		if (lastDate && lastDate !== today) {
+			clearCartForNewBusinessDay()
+		}
+
+		if (window.localStorage) {
+			localStorage.setItem(storageKey, today)
+		}
+	} catch (error) {
+		// localStorage can be unavailable in private/browser-restricted contexts.
+	}
+
+	window.setTimeout(() => {
+		try {
+			if (window.localStorage) {
+				localStorage.setItem(storageKey, getLocalBusinessDate())
+			}
+		} catch (error) {
+			// Ignore storage failures.
+		}
+
+		clearCartForNewBusinessDay()
+		bootDailyCartClear()
+	}, getNextLocalMidnightDelay())
 }
 
 const replaceCart = payload => {
@@ -154,6 +214,41 @@ const setMessage = (root, message, isError = false) => {
 	node.textContent = message || ''
 	node.classList.toggle('is-error', !!isError)
 	node.classList.toggle('is-success', !isError && !!message)
+}
+
+const setStaffOrderMessage = (form, message, isError = false) => {
+	const node = qs('[data-cafe-staff-order-message]', form)
+	if (!node) {
+		return
+	}
+
+	node.textContent = message || ''
+	node.classList.toggle('is-error', !!isError)
+	node.classList.toggle('is-success', !isError && !!message)
+}
+
+const createStaffOrder = async data => {
+	const staffOrder = config.staffOrder || {}
+	if (!staffOrder.enabled || !staffOrder.restUrl) {
+		throw new Error('Staff order endpoint unavailable.')
+	}
+
+	const response = await fetch(staffOrder.restUrl, {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/json',
+			'X-WP-Nonce': config.nonce || ''
+		},
+		body: JSON.stringify(data || {})
+	})
+
+	const payload = await response.json()
+	if (!response.ok) {
+		throw new Error(payload?.message || config.strings?.orderError || 'Create order failed')
+	}
+
+	return payload
 }
 
 const openCart = () => {
@@ -906,6 +1001,59 @@ document.addEventListener('click', async event => {
 	}
 })
 
+document.addEventListener('submit', async event => {
+	const form = event.target.closest('[data-cafe-staff-order-form]')
+	if (!form) {
+		return
+	}
+
+	event.preventDefault()
+	const submitButton = qs('[type="submit"]', form)
+	const formData = new FormData(form)
+	const payload = {}
+
+	formData.forEach((value, key) => {
+		payload[key] = value
+	})
+
+	if (!payload.payment_method) {
+		payload.payment_method = config.staffOrder?.defaultPaymentMethod || 'cod'
+	}
+
+	setStaffOrderMessage(form, config.strings?.creatingOrder || 'Đang tạo đơn...')
+	if (submitButton) {
+		submitButton.disabled = true
+	}
+
+	try {
+		const response = await createStaffOrder(payload)
+		const orderNumber = response?.order_number ? ` #${response.order_number}` : ''
+		setStaffOrderMessage(form, (config.strings?.orderCreated || 'Đã tạo đơn.') + orderNumber)
+
+		let redirectUrl = response?.staff_orders_url || ''
+		if (!redirectUrl && response?.order_id) {
+			const staffOrdersUrl = config.staffOrder?.staffOrdersUrl || '/staff-orders/'
+			const separator = staffOrdersUrl.includes('?') ? '&' : '?'
+			redirectUrl = `${staffOrdersUrl}${separator}twmp_order_id=${encodeURIComponent(response.order_id)}&order_status=all&twmp_order_created=1`
+		}
+
+		if (redirectUrl) {
+			window.location.assign(redirectUrl)
+			return
+		}
+
+		if (response?.cart) {
+			replaceCart({ cart: response.cart })
+		}
+	} catch (error) {
+		setStaffOrderMessage(form, error?.message || config.strings?.orderError || 'Vui lòng thử lại.', true)
+	} finally {
+		if (submitButton) {
+			submitButton.disabled = false
+		}
+	}
+})
+
 const observeSections = () => {
 	const sections = qsa('[data-menu-section]')
 	const categories = qsa('.js-cafe-category')
@@ -954,6 +1102,7 @@ const observeSections = () => {
 }
 
 const boot = () => {
+	bootDailyCartClear()
 	observeSections()
 }
 

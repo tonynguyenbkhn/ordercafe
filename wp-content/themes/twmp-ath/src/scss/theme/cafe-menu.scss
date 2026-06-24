@@ -705,6 +705,60 @@ body {
   width: calc(100% - 36px);
 }
 
+.twmp-cafe-cart__staff-order {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(47, 26, 17, 0.08);
+  border-radius: 4px;
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 10px;
+}
+
+.twmp-cafe-cart__staff-order input,
+.twmp-cafe-cart__staff-order select {
+  background: #fff;
+  border: 1px solid rgba(47, 26, 17, 0.12);
+  border-radius: 4px;
+  color: var(--cafe-text);
+  font: inherit;
+  font-size: 14px;
+  min-height: 40px;
+  outline: none;
+  padding: 0 12px;
+}
+
+.twmp-cafe-cart__staff-order input:focus,
+.twmp-cafe-cart__staff-order select:focus {
+  border-color: var(--cafe-accent);
+  box-shadow: 0 0 0 3px rgba(239, 111, 26, 0.12);
+}
+
+.twmp-cafe-cart__staff-order .twmp-cafe-cart__checkout {
+  font-size: 15px;
+  margin-top: 2px;
+  width: 100%;
+}
+
+.twmp-cafe-cart__staff-order .twmp-cafe-cart__checkout:disabled {
+  cursor: wait;
+  opacity: 0.68;
+  transform: none;
+}
+
+.twmp-cafe-cart__message {
+  color: #166534;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  min-height: 18px;
+  text-align: center;
+}
+
+.twmp-cafe-cart__message.is-error {
+  color: #b42b1a;
+}
+
 .twmp-cafe-cart__empty {
   background: rgba(47, 26, 17, 0.04);
   border-radius: 4px;
@@ -735,7 +789,7 @@ body {
     bottom: 0;
     border-radius: 26px 26px 0 0;
     left: 0;
-    max-height: 82vh;
+    max-height: 90vh;
     overflow: auto;
     padding-bottom: 80px;
     position: fixed;
@@ -916,7 +970,7 @@ body.is-cafe-modal-open {
   box-shadow: 0 30px 90px rgba(18, 11, 7, 0.24);
   max-height: calc(100vh - 48px);
   overflow: auto;
-  padding: 24px;
+  padding: 10px;
   position: relative;
   width: min(1120px, 100%);
   z-index: 1;
@@ -969,6 +1023,7 @@ body.is-cafe-modal-open {
   flex-wrap: wrap;
   gap: 12px;
   justify-content: space-between;
+  padding-right: 35px;
 }
 
 .twmp-cafe-modal__eyebrow {
@@ -982,15 +1037,16 @@ body.is-cafe-modal-open {
 
 .twmp-cafe-modal__title {
   color: var(--cafe-accent-2);
-  font-size: clamp(28px, 3vw, 42px);
+  font-size: 16px;
   line-height: 1.05;
   margin: 0;
+  font-weight: 600;
 }
 
 .twmp-cafe-modal__price {
   color: var(--cafe-accent);
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .twmp-cafe-modal__description {
