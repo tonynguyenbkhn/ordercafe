@@ -682,13 +682,18 @@ if (!function_exists('twmp_cafe_menu_render_cart_items')) {
                             <input type="tel" name="customer_phone" placeholder="<?php echo esc_attr__('Số điện thoại', 'twmp-ath'); ?>" autocomplete="tel">
                             <?php $payment_methods = function_exists('twmp_staff_orders_get_payment_methods') ? twmp_staff_orders_get_payment_methods() : []; ?>
                             <?php if (!empty($payment_methods)) : ?>
-                                <select name="payment_method" aria-label="<?php echo esc_attr__('Phương thức thanh toán', 'twmp-ath'); ?>">
+                                <fieldset class="twmp-cafe-cart__payment-methods">
                                     <?php foreach ($payment_methods as $method_key => $method_label) : ?>
-                                        <option value="<?php echo esc_attr($method_key); ?>" <?php selected($method_key, 'cod'); ?>>
-                                            <?php echo esc_html($method_label); ?>
-                                        </option>
+                                        <label class="twmp-cafe-cart__payment-option">
+                                            <input
+                                                type="radio"
+                                                name="payment_method"
+                                                value="<?php echo esc_attr($method_key); ?>"
+                                                <?php checked($method_key, 'cod'); ?>>
+                                            <span><?php echo esc_html($method_label); ?></span>
+                                        </label>
                                     <?php endforeach; ?>
-                                </select>
+                                </fieldset>
                             <?php endif; ?>
                             <button class="twmp-cafe-cart__checkout button" type="submit">
                                 <?php esc_html_e('Tạo đơn', 'twmp-ath'); ?>
