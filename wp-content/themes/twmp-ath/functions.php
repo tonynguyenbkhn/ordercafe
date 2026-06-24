@@ -311,34 +311,16 @@ add_action('init', function () {
     );
 });
 
-add_action('woocommerce_order_status_changed', function($order_id, $from, $to, $order) {
-    if ($to !== 'processing') {
+add_action('woocommerce_checkout_create_order', function ($order, $data) {
+    if (!$order instanceof WC_Order) {
         return;
     }
 
-    if (!defined('WP_DEBUG') || !WP_DEBUG) {
-        // bật WP_DEBUG + WP_DEBUG_LOG để ghi file nếu cần
-        error_log("ORDER {$order_id} -> processing but WP_DEBUG not enabled");
+    if (is_admin() && !wp_doing_ajax()) {
+        return;
     }
 
-    $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-    $lines = array_map(function($i, $frame){
-        $file = isset($frame['file']) ? $frame['file'] : '(unknown)';
-        $line = isset($frame['line']) ? $frame['line'] : '';
-        $func = isset($frame['function']) ? $frame['function'] : '';
-        return sprintf("#%d %s:%s %s()", $i, $file, $line, $func);
-    }, array_keys($bt), $bt);
-
-    error_log("ORDER {$order_id} transitioned to processing. from={$from}. Backtrace:\n" . implode("\n", $lines));
-}, 20, 4);
-
-add_action('woocommerce_checkout_order_processed', function ($order_id, $posted_data, $order) {
-    if (!$order instanceof WC_Order) {
-        $order = wc_get_order($order_id);
+    if ($order->get_status() !== 'processing') {
+        $order->set_status('processing');
     }
-
-    error_log('ORDER DEBUG #' . $order_id);
-    error_log('total=' . $order->get_total());
-    error_log('payment_method=' . $order->get_payment_method());
-    error_log('needs_payment=' . ($order->needs_payment() ? 'yes' : 'no'));
-}, 5, 3);
+}, 20, 2);

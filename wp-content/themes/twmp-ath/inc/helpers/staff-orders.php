@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Staff order board helpers.
  *
@@ -25,8 +26,22 @@ add_filter('woocommerce_checkout_get_value', 'twmp_staff_orders_force_checkout_b
 add_action('woocommerce_checkout_process', 'twmp_staff_orders_validate_checkout_branch_field');
 add_action('woocommerce_checkout_create_order', 'twmp_staff_orders_save_checkout_branch_field', 10, 2);
 add_action('template_redirect', 'twmp_staff_orders_handle_status_update');
-add_action('wp_ajax_twmp_staff_orders_poll', 'twmp_staff_orders_ajax_poll');
-add_action('wp_ajax_twmp_staff_orders_update', 'twmp_staff_orders_ajax_update');
+add_action('rest_api_init', 'twmp_staff_orders_register_rest_routes');
+
+function twmp_staff_orders_register_rest_routes()
+{
+    register_rest_route('twmp-ath/v1', '/staff-orders', array(
+        'methods'             => WP_REST_Server::READABLE,
+        'callback'            => 'twmp_staff_orders_rest_poll',
+        'permission_callback' => 'twmp_staff_orders_current_user_can_view_board',
+    ));
+
+    register_rest_route('twmp-ath/v1', '/staff-orders/update', array(
+        'methods'             => WP_REST_Server::EDITABLE,
+        'callback'            => 'twmp_staff_orders_rest_update',
+        'permission_callback' => 'twmp_staff_orders_current_user_can_view_board',
+    ));
+}
 
 function twmp_staff_orders_register_branch_post_type()
 {
@@ -159,7 +174,7 @@ function twmp_staff_orders_get_allowed_statuses()
     $statuses = wc_get_order_statuses();
     $allowed  = array();
 
-    foreach (array('wc-on-hold', 'wc-processing', 'wc-completed') as $status_key) {
+    foreach (array('wc-processing', 'wc-completed') as $status_key) {
         if (isset($statuses[$status_key])) {
             $allowed[$status_key] = $statuses[$status_key];
         }
@@ -234,7 +249,7 @@ function twmp_staff_orders_render_user_branch_field($user)
 
     $branch_id = twmp_staff_orders_get_user_branch_id($user->ID);
     $branches  = twmp_staff_orders_get_branch_options(true);
-    ?>
+?>
     <h2><?php esc_html_e('Staff Branch', 'twmp-ath'); ?></h2>
     <table class="form-table" role="presentation">
         <tr>
@@ -440,9 +455,9 @@ function twmp_staff_orders_update_order_from_request($action)
         return twmp_staff_orders_get_order_response_data($order);
     }
 
-    if ('completed' === $order->get_status()) {
-        return new WP_Error('twmp_staff_order_completed', __('Completed orders cannot be changed here.', 'twmp-ath'));
-    }
+    //    if ('completed' === $order->get_status()) {
+    //        return new WP_Error('twmp_staff_order_completed', __('Completed orders cannot be changed here.', 'twmp-ath'));
+    //    }
 
     $allowed_statuses = twmp_staff_orders_get_allowed_statuses();
     $status_key       = 'wc-' . $new_status;
@@ -478,7 +493,7 @@ function twmp_staff_orders_get_order_response_data($order)
         'status_name'          => wc_get_order_status_name($order->get_status()),
         'payment_method'       => $payment_method,
         'payment_method_label' => twmp_staff_orders_get_payment_method_label($payment_method),
-        'signature'            => twmp_staff_orders_get_orders_signature(twmp_staff_orders_get_orders()),
+        'signature'            => twmp_staff_orders_get_orders_signature(function_exists('twmp_staff_orders_get_orders_with_fallback') ? twmp_staff_orders_get_orders_with_fallback() : twmp_staff_orders_get_orders()),
     );
 }
 
@@ -529,11 +544,11 @@ function twmp_staff_orders_get_day_range($date)
 function twmp_staff_orders_get_board_statuses()
 {
     if (!function_exists('wc_get_order_statuses')) {
-        return array('on-hold', 'processing', 'completed');
+        return array('processing', 'completed');
     }
 
     $statuses = array();
-    $board_statuses = apply_filters('twmp_staff_orders_board_statuses', array('on-hold', 'processing', 'completed'));
+    $board_statuses = apply_filters('twmp_staff_orders_board_statuses', array('processing', 'completed'));
 
     foreach (array_keys(wc_get_order_statuses()) as $status_key) {
         $status = str_replace('wc-', '', $status_key);
@@ -592,6 +607,40 @@ function twmp_staff_orders_get_orders()
     return wc_get_orders($args);
 }
 
+// Fallback: try broader statuses if no orders found (handles gateways that set different initial statuses)
+function twmp_staff_orders_get_orders_with_fallback()
+{
+    $orders = twmp_staff_orders_get_orders();
+
+    if (!empty($orders)) {
+        return $orders;
+    }
+
+    if (!function_exists('wc_get_orders')) {
+        return array();
+    }
+
+    $branch_id = twmp_staff_orders_get_query_branch_id();
+    $date      = twmp_staff_orders_get_query_order_date();
+    $range     = twmp_staff_orders_get_day_range($date);
+
+    $args = array(
+        'limit'        => 50,
+        'orderby'      => 'date',
+        'order'        => 'DESC',
+        'return'       => 'objects',
+        'status'       => array('processing', 'completed', 'on-hold', 'pending'),
+        'date_created' => $range['start']->getTimestamp() . '...' . $range['end']->getTimestamp(),
+    );
+
+    if ($branch_id) {
+        $args['meta_key']   = TWMP_STAFF_ORDERS_ORDER_BRANCH_META;
+        $args['meta_value'] = $branch_id;
+    }
+
+    return wc_get_orders($args);
+}
+
 function twmp_staff_orders_get_orders_signature($orders)
 {
     $parts = array();
@@ -621,11 +670,11 @@ function twmp_staff_orders_render_table_rows($orders)
     ob_start();
 
     if (empty($orders)) :
-        ?>
+    ?>
         <tr>
             <td colspan="7" class="no-order"><?php esc_html_e('No orders found.', 'twmp-ath'); ?></td>
         </tr>
-        <?php
+    <?php
     endif;
 
     foreach ((array) $orders as $order) :
@@ -637,8 +686,8 @@ function twmp_staff_orders_render_table_rows($orders)
         $status_key           = 'wc-' . $order->get_status();
         $payment_method       = $order->get_payment_method();
         $payment_method_label = twmp_staff_orders_get_payment_method_label($payment_method);
-        ?>
-        <tr data-staff-order-row data-order-id="<?php echo esc_attr($order->get_id()); ?>">
+    ?>
+        <tr data-staff-order-row class="<?php echo esc_attr($status_key) ?>" data-order-id="<?php echo esc_attr($order->get_id()); ?>">
             <td>
                 <?php if (current_user_can('edit_shop_order', $order->get_id())) : ?>
                     <a class="twmp-staff-orders__order" href="<?php echo esc_url($order->get_edit_order_url()); ?>">
@@ -666,11 +715,11 @@ function twmp_staff_orders_render_table_rows($orders)
                             <?php
                             $item_meta = wc_display_item_meta($item, array('echo' => false));
                             if ($item_meta) :
-                                ?>
+                            ?>
                                 <div class="twmp-staff-orders__item-meta">
                                     <?php echo wp_kses_post($item_meta); ?>
                                 </div>
-                                <?php
+                            <?php
                             endif;
                             ?>
                         </li>
@@ -722,55 +771,12 @@ function twmp_staff_orders_render_table_rows($orders)
                 </form>
             </td>
         </tr>
-        <?php
+<?php
     endforeach;
 
     return trim(ob_get_clean());
 }
 
-function twmp_staff_orders_ajax_poll()
-{
-    check_ajax_referer('twmp_staff_orders_poll', 'nonce');
-
-    if (!twmp_staff_orders_current_user_can_view_board()) {
-        wp_send_json_error(array('message' => __('Bạn không có quyền xem đơn chờ.', 'twmp-ath')), 403);
-    }
-
-    twmp_staff_orders_apply_post_filters_to_query();
-
-    $orders = twmp_staff_orders_get_orders();
-
-    wp_send_json_success(array(
-        'signature' => twmp_staff_orders_get_orders_signature($orders),
-        'count'     => count($orders),
-        'html'      => function_exists('twmp_staff_orders_render_table_rows') ? twmp_staff_orders_render_table_rows($orders) : '',
-    ));
-}
-
-function twmp_staff_orders_ajax_update()
-{
-    check_ajax_referer('twmp_staff_order_update_status', 'nonce');
-
-    if (!is_user_logged_in() || !function_exists('wc_get_order')) {
-        wp_send_json_error(array('message' => __('You must log in to update orders.', 'twmp-ath')), 401);
-    }
-
-    $action = isset($_POST['twmp_staff_order_action']) ? sanitize_key(wp_unslash($_POST['twmp_staff_order_action'])) : '';
-
-    if (!in_array($action, array('update_status', 'update_payment_method'), true)) {
-        wp_send_json_error(array('message' => __('Invalid order action.', 'twmp-ath')), 400);
-    }
-
-    twmp_staff_orders_apply_post_filters_to_query();
-
-    $result = twmp_staff_orders_update_order_from_request($action);
-
-    if (is_wp_error($result)) {
-        wp_send_json_error(array('message' => $result->get_error_message()), 400);
-    }
-
-    wp_send_json_success($result);
-}
 
 function twmp_staff_orders_apply_post_filters_to_query()
 {
@@ -779,4 +785,49 @@ function twmp_staff_orders_apply_post_filters_to_query()
             $_GET[$key] = wp_unslash($_POST[$key]);
         }
     }
+}
+
+function twmp_staff_orders_apply_rest_request(WP_REST_Request $request)
+{
+    foreach ($request->get_params() as $key => $value) {
+        if (is_array($value)) {
+            continue;
+        }
+
+        $_POST[$key] = $value;
+        $_GET[$key]  = $value;
+    }
+}
+
+function twmp_staff_orders_rest_poll(WP_REST_Request $request)
+{
+    twmp_staff_orders_apply_rest_request($request);
+
+    $orders = function_exists('twmp_staff_orders_get_orders_with_fallback') ? twmp_staff_orders_get_orders_with_fallback() : twmp_staff_orders_get_orders();
+
+    return rest_ensure_response(array(
+        'signature' => twmp_staff_orders_get_orders_signature($orders),
+        'count'     => count($orders),
+        'html'      => function_exists('twmp_staff_orders_render_table_rows') ? twmp_staff_orders_render_table_rows($orders) : '',
+    ));
+}
+
+function twmp_staff_orders_rest_update(WP_REST_Request $request)
+{
+    twmp_staff_orders_apply_rest_request($request);
+
+    $action = isset($_POST['twmp_staff_order_action']) ? sanitize_key(wp_unslash($_POST['twmp_staff_order_action'])) : '';
+
+    if (!in_array($action, array('update_status', 'update_payment_method'), true)) {
+        return new WP_Error('twmp_staff_order_invalid_action', __('Invalid order action.', 'twmp-ath'), array('status' => 400));
+    }
+
+    $result = twmp_staff_orders_update_order_from_request($action);
+
+    if (is_wp_error($result)) {
+        $result->add_data(array('status' => 400));
+        return $result;
+    }
+
+    return rest_ensure_response($result);
 }

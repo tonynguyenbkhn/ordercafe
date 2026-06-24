@@ -19,6 +19,25 @@ if (!function_exists('twmp_cafe_menu_ensure_cart')) {
     }
 }
 
+if (!function_exists('twmp_cafe_menu_persist_cart')) {
+    function twmp_cafe_menu_persist_cart()
+    {
+        if (!function_exists('WC') || null === WC()->cart) {
+            return;
+        }
+
+        WC()->cart->calculate_totals();
+
+        if (WC()->session && method_exists(WC()->session, 'set_customer_session_cookie')) {
+            WC()->session->set_customer_session_cookie(true);
+        }
+
+        if (method_exists(WC()->cart, 'set_session')) {
+            WC()->cart->set_session();
+        }
+    }
+}
+
 if (!function_exists('twmp_cafe_menu_get_terms')) {
     function twmp_cafe_menu_get_terms()
     {
@@ -72,7 +91,8 @@ if (!function_exists('twmp_cafe_menu_enqueue_assets')) {
 
         wp_localize_script('twmp-frontend', 'twmpCafeMenu', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce'   => wp_create_nonce('twmp_cafe_menu_nonce'),
+            'restUrl' => esc_url_raw(rest_url('twmp-ath/v1/cafe-menu/')),
+            'nonce'   => wp_create_nonce('wp_rest'),
             'strings' => [
                 'addToCart'   => __('Thêm vào giỏ', 'twmp-ath'),
                 'chooseAttrs'  => __('Vui lòng chọn đủ tuỳ chọn', 'twmp-ath'),
@@ -92,6 +112,51 @@ if (!function_exists('twmp_cafe_menu_enqueue_assets')) {
     }
 
     add_action('wp_enqueue_scripts', 'twmp_cafe_menu_enqueue_assets', 20);
+}
+
+if (!function_exists('twmp_cafe_menu_register_rest_routes')) {
+    function twmp_cafe_menu_register_rest_routes()
+    {
+        register_rest_route('twmp-ath/v1', '/cafe-menu/cart', [
+            'methods'             => WP_REST_Server::READABLE,
+            'callback'            => 'twmp_cafe_menu_rest_get_cart',
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('twmp-ath/v1', '/cafe-menu/cart/add', [
+            'methods'             => WP_REST_Server::CREATABLE,
+            'callback'            => 'twmp_cafe_menu_rest_add_to_cart',
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('twmp-ath/v1', '/cafe-menu/cart/update', [
+            'methods'             => WP_REST_Server::EDITABLE,
+            'callback'            => 'twmp_cafe_menu_rest_update_cart',
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('twmp-ath/v1', '/cafe-menu/cart/remove', [
+            'methods'             => [WP_REST_Server::CREATABLE, WP_REST_Server::DELETABLE],
+            'callback'            => 'twmp_cafe_menu_rest_remove_cart',
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('twmp-ath/v1', '/cafe-menu/legacy', [
+            'methods'             => WP_REST_Server::CREATABLE,
+            'callback'            => 'twmp_cafe_menu_rest_legacy_action',
+            'permission_callback' => '__return_true',
+        ]);
+    }
+
+    add_action('rest_api_init', 'twmp_cafe_menu_register_rest_routes');
+    add_action('wp_ajax_twmp_cafe_menu_get_cart', 'twmp_cafe_menu_ajax_get_cart_compat');
+    add_action('wp_ajax_nopriv_twmp_cafe_menu_get_cart', 'twmp_cafe_menu_ajax_get_cart_compat');
+    add_action('wp_ajax_twmp_cafe_menu_add_to_cart', 'twmp_cafe_menu_ajax_add_to_cart_compat');
+    add_action('wp_ajax_nopriv_twmp_cafe_menu_add_to_cart', 'twmp_cafe_menu_ajax_add_to_cart_compat');
+    add_action('wp_ajax_twmp_cafe_menu_update_cart', 'twmp_cafe_menu_ajax_update_cart_compat');
+    add_action('wp_ajax_nopriv_twmp_cafe_menu_update_cart', 'twmp_cafe_menu_ajax_update_cart_compat');
+    add_action('wp_ajax_twmp_cafe_menu_remove_cart', 'twmp_cafe_menu_ajax_remove_cart_compat');
+    add_action('wp_ajax_nopriv_twmp_cafe_menu_remove_cart', 'twmp_cafe_menu_ajax_remove_cart_compat');
 }
 
 if (!function_exists('twmp_cafe_menu_render_note_field')) {
@@ -603,21 +668,6 @@ if (!function_exists('twmp_cafe_menu_render_cart_shell')) {
     }
 }
 
-if (!function_exists('twmp_cafe_menu_ajax_get_cart')) {
-    function twmp_cafe_menu_ajax_get_cart()
-    {
-        check_ajax_referer('twmp_cafe_menu_nonce', 'nonce');
-
-        if (!twmp_cafe_menu_ensure_cart()) {
-            wp_send_json_error(['message' => __('Không thể tải giỏ hàng.', 'twmp-ath')], 400);
-        }
-
-        wp_send_json_success(twmp_cafe_menu_render_cart_shell());
-    }
-
-    add_action('wp_ajax_twmp_cafe_menu_get_cart', 'twmp_cafe_menu_ajax_get_cart');
-    add_action('wp_ajax_nopriv_twmp_cafe_menu_get_cart', 'twmp_cafe_menu_ajax_get_cart');
-}
 
 if (!function_exists('twmp_cafe_menu_sanitize_variation_data')) {
     function twmp_cafe_menu_sanitize_variation_data($variation_data)
@@ -632,36 +682,158 @@ if (!function_exists('twmp_cafe_menu_sanitize_variation_data')) {
     }
 }
 
-if (!function_exists('twmp_cafe_menu_ajax_add_to_cart')) {
-    function twmp_cafe_menu_ajax_add_to_cart()
-    {
-        check_ajax_referer('twmp_cafe_menu_nonce', 'nonce');
 
-        if (!twmp_cafe_menu_ensure_cart()) {
-            wp_send_json_error(['message' => __('Không thể khởi tạo giỏ hàng.', 'twmp-ath')], 400);
+
+
+if (!function_exists('twmp_cafe_menu_rest_success')) {
+    function twmp_cafe_menu_rest_success($data)
+    {
+        return rest_ensure_response([
+            'success' => true,
+            'data'    => $data,
+        ]);
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_rest_error')) {
+    function twmp_cafe_menu_rest_error($code, $message, $status = 400)
+    {
+        return new WP_Error($code, $message, ['status' => $status]);
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_verify_compat_nonce')) {
+    function twmp_cafe_menu_verify_compat_nonce()
+    {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+
+        return $nonce && (wp_verify_nonce($nonce, 'wp_rest') || wp_verify_nonce($nonce, 'twmp_cafe_menu_nonce'));
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_ajax_send_response')) {
+    function twmp_cafe_menu_ajax_send_response($result)
+    {
+        if (is_wp_error($result)) {
+            $status = (int) $result->get_error_data('status');
+            if ($status < 400) {
+                $status = 400;
+            }
+
+            wp_send_json_error([
+                'message' => $result->get_error_message(),
+            ], $status);
         }
 
-        $product_id   = isset($_POST['product_id']) ? absint($_POST['product_id']) : 0;
-        $quantity     = isset($_POST['quantity']) ? max(1, absint($_POST['quantity'])) : 1;
-        $variation_id = isset($_POST['variation_id']) ? absint($_POST['variation_id']) : 0;
-        $note         = isset($_POST['note']) ? sanitize_textarea_field(wp_unslash($_POST['note'])) : '';
-        $variation    = isset($_POST['variation']) ? twmp_cafe_menu_sanitize_variation_data((array) $_POST['variation']) : [];
-        $staff_notes  = isset($_POST['staff_notes']) ? twmp_cafe_menu_sanitize_variation_data((array) $_POST['staff_notes']) : [];
-        $cart_item_key = isset($_POST['cart_item_key']) ? sanitize_text_field(wp_unslash($_POST['cart_item_key'])) : '';
+        if ($result instanceof WP_REST_Response) {
+            $result = $result->get_data();
+        }
+
+        if (is_array($result) && array_key_exists('success', $result) && array_key_exists('data', $result)) {
+            $result = $result['data'];
+        }
+
+        wp_send_json_success($result);
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_ajax_build_request')) {
+    function twmp_cafe_menu_ajax_build_request($action)
+    {
+        $request = new WP_REST_Request('POST', '/twmp-ath/v1/cafe-menu/legacy');
+        foreach ((array) wp_unslash($_POST) as $key => $value) {
+            $request->set_param($key, $value);
+        }
+        $request->set_param('action', $action);
+
+        return $request;
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_ajax_get_cart_compat')) {
+    function twmp_cafe_menu_ajax_get_cart_compat()
+    {
+        if (!twmp_cafe_menu_verify_compat_nonce()) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'twmp-ath')], 403);
+        }
+
+        twmp_cafe_menu_ajax_send_response(twmp_cafe_menu_rest_get_cart());
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_ajax_add_to_cart_compat')) {
+    function twmp_cafe_menu_ajax_add_to_cart_compat()
+    {
+        if (!twmp_cafe_menu_verify_compat_nonce()) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'twmp-ath')], 403);
+        }
+
+        twmp_cafe_menu_ajax_send_response(twmp_cafe_menu_rest_add_to_cart(twmp_cafe_menu_ajax_build_request('twmp_cafe_menu_add_to_cart')));
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_ajax_update_cart_compat')) {
+    function twmp_cafe_menu_ajax_update_cart_compat()
+    {
+        if (!twmp_cafe_menu_verify_compat_nonce()) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'twmp-ath')], 403);
+        }
+
+        twmp_cafe_menu_ajax_send_response(twmp_cafe_menu_rest_update_cart(twmp_cafe_menu_ajax_build_request('twmp_cafe_menu_update_cart')));
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_ajax_remove_cart_compat')) {
+    function twmp_cafe_menu_ajax_remove_cart_compat()
+    {
+        if (!twmp_cafe_menu_verify_compat_nonce()) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'twmp-ath')], 403);
+        }
+
+        twmp_cafe_menu_ajax_send_response(twmp_cafe_menu_rest_remove_cart(twmp_cafe_menu_ajax_build_request('twmp_cafe_menu_remove_cart')));
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_rest_get_cart')) {
+    function twmp_cafe_menu_rest_get_cart()
+    {
+        if (!twmp_cafe_menu_ensure_cart()) {
+            return twmp_cafe_menu_rest_error('twmp_cafe_cart_unavailable', __('Cart unavailable.', 'twmp-ath'), 400);
+        }
+
+        return twmp_cafe_menu_rest_success(twmp_cafe_menu_render_cart_shell());
+    }
+}
+
+if (!function_exists('twmp_cafe_menu_rest_add_to_cart')) {
+    function twmp_cafe_menu_rest_add_to_cart(WP_REST_Request $request)
+    {
+        if (!twmp_cafe_menu_ensure_cart()) {
+            return twmp_cafe_menu_rest_error('twmp_cafe_cart_unavailable', __('Cart unavailable.', 'twmp-ath'), 400);
+        }
+
+        $product_id    = absint($request->get_param('product_id'));
+        $quantity      = max(1, absint($request->get_param('quantity')));
+        $variation_id  = absint($request->get_param('variation_id'));
+        $note          = sanitize_textarea_field((string) $request->get_param('note'));
+        $variation     = twmp_cafe_menu_sanitize_variation_data((array) $request->get_param('variation'));
+        $staff_notes   = twmp_cafe_menu_sanitize_variation_data((array) $request->get_param('staff_notes'));
+        $cart_item_key = sanitize_text_field((string) $request->get_param('cart_item_key'));
 
         if (!$product_id || !function_exists('wc_get_product')) {
-            wp_send_json_error(['message' => __('Dữ liệu sản phẩm không hợp lệ.', 'twmp-ath')], 400);
+            return twmp_cafe_menu_rest_error('twmp_cafe_invalid_product', __('Invalid product.', 'twmp-ath'), 400);
         }
 
         $product = wc_get_product($product_id);
 
         if (!$product || !$product->is_purchasable()) {
-            wp_send_json_error(['message' => __('Sản phẩm này không thể mua.', 'twmp-ath')], 400);
+            return twmp_cafe_menu_rest_error('twmp_cafe_product_not_purchasable', __('Product cannot be purchased.', 'twmp-ath'), 400);
         }
 
+        $cart = WC()->cart->get_cart();
         $existing_cart_item = '';
-        if ($cart_item_key && isset(WC()->cart->cart_contents[$cart_item_key])) {
-            $existing_cart_item = WC()->cart->cart_contents[$cart_item_key];
+        if ($cart_item_key && isset($cart[$cart_item_key])) {
+            $existing_cart_item = $cart[$cart_item_key];
             WC()->cart->remove_cart_item($cart_item_key);
         }
 
@@ -675,13 +847,7 @@ if (!function_exists('twmp_cafe_menu_ajax_add_to_cart')) {
             $cart_item_data['twmp_staff_notes'] = $staff_notes;
         }
 
-        $added = WC()->cart->add_to_cart(
-            $product_id,
-            $quantity,
-            $variation_id,
-            $variation,
-            $cart_item_data
-        );
+        $added = WC()->cart->add_to_cart($product_id, $quantity, $variation_id, $variation, $cart_item_data);
 
         if (!$added) {
             if (!empty($existing_cart_item) && isset($existing_cart_item['product_id'])) {
@@ -702,38 +868,35 @@ if (!function_exists('twmp_cafe_menu_ajax_add_to_cart')) {
                     isset($existing_cart_item['variation']) && is_array($existing_cart_item['variation']) ? (array) $existing_cart_item['variation'] : [],
                     $restore_cart_item_data
                 );
-                WC()->cart->calculate_totals();
+                twmp_cafe_menu_persist_cart();
             }
 
-            wp_send_json_error(['message' => __('Không thể thêm sản phẩm vào giỏ.', 'twmp-ath')], 400);
+            return twmp_cafe_menu_rest_error('twmp_cafe_add_failed', __('Could not add product to cart.', 'twmp-ath'), 400);
         }
 
-        WC()->cart->calculate_totals();
+        twmp_cafe_menu_persist_cart();
 
-        wp_send_json_success([
-            'message' => __('Đã thêm vào giỏ hàng.', 'twmp-ath'),
+        return twmp_cafe_menu_rest_success([
+            'message' => __('Added to cart.', 'twmp-ath'),
             'cart'    => twmp_cafe_menu_render_cart_shell(),
         ]);
     }
-
-    add_action('wp_ajax_twmp_cafe_menu_add_to_cart', 'twmp_cafe_menu_ajax_add_to_cart');
-    add_action('wp_ajax_nopriv_twmp_cafe_menu_add_to_cart', 'twmp_cafe_menu_ajax_add_to_cart');
 }
 
-if (!function_exists('twmp_cafe_menu_ajax_update_cart')) {
-    function twmp_cafe_menu_ajax_update_cart()
+if (!function_exists('twmp_cafe_menu_rest_update_cart')) {
+    function twmp_cafe_menu_rest_update_cart(WP_REST_Request $request)
     {
-        check_ajax_referer('twmp_cafe_menu_nonce', 'nonce');
-
         if (!twmp_cafe_menu_ensure_cart()) {
-            wp_send_json_error(['message' => __('Không thể khởi tạo giỏ hàng.', 'twmp-ath')], 400);
+            return twmp_cafe_menu_rest_error('twmp_cafe_cart_unavailable', __('Cart unavailable.', 'twmp-ath'), 400);
         }
 
-        $cart_item_key = isset($_POST['cart_item_key']) ? sanitize_text_field(wp_unslash($_POST['cart_item_key'])) : '';
-        $quantity      = isset($_POST['quantity']) ? absint($_POST['quantity']) : 0;
+        $cart_item_key = sanitize_text_field((string) $request->get_param('cart_item_key'));
+        $quantity      = absint($request->get_param('quantity'));
 
-        if (!$cart_item_key || !isset(WC()->cart->cart_contents[$cart_item_key])) {
-            wp_send_json_error(['message' => __('Không tìm thấy món trong giỏ.', 'twmp-ath')], 404);
+        $cart = WC()->cart->get_cart();
+
+        if (!$cart_item_key || !isset($cart[$cart_item_key])) {
+            return twmp_cafe_menu_rest_error('twmp_cafe_cart_item_missing', __('Cart item not found.', 'twmp-ath'), 404);
         }
 
         if ($quantity <= 0) {
@@ -742,44 +905,63 @@ if (!function_exists('twmp_cafe_menu_ajax_update_cart')) {
             WC()->cart->set_quantity($cart_item_key, $quantity, true);
         }
 
-        WC()->cart->calculate_totals();
+        twmp_cafe_menu_persist_cart();
 
-        wp_send_json_success([
-            'message' => __('Giỏ hàng đã được cập nhật.', 'twmp-ath'),
+        return twmp_cafe_menu_rest_success([
+            'message' => __('Cart updated.', 'twmp-ath'),
             'cart'    => twmp_cafe_menu_render_cart_shell(),
         ]);
     }
-
-    add_action('wp_ajax_twmp_cafe_menu_update_cart', 'twmp_cafe_menu_ajax_update_cart');
-    add_action('wp_ajax_nopriv_twmp_cafe_menu_update_cart', 'twmp_cafe_menu_ajax_update_cart');
 }
 
-if (!function_exists('twmp_cafe_menu_ajax_remove_cart')) {
-    function twmp_cafe_menu_ajax_remove_cart()
+if (!function_exists('twmp_cafe_menu_rest_remove_cart')) {
+    function twmp_cafe_menu_rest_remove_cart(WP_REST_Request $request)
     {
-        check_ajax_referer('twmp_cafe_menu_nonce', 'nonce');
-
         if (!twmp_cafe_menu_ensure_cart()) {
-            wp_send_json_error(['message' => __('Không thể khởi tạo giỏ hàng.', 'twmp-ath')], 400);
+            return twmp_cafe_menu_rest_error('twmp_cafe_cart_unavailable', __('Cart unavailable.', 'twmp-ath'), 400);
         }
 
-        $cart_item_key = isset($_POST['cart_item_key']) ? sanitize_text_field(wp_unslash($_POST['cart_item_key'])) : '';
+        $cart_item_key = sanitize_text_field((string) $request->get_param('cart_item_key'));
 
-        if (!$cart_item_key || !isset(WC()->cart->cart_contents[$cart_item_key])) {
-            wp_send_json_error(['message' => __('Không tìm thấy món trong giỏ.', 'twmp-ath')], 404);
+        $cart = WC()->cart->get_cart();
+
+        if (!$cart_item_key || !isset($cart[$cart_item_key])) {
+            return twmp_cafe_menu_rest_error('twmp_cafe_cart_item_missing', __('Cart item not found.', 'twmp-ath'), 404);
         }
 
         WC()->cart->remove_cart_item($cart_item_key);
-        WC()->cart->calculate_totals();
+        twmp_cafe_menu_persist_cart();
 
-        wp_send_json_success([
-            'message' => __('Đã xoá món khỏi giỏ hàng.', 'twmp-ath'),
+        return twmp_cafe_menu_rest_success([
+            'message' => __('Cart item removed.', 'twmp-ath'),
             'cart'    => twmp_cafe_menu_render_cart_shell(),
         ]);
     }
+}
 
-    add_action('wp_ajax_twmp_cafe_menu_remove_cart', 'twmp_cafe_menu_ajax_remove_cart');
-    add_action('wp_ajax_nopriv_twmp_cafe_menu_remove_cart', 'twmp_cafe_menu_ajax_remove_cart');
+if (!function_exists('twmp_cafe_menu_rest_legacy_action')) {
+    function twmp_cafe_menu_rest_legacy_action(WP_REST_Request $request)
+    {
+        $action = sanitize_key((string) $request->get_param('action'));
+
+        if ('twmp_cafe_menu_get_cart' === $action) {
+            return twmp_cafe_menu_rest_get_cart();
+        }
+
+        if ('twmp_cafe_menu_add_to_cart' === $action) {
+            return twmp_cafe_menu_rest_add_to_cart($request);
+        }
+
+        if ('twmp_cafe_menu_update_cart' === $action) {
+            return twmp_cafe_menu_rest_update_cart($request);
+        }
+
+        if ('twmp_cafe_menu_remove_cart' === $action) {
+            return twmp_cafe_menu_rest_remove_cart($request);
+        }
+
+        return twmp_cafe_menu_rest_error('twmp_cafe_invalid_action', __('Invalid cart action.', 'twmp-ath'), 400);
+    }
 }
 
 add_action('woocommerce_checkout_create_order_line_item', function ($item, $cart_item_key, $values) {

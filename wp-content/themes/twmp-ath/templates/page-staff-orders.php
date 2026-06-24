@@ -18,10 +18,10 @@ $branch_options   = function_exists('twmp_staff_orders_get_branch_options') ? tw
 $status_filter    = function_exists('twmp_staff_orders_get_query_status') ? twmp_staff_orders_get_query_status() : 'all';
 $order_id_filter  = function_exists('twmp_staff_orders_get_query_order_id') ? twmp_staff_orders_get_query_order_id() : 0;
 $order_date_filter = function_exists('twmp_staff_orders_get_query_order_date') ? twmp_staff_orders_get_query_order_date() : current_time('Y-m-d');
-$orders           = function_exists('twmp_staff_orders_get_orders') ? twmp_staff_orders_get_orders() : array();
+$orders           = function_exists('twmp_staff_orders_get_orders_with_fallback') ? twmp_staff_orders_get_orders_with_fallback() : (function_exists('twmp_staff_orders_get_orders') ? twmp_staff_orders_get_orders() : array());
 $allowed_statuses = function_exists('twmp_staff_orders_get_allowed_statuses') ? twmp_staff_orders_get_allowed_statuses() : array();
 $payment_methods  = function_exists('twmp_staff_orders_get_payment_methods') ? twmp_staff_orders_get_payment_methods() : array('cod' => __('Tiá»n máº·t', 'twmp-ath'), 'bacs' => __('Chuyá»ƒn khoáº£n', 'twmp-ath'));
-$board_statuses   = function_exists('twmp_staff_orders_get_board_statuses') ? twmp_staff_orders_get_board_statuses() : array('on-hold', 'processing', 'completed');
+$board_statuses   = function_exists('twmp_staff_orders_get_board_statuses') ? twmp_staff_orders_get_board_statuses() : array('processing', 'completed');
 $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_all_orders') && twmp_staff_orders_current_user_can_manage_all_orders();
 $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? twmp_staff_orders_get_orders_signature($orders) : '';
 ?>
@@ -41,9 +41,9 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
     .twmp-staff-orders__header {
         display: flex;
         justify-content: space-between;
-        gap: 24px;
+        gap: 10px;
         align-items: flex-end;
-        margin-bottom: 24px;
+        margin-bottom: 10px;
     }
 
     .twmp-staff-orders__eyebrow {
@@ -81,6 +81,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         display: grid;
         gap: 6px;
         min-width: 180px;
+        width: 48%;
     }
 
     .twmp-staff-orders__field label {
@@ -120,6 +121,68 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         border: 1px solid #dde3ea;
         border-radius: 8px;
         padding: 24px;
+    }
+
+    .twmp-staff-orders__sound-panel {
+        align-items: center;
+        background: #fff;
+        border: 1px solid #dde3ea;
+        border-radius: 8px;
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        padding: 12px 14px;
+    }
+
+    .twmp-staff-orders__sound-panel p {
+        color: #52616f;
+        font-size: 13px;
+        line-height: 1.4;
+        margin: 0;
+    }
+
+    .twmp-staff-orders__sound-button {
+        background: #18212b;
+        border: 0;
+        border-radius: 6px;
+        color: #fff;
+        cursor: pointer;
+        flex: 0 0 auto;
+        font-size: 13px;
+        font-weight: 800;
+        min-height: 38px;
+        padding: 0 12px;
+    }
+
+    .twmp-staff-orders__sound-panel.is-enabled .twmp-staff-orders__sound-button {
+        background: #166534;
+    }
+
+    .twmp-staff-orders__toast {
+        background: #18212b;
+        border-radius: 8px;
+        bottom: 18px;
+        box-shadow: 0 14px 38px rgba(16, 24, 40, .22);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        left: 50%;
+        max-width: min(360px, calc(100vw - 32px));
+        opacity: 0;
+        padding: 13px 16px;
+        pointer-events: none;
+        position: fixed;
+        text-align: center;
+        transform: translate(-50%, 12px);
+        transition: opacity .2s ease, transform .2s ease;
+        width: max-content;
+        z-index: 9999;
+    }
+
+    .twmp-staff-orders__toast.is-visible {
+        opacity: 1;
+        transform: translate(-50%, 0);
     }
 
     /* .twmp-staff-orders__table-wrap {
@@ -162,6 +225,17 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
     .twmp-staff-orders__item-name {
         display: inline;
+        font-weight: bold;
+    }
+
+    .wc-processing {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .wc-completed {
+        background: #dcfce7;
+        color: #166534;
     }
 
     .twmp-staff-orders__item-meta {
@@ -186,6 +260,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         display: block;
         font-size: 12px;
         margin-top: 0;
+        display: none;
     }
 
     .twmp-staff-orders__status {
@@ -218,7 +293,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         color: #263442;
         cursor: pointer;
         font-size: 12px;
-        font-weight: 800;
+        font-weight: 500;
         min-height: 32px;
         padding: 0 10px;
     }
@@ -336,7 +411,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
     @media (max-width: 760px) {
         .twmp-staff-orders {
-            padding: 28px 0;
+            padding: 10px 0;
         }
 
         .twmp-staff-orders__header,
@@ -349,9 +424,16 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         .twmp-staff-orders__filters {
             padding: 10px 0;
             margin-bottom: 10px;
+            flex-flow: row wrap;
         }
 
-        .twmp-staff-orders select, .twmp-staff-orders__button {
+        .twmp-staff-orders__sound-panel {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .twmp-staff-orders select,
+        .twmp-staff-orders__button {
             width: 100%;
         }
 
@@ -363,22 +445,23 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
             td {
                 &:nth-child(1) {
-                     width: 50px;
+                    width: 50px;
                 }
 
-    &.no-order {
-         width: 100%;
-     }
+                &.no-order {
+                    width: 100%;
+                }
 
                 &:nth-child(2) {
                     width: 50px;
                 }
-                
+
                 &:nth-child(3) {
                     width: calc(100% - 170px);
                     display: flex;
                     gap: 10px;
                 }
+
                 &:nth-child(4) {
                     width: calc(100% - 20px);
                 }
@@ -386,6 +469,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                 &:nth-child(5) {
                     width: 50px;
                 }
+
                 &:nth-child(7) {
                     width: calc(100% - 100px);
                 }
@@ -402,9 +486,8 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
     class="twmp-staff-orders"
     data-staff-orders-root
     data-staff-orders-signature="<?php echo esc_attr($orders_signature); ?>"
-    data-staff-orders-ajax-url="<?php echo esc_url(admin_url('admin-ajax.php')); ?>"
-    data-staff-orders-nonce="<?php echo esc_attr(wp_create_nonce('twmp_staff_orders_poll')); ?>"
-    data-staff-orders-update-nonce="<?php echo esc_attr(wp_create_nonce('twmp_staff_order_update_status')); ?>">
+    data-staff-orders-rest-url="<?php echo esc_url(rest_url('twmp-ath/v1/staff-orders')); ?>"
+    data-staff-orders-rest-nonce="<?php echo esc_attr(wp_create_nonce('wp_rest')); ?>">
     <div class="twmp-staff-orders__container">
         <header class="twmp-staff-orders__header">
             <div>
@@ -439,6 +522,12 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
             <?php if (!empty($_GET['twmp_staff_payment_updated'])) : ?>
                 <div class="twmp-staff-orders__notice"><?php esc_html_e('Payment method updated.', 'twmp-ath'); ?></div>
             <?php endif; ?>
+
+            <div class="twmp-staff-orders__sound-panel" style="display: none" data-staff-orders-sound-panel>
+                <p data-staff-orders-sound-status>Am bao dang tat. Bam de bat tieng khi co don moi hoac don hoan tat.</p>
+                <button class="twmp-staff-orders__sound-button" type="button" data-staff-orders-enable-sound>Bat am bao</button>
+            </div>
+            <div class="twmp-staff-orders__toast" data-staff-orders-toast role="status" aria-live="polite"></div>
 
             <section class="twmp-staff-orders__panel">
                 <form class="twmp-staff-orders__filters" method="get">
@@ -494,7 +583,8 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                             </tr>
                         </thead>
                         <tbody data-staff-orders-body>
-                            <?php echo function_exists('twmp_staff_orders_render_table_rows') ? twmp_staff_orders_render_table_rows($orders) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                            <?php echo function_exists('twmp_staff_orders_render_table_rows') ? twmp_staff_orders_render_table_rows($orders) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -556,26 +646,247 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                     var ordersBody = root ? root.querySelector('[data-staff-orders-body]') : null;
                     var signature = root ? root.getAttribute('data-staff-orders-signature') : '';
                     var pollRequest = null;
+                    var soundPanel = root ? root.querySelector('[data-staff-orders-sound-panel]') : null;
+                    var soundButton = root ? root.querySelector('[data-staff-orders-enable-sound]') : null;
+                    var soundStatus = root ? root.querySelector('[data-staff-orders-sound-status]') : null;
+                    var toast = root ? root.querySelector('[data-staff-orders-toast]') : null;
+                    var toastTimer = null;
+                    var audioContext = null;
+                    var soundStorageKey = 'twmp_staff_orders_sound_enabled';
+                    var soundEnabled = window.localStorage && localStorage.getItem(soundStorageKey) === '1';
 
                     if (!root || !filters || !ordersBody) {
                         return;
                     }
 
-                    function request(action, formData) {
-                        new FormData(filters).forEach(function(value, key) {
-                            if (!formData.has(key)) {
-                                formData.append(key, value);
+                    function getRowStatus(row) {
+                        var select = row ? row.querySelector('[name="twmp_order_status"]') : null;
+
+                        if (select && select.value) {
+                            return select.value;
+                        }
+
+                        var statusClass = row ? Array.from(row.classList).find(function(className) {
+                            return className.indexOf('wc-') === 0;
+                        }) : '';
+
+                        return statusClass ? statusClass.replace(/^wc-/, '') : '';
+                    }
+
+                    function collectOrderState(container) {
+                        var state = {};
+
+                        container.querySelectorAll('[data-staff-order-row]').forEach(function(row) {
+                            var orderId = row.getAttribute('data-order-id');
+
+                            if (!orderId) {
+                                return;
                             }
+
+                            state[orderId] = {
+                                status: getRowStatus(row)
+                            };
                         });
 
-                        formData.append('action', action);
+                        return state;
+                    }
 
-                        return fetch(root.getAttribute('data-staff-orders-ajax-url') || '/wp-admin/admin-ajax.php', {
-                            method: 'POST',
+                    function showToast(message) {
+                        if (!toast) {
+                            return;
+                        }
+
+                        toast.textContent = message || '';
+                        toast.classList.add('is-visible');
+                        window.clearTimeout(toastTimer);
+                        toastTimer = window.setTimeout(function() {
+                            toast.classList.remove('is-visible');
+                        }, 4200);
+                    }
+
+                    function ensureAudioContext() {
+                        if (!audioContext) {
+                            var AudioCtor = window.AudioContext || window.webkitAudioContext;
+
+                            if (!AudioCtor) {
+                                return null;
+                            }
+
+                            audioContext = new AudioCtor();
+                        }
+
+                        if (audioContext.state === 'suspended') {
+                            audioContext.resume();
+                        }
+
+                        return audioContext;
+                    }
+
+                    function playTone(frequency, startOffset, duration) {
+                        var context = ensureAudioContext();
+
+                        if (!context) {
+                            return;
+                        }
+
+                        var start = context.currentTime + startOffset;
+                        var oscillator = context.createOscillator();
+                        var gain = context.createGain();
+
+                        oscillator.type = 'sine';
+                        oscillator.frequency.value = frequency;
+                        oscillator.connect(gain);
+                        gain.connect(context.destination);
+                        gain.gain.setValueAtTime(0.0001, start);
+                        gain.gain.exponentialRampToValueAtTime(0.18, start + 0.018);
+                        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+                        oscillator.start(start);
+                        oscillator.stop(start + duration + 0.03);
+                    }
+
+                    function playNotificationSound(type) {
+                        if (!soundEnabled) {
+                            return;
+                        }
+
+                        if (type === 'completed') {
+                            playTone(740, 0, 0.16);
+                            playTone(988, 0.2, 0.18);
+                            return;
+                        }
+
+                        playTone(880, 0, 0.14);
+                        playTone(1175, 0.18, 0.16);
+                    }
+
+                    function setSoundEnabled(enabled, playTestSound) {
+                        soundEnabled = !!enabled;
+
+                        if (window.localStorage) {
+                            localStorage.setItem(soundStorageKey, soundEnabled ? '1' : '0');
+                        }
+
+                        if (soundPanel) {
+                            soundPanel.classList.toggle('is-enabled', soundEnabled);
+                        }
+
+                        if (soundStatus) {
+                            soundStatus.textContent = soundEnabled
+                                ? 'Am bao da bat. Hay giu trang nay mo de nhan thong bao.'
+                                : 'Am bao dang tat. Bam de bat tieng khi co don moi hoac don hoan tat.';
+                        }
+
+                        if (soundButton) {
+                            soundButton.textContent = soundEnabled ? 'Da bat am bao' : 'Bat am bao';
+                            soundButton.disabled = soundEnabled;
+                        }
+
+                        if (!soundEnabled) {
+                            return;
+                        }
+
+                        ensureAudioContext();
+
+                        if (playTestSound) {
+                            playTone(880, 0, 0.12);
+                            playTone(1175, 0.16, 0.14);
+                        }
+
+                        if (window.Notification && Notification.permission === 'default') {
+                            Notification.requestPermission();
+                        }
+                    }
+
+                    function notifyStaff(type, orderId) {
+                        var message = type === 'completed'
+                            ? 'Don #' + orderId + ' da hoan tat.'
+                            : 'Co don moi #' + orderId + '.';
+
+                        showToast(message);
+                        playNotificationSound(type);
+
+                        if (document.hidden && window.Notification && Notification.permission === 'granted') {
+                            new Notification(message);
+                        }
+                    }
+
+                    function notifyStateChanges(previousState, nextState) {
+                        Object.keys(nextState).forEach(function(orderId) {
+                            var previous = previousState[orderId] || null;
+                            var current = nextState[orderId] || null;
+
+                            if (!current) {
+                                return;
+                            }
+
+                            if (!previous) {
+                                notifyStaff('new', orderId);
+                                return;
+                            }
+
+                            if (previous.status !== 'completed' && current.status === 'completed') {
+                                notifyStaff('completed', orderId);
+                            }
+                        });
+                    }
+
+                    if (soundButton) {
+                        soundButton.addEventListener('click', function() {
+                            setSoundEnabled(true, true);
+                        });
+                    }
+
+                    setSoundEnabled(soundEnabled, false);
+
+                    if (soundEnabled) {
+                        document.addEventListener('pointerdown', function() {
+                            ensureAudioContext();
+                        }, {
+                            once: true,
+                            passive: true
+                        });
+                    }
+
+                    function formDataToObject(formData) {
+                        var data = {};
+
+                        new FormData(filters).forEach(function(value, key) {
+                            data[key] = value;
+                        });
+
+                        formData.forEach(function(value, key) {
+                            data[key] = value;
+                        });
+
+                        return data;
+                    }
+
+                    function restUrl(params) {
+                        var url = root.getAttribute('data-staff-orders-rest-url') || '/wp-json/twmp-ath/v1/staff-orders';
+                        var query = new URLSearchParams(params || {});
+
+                        return query.toString() ? url + '?' + query.toString() : url;
+                    }
+
+                    function updateOrder(data) {
+                        var url = (root.getAttribute('data-staff-orders-rest-url') || '/wp-json/twmp-ath/v1/staff-orders') + '/update';
+
+                        return fetch(url, {
+                            method: 'PUT',
                             credentials: 'same-origin',
-                            body: formData
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-WP-Nonce': root.getAttribute('data-staff-orders-rest-nonce') || ''
+                            },
+                            body: JSON.stringify(data || {})
                         }).then(function(response) {
-                            return response.json();
+                            return response.json().then(function(payload) {
+                                if (!response.ok) {
+                                    throw new Error(payload && payload.message ? payload.message : 'Request failed.');
+                                }
+
+                                return payload;
+                            });
                         });
                     }
 
@@ -597,31 +908,40 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
                         pollRequest = new AbortController();
 
-                        var body = new FormData(filters);
-
-                        body.append('action', 'twmp_staff_orders_poll');
-                        body.append('nonce', root.getAttribute('data-staff-orders-nonce') || '');
-
-                        fetch(root.getAttribute('data-staff-orders-ajax-url') || '/wp-admin/admin-ajax.php', {
-                            method: 'POST',
-                            credentials: 'same-origin',
-                            body: body,
-                            signal: pollRequest.signal
-                        })
+                        fetch(restUrl(formDataToObject(new FormData(filters))), {
+                                method: 'GET',
+                                credentials: 'same-origin',
+                                headers: {
+                                    'X-WP-Nonce': root.getAttribute('data-staff-orders-rest-nonce') || ''
+                                },
+                                signal: pollRequest.signal
+                            })
                             .then(function(response) {
-                                return response.json();
+                                return response.json().then(function(payload) {
+                                    if (!response.ok) {
+                                        throw new Error(payload && payload.message ? payload.message : 'Request failed.');
+                                    }
+
+                                    return payload;
+                                });
                             })
                             .then(function(payload) {
-                                var data = payload && payload.success && payload.data ? payload.data : null;
+                                var data = payload || null;
 
                                 if (!data) {
                                     return;
                                 }
 
                                 if (typeof data.html === 'string' && (updateUrl || data.signature !== signature)) {
+                                    var previousState = collectOrderState(ordersBody);
+
                                     ordersBody.innerHTML = data.html;
                                     signature = data.signature || '';
                                     root.setAttribute('data-staff-orders-signature', signature);
+
+                                    if (!updateUrl) {
+                                        notifyStateChanges(previousState, collectOrderState(ordersBody));
+                                    }
                                 }
 
                                 if (updateUrl) {
@@ -641,6 +961,20 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                         row.classList.add('twmp-staff-orders__row-updated');
                     }
 
+                    function syncRowStatusClass(row, status) {
+                        if (!row || !status) {
+                            return;
+                        }
+
+                        Array.from(row.classList).forEach(function(className) {
+                            if (className.indexOf('wc-') === 0) {
+                                row.classList.remove(className);
+                            }
+                        });
+
+                        row.classList.add('wc-' + status);
+                    }
+
                     function updatePaymentButtons(row, activeMethod) {
                         row.querySelectorAll('.twmp-staff-orders__payment-button').forEach(function(button) {
                             var isActive = button.value === activeMethod;
@@ -655,6 +989,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                         var statusSelect = row.querySelector('[name="twmp_order_status"]');
                         var statusLabel = row.querySelector('[data-staff-order-status-label]');
                         var paymentLabel = row.querySelector('[data-staff-order-payment-label]');
+                        var previousStatus = getRowStatus(row);
 
                         if (statusSelect && data.status) {
                             statusSelect.value = data.status;
@@ -662,6 +997,10 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
                         if (statusLabel && data.status_name) {
                             statusLabel.textContent = data.status_name;
+                        }
+
+                        if (data.status) {
+                            syncRowStatusClass(row, data.status);
                         }
 
                         if (paymentLabel && data.payment_method_label) {
@@ -682,6 +1021,10 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                         });
 
                         flashRow(row);
+
+                        if (previousStatus !== 'completed' && data.status === 'completed') {
+                            notifyStaff('completed', data.order_id || row.getAttribute('data-order-id') || '');
+                        }
                     }
 
                     filters.addEventListener('submit', function(event) {
@@ -707,17 +1050,12 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
                         event.preventDefault();
                         form.classList.add('is-pending');
-                        body.append('nonce', root.getAttribute('data-staff-orders-update-nonce') || '');
+                        body = formDataToObject(body);
 
-                        request('twmp_staff_orders_update', body)
+                        updateOrder(body)
                             .then(function(payload) {
-                                if (!payload || !payload.success) {
-                                    window.location.reload();
-                                    return;
-                                }
-
                                 form.classList.remove('is-pending');
-                                applyOrderUpdate(row, payload.data || {});
+                                applyOrderUpdate(row, payload || {});
                             })
                             .catch(function() {
                                 form.submit();
@@ -741,16 +1079,11 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
                             submitter.classList.add('is-pending');
                         }
 
-                        body.append('nonce', root.getAttribute('data-staff-orders-update-nonce') || '');
+                        body = formDataToObject(body);
 
-                        request('twmp_staff_orders_update', body)
+                        updateOrder(body)
                             .then(function(payload) {
-                                if (!payload || !payload.success) {
-                                    window.location.reload();
-                                    return;
-                                }
-
-                                applyOrderUpdate(row, payload.data || {});
+                                applyOrderUpdate(row, payload || {});
                             })
                             .catch(function() {
                                 form.submit();
@@ -759,7 +1092,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
 
                     window.setInterval(function() {
                         refreshOrders(false);
-                    }, 7000);
+                    }, 15000);
                 })();
             </script>
         <?php endif; ?>

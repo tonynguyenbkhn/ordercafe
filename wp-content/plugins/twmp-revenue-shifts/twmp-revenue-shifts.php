@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TWMP Revenue Shifts
  * Description: Shift-based cafe revenue tracking for OrderCafe.
- * Version: 0.1.8
+ * Version: 0.1.13
  * Author: TWMP
  */
 
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('TWMP_REVENUE_SHIFTS_VERSION', '0.1.8');
+define('TWMP_REVENUE_SHIFTS_VERSION', '0.1.13');
 define('TWMP_REVENUE_SHIFTS_FILE', __FILE__);
 define('TWMP_REVENUE_SHIFTS_DIR', plugin_dir_path(__FILE__));
 define('TWMP_REVENUE_SHIFTS_URL', plugin_dir_url(__FILE__));
@@ -20,9 +20,28 @@ register_activation_hook(__FILE__, 'twmp_revenue_shifts_activate');
 add_action('wp_enqueue_scripts', 'twmp_revenue_shifts_register_assets');
 add_action('admin_enqueue_scripts', 'twmp_revenue_shifts_register_assets');
 add_shortcode('twmp_revenue', 'twmp_revenue_shifts_render_shortcode');
-add_action('wp_ajax_twmp_revenue_save_month', 'twmp_revenue_shifts_ajax_save_month');
-add_action('wp_ajax_twmp_revenue_import_orders', 'twmp_revenue_shifts_ajax_import_orders');
+add_action('rest_api_init', 'twmp_revenue_shifts_register_rest_routes');
 add_action('admin_post_twmp_revenue_export_month', 'twmp_revenue_shifts_export_month');
+add_action('admin_post_twmp_revenue_clear_all', 'twmp_revenue_shifts_clear_all_data');
+add_action('woocommerce_order_status_changed', 'twmp_revenue_shifts_maybe_sync_order_revenue', 20, 4);
+add_action('woocommerce_before_delete_order', 'twmp_revenue_shifts_sync_order_revenue_from_hook', 20, 2);
+add_action('woocommerce_before_trash_order', 'twmp_revenue_shifts_sync_order_revenue_from_hook', 20, 2);
+add_action('woocommerce_untrash_order', 'twmp_revenue_shifts_sync_order_revenue_from_hook', 20, 1);
+
+function twmp_revenue_shifts_register_rest_routes()
+{
+    register_rest_route('twmp-revenue-shifts/v1', '/month', [
+        'methods'             => WP_REST_Server::EDITABLE,
+        'callback'            => 'twmp_revenue_shifts_rest_save_month',
+        'permission_callback' => 'twmp_revenue_shifts_user_can_view',
+    ]);
+
+    register_rest_route('twmp-revenue-shifts/v1', '/import-orders', [
+        'methods'             => WP_REST_Server::CREATABLE,
+        'callback'            => 'twmp_revenue_shifts_rest_import_orders',
+        'permission_callback' => 'twmp_revenue_shifts_user_can_view',
+    ]);
+}
 
 function twmp_revenue_shifts_activate()
 {
@@ -247,6 +266,38 @@ function twmp_revenue_shifts_get_staff_users()
     ]);
 }
 
+function twmp_revenue_shifts_get_selected_staff_user_id()
+{
+    if (!twmp_revenue_shifts_is_admin_user()) {
+        return get_current_user_id();
+    }
+
+    return isset($_GET['staff_user_id']) ? absint(wp_unslash($_GET['staff_user_id'])) : 0;
+}
+
+function twmp_revenue_shifts_filter_entries_by_staff_user($entries, $staff_user_id)
+{
+    $staff_user_id = absint($staff_user_id);
+
+    if (!$staff_user_id) {
+        return $entries;
+    }
+
+    $filtered = [];
+
+    foreach ((array) $entries as $date => $shift_entries) {
+        foreach ((array) $shift_entries as $shift_key => $entry) {
+            if (absint(isset($entry['staff_user_id']) ? $entry['staff_user_id'] : 0) !== $staff_user_id) {
+                continue;
+            }
+
+            $filtered[$date][$shift_key] = $entry;
+        }
+    }
+
+    return $filtered;
+}
+
 function twmp_revenue_shifts_money_fields()
 {
     return [
@@ -346,6 +397,11 @@ function twmp_revenue_shifts_get_export_url($branch_id, $month)
     );
 
     return wp_nonce_url($url, 'twmp_revenue_export_month_' . $branch_id . '_' . $month);
+}
+
+function twmp_revenue_shifts_get_clear_all_url()
+{
+    return admin_url('admin-post.php');
 }
 
 function twmp_revenue_shifts_render_staff_select($date, $shift, $selected, $staff_users)
@@ -461,16 +517,23 @@ function twmp_revenue_shifts_render_shortcode()
 
     $today = twmp_revenue_shifts_is_admin_user() ? twmp_revenue_shifts_get_selected_date() : current_time('Y-m-d');
     $month = substr($today, 0, 7);
+    $is_cleared = !empty($_GET['twmp_revenue_cleared']);
 
     $entries = twmp_revenue_shifts_get_month_entries($branch_id, $month);
     $staff_users = twmp_revenue_shifts_get_staff_users();
+    $selected_staff_user_id = twmp_revenue_shifts_get_selected_staff_user_id();
+    $entries = twmp_revenue_shifts_filter_entries_by_staff_user($entries, $selected_staff_user_id);
+
+    if ($is_cleared) {
+        $entries = [];
+    }
+
     $branches = twmp_revenue_shifts_get_branch_options(false);
     $shifts = [
         'morning'   => __('SÁNG', 'twmp-revenue-shifts'),
         'afternoon' => __('CHIỀU', 'twmp-revenue-shifts'),
     ];
     $rows = [
-        'staff_user_id'       => __('Người chốt', 'twmp-revenue-shifts'),
         'cash_sales'          => __('Tiền mặt', 'twmp-revenue-shifts'),
         'bank_transfer_sales' => __('Chuyển khoản', 'twmp-revenue-shifts'),
         'expenses_cash'       => __('Chi', 'twmp-revenue-shifts'),
@@ -488,9 +551,9 @@ function twmp_revenue_shifts_render_shortcode()
     wp_enqueue_style('twmp-revenue-shifts');
     wp_enqueue_script('twmp-revenue-shifts');
     wp_localize_script('twmp-revenue-shifts', 'twmpRevenueShifts', [
-        'ajaxUrl' => admin_url('admin-ajax.php'),
-        'nonce'   => wp_create_nonce('twmp_revenue_save_month'),
-        'autoImport' => true,
+        'restUrl' => esc_url_raw(rest_url('twmp-revenue-shifts/v1')),
+        'nonce'   => wp_create_nonce('wp_rest'),
+        'autoImport' => !$is_cleared,
         'i18n'    => [
             'saving'    => __('Đang lưu...', 'twmp-revenue-shifts'),
             'importing' => __('Đang lấy từ đơn hàng...', 'twmp-revenue-shifts'),
@@ -510,7 +573,7 @@ function twmp_revenue_shifts_render_shortcode()
                     <p class="twmp-revenue__branch"><?php echo esc_html(isset($branches[$branch_id]) ? $branches[$branch_id] : ''); ?></p>
                 </div>
                 <?php if (twmp_revenue_shifts_is_admin_user()) : ?>
-                    <form class="twmp-revenue__filters" method="get">
+                    <form class="twmp-revenue__filters" method="get" data-revenue-filters>
                         <label>
                             <span><?php esc_html_e('Chi nhánh', 'twmp-revenue-shifts'); ?></span>
                             <select name="branch_id">
@@ -525,10 +588,27 @@ function twmp_revenue_shifts_render_shortcode()
                             <span><?php esc_html_e('Ngày', 'twmp-revenue-shifts'); ?></span>
                             <input type="date" name="revenue_date" value="<?php echo esc_attr($today); ?>">
                         </label>
+                        <label>
+                            <span><?php esc_html_e('Nhân viên', 'twmp-revenue-shifts'); ?></span>
+                            <select name="staff_user_id" data-revenue-filter-staff>
+                                <option value="0"><?php esc_html_e('Tất cả', 'twmp-revenue-shifts'); ?></option>
+                                <?php foreach ($staff_users as $user) : ?>
+                                    <option value="<?php echo esc_attr($user->ID); ?>" <?php selected((int) $selected_staff_user_id, (int) $user->ID); ?>>
+                                        <?php echo esc_html($user->display_name); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </label>
                         <button type="submit"><?php esc_html_e('Xem', 'twmp-revenue-shifts'); ?></button>
                         <a class="twmp-revenue__export" href="<?php echo esc_url(twmp_revenue_shifts_get_export_url($branch_id, $month)); ?>">
                             <?php esc_html_e('Export CSV', 'twmp-revenue-shifts'); ?>
                         </a>
+                    </form>
+                    <form class="twmp-revenue__clear-form" method="post" action="<?php echo esc_url(twmp_revenue_shifts_get_clear_all_url()); ?>" data-revenue-clear-form>
+                        <?php wp_nonce_field('twmp_revenue_clear_all'); ?>
+                        <input type="hidden" name="action" value="twmp_revenue_clear_all">
+                        <input type="hidden" name="redirect_url" value="<?php echo esc_url(remove_query_arg('twmp_revenue_cleared')); ?>">
+                        <button type="submit" class="twmp-revenue__clear"><?php esc_html_e('Xoa data va don hang', 'twmp-revenue-shifts'); ?></button>
                     </form>
                 <?php endif; ?>
             </header>
@@ -587,7 +667,7 @@ function twmp_revenue_shifts_render_shortcode()
                                             <td class="is-today" data-date="<?php echo esc_attr($date); ?>" data-shift="<?php echo esc_attr($shift); ?>">
                                                 <?php
                                                 if ('staff_user_id' === $field) {
-                                                    echo twmp_revenue_shifts_render_staff_select($date, $shift, $value ? $value : get_current_user_id(), $staff_users); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                    echo twmp_revenue_shifts_render_staff_select($date, $shift, $value ? $value : $selected_staff_user_id, $staff_users); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                 } elseif (in_array($field, twmp_revenue_shifts_money_fields(), true)) {
                                                     $is_readonly_money = in_array($field, ['cash_sales', 'bank_transfer_sales'], true);
                                                     echo twmp_revenue_shifts_render_money_input($date, $shift, $field, $value, $is_readonly_money); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -695,69 +775,131 @@ function twmp_revenue_shifts_export_month()
     exit;
 }
 
-function twmp_revenue_shifts_ajax_save_month()
+function twmp_revenue_shifts_clear_all_data()
 {
-    check_ajax_referer('twmp_revenue_save_month', 'nonce');
-
-    if (!twmp_revenue_shifts_user_can_view()) {
-        wp_send_json_error(['message' => __('Bạn không có quyền lưu doanh thu.', 'twmp-revenue-shifts')], 403);
+    if (!twmp_revenue_shifts_is_admin_user()) {
+        wp_die(esc_html__('Only administrators can clear revenue data.', 'twmp-revenue-shifts'), '', ['response' => 403]);
     }
 
-    $branch_id = isset($_POST['branch_id']) ? absint(wp_unslash($_POST['branch_id'])) : 0;
-    $month = isset($_POST['month']) ? sanitize_text_field(wp_unslash($_POST['month'])) : '';
-    $entries_json = isset($_POST['entries']) ? wp_unslash($_POST['entries']) : '';
+    check_admin_referer('twmp_revenue_clear_all');
+
+    global $wpdb;
+
+    $deleted_orders = twmp_revenue_shifts_delete_all_orders();
+    $table = twmp_revenue_shifts_table();
+    $wpdb->query("DELETE FROM {$table}");
+
+    $redirect_url = isset($_POST['redirect_url']) ? esc_url_raw(wp_unslash($_POST['redirect_url'])) : '';
+
+    if (!$redirect_url) {
+        $page_id = absint(get_option('twmp_revenue_shifts_page_id', 0));
+        $redirect_url = $page_id ? get_permalink($page_id) : home_url('/');
+    }
+
+    wp_safe_redirect(
+        add_query_arg(
+            [
+                'twmp_revenue_cleared' => '1',
+                'twmp_orders_deleted'  => $deleted_orders,
+            ],
+            $redirect_url
+        )
+    );
+    exit;
+}
+
+function twmp_revenue_shifts_delete_all_orders()
+{
+    if (!function_exists('wc_get_orders')) {
+        return 0;
+    }
+
+    $order_ids = wc_get_orders([
+        'limit'  => -1,
+        'return' => 'ids',
+        'type'   => 'shop_order',
+        'status' => array_merge(array_keys(wc_get_order_statuses()), ['trash']),
+    ]);
+
+    $deleted = 0;
+
+    foreach ((array) $order_ids as $order_id) {
+        $order = wc_get_order($order_id);
+
+        if (!$order instanceof WC_Order) {
+            continue;
+        }
+
+        $order->delete(true);
+        $deleted++;
+    }
+
+    return $deleted;
+}
+
+
+function twmp_revenue_shifts_rest_save_month(WP_REST_Request $request)
+{
+    if (!twmp_revenue_shifts_user_can_view()) {
+        return new WP_Error('twmp_revenue_forbidden', __('You cannot save revenue.', 'twmp-revenue-shifts'), ['status' => 403]);
+    }
+
+    $branch_id = absint($request->get_param('branch_id'));
+    $month = sanitize_text_field((string) $request->get_param('month'));
+    $entries = $request->get_param('entries');
 
     if (!$branch_id || !twmp_revenue_shifts_user_can_access_branch($branch_id)) {
-        wp_send_json_error(['message' => __('Chi nhánh không hợp lệ.', 'twmp-revenue-shifts')], 400);
+        return new WP_Error('twmp_revenue_invalid_branch', __('Invalid branch.', 'twmp-revenue-shifts'), ['status' => 400]);
     }
 
     if (!preg_match('/^\d{4}-\d{2}$/', $month)) {
-        wp_send_json_error(['message' => __('Tháng không hợp lệ.', 'twmp-revenue-shifts')], 400);
+        return new WP_Error('twmp_revenue_invalid_month', __('Invalid month.', 'twmp-revenue-shifts'), ['status' => 400]);
     }
 
-    $entries = json_decode($entries_json, true);
+    if (is_string($entries)) {
+        $entries = json_decode($entries, true);
+    }
 
     if (!is_array($entries)) {
-        wp_send_json_error(['message' => __('Dữ liệu không hợp lệ.', 'twmp-revenue-shifts')], 400);
+        return new WP_Error('twmp_revenue_invalid_entries', __('Invalid revenue data.', 'twmp-revenue-shifts'), ['status' => 400]);
     }
 
     $saved = twmp_revenue_shifts_save_entries($branch_id, $month, $entries, ['expenses_cash']);
 
-    wp_send_json_success([
+    return rest_ensure_response([
         'saved'   => $saved,
-        'message' => __('Đã lưu doanh thu.', 'twmp-revenue-shifts'),
+        'message' => __('Revenue saved.', 'twmp-revenue-shifts'),
     ]);
 }
 
-function twmp_revenue_shifts_ajax_import_orders()
+function twmp_revenue_shifts_rest_import_orders(WP_REST_Request $request)
 {
-    check_ajax_referer('twmp_revenue_save_month', 'nonce');
-
     if (!twmp_revenue_shifts_user_can_view()) {
-        wp_send_json_error(['message' => __('Bạn không có quyền lấy doanh thu từ đơn hàng.', 'twmp-revenue-shifts')], 403);
+        return new WP_Error('twmp_revenue_forbidden', __('You cannot import order revenue.', 'twmp-revenue-shifts'), ['status' => 403]);
     }
 
     if (!function_exists('wc_get_orders')) {
-        wp_send_json_error(['message' => __('WooCommerce chưa sẵn sàng.', 'twmp-revenue-shifts')], 400);
+        return new WP_Error('twmp_revenue_woocommerce_missing', __('WooCommerce is not ready.', 'twmp-revenue-shifts'), ['status' => 400]);
     }
 
-    $branch_id = isset($_POST['branch_id']) ? absint(wp_unslash($_POST['branch_id'])) : 0;
-    $month = isset($_POST['month']) ? sanitize_text_field(wp_unslash($_POST['month'])) : '';
-    $date = isset($_POST['date']) ? sanitize_text_field(wp_unslash($_POST['date'])) : current_time('Y-m-d');
+    $branch_id = absint($request->get_param('branch_id'));
+    $month = sanitize_text_field((string) $request->get_param('month'));
+    $date = sanitize_text_field((string) ($request->get_param('date') ?: current_time('Y-m-d')));
+    $staff_user_id = twmp_revenue_shifts_is_admin_user() ? absint($request->get_param('staff_user_id')) : get_current_user_id();
 
     if (!$branch_id || !twmp_revenue_shifts_user_can_access_branch($branch_id)) {
-        wp_send_json_error(['message' => __('Chi nhánh không hợp lệ.', 'twmp-revenue-shifts')], 400);
+        return new WP_Error('twmp_revenue_invalid_branch', __('Invalid branch.', 'twmp-revenue-shifts'), ['status' => 400]);
     }
 
     if (!preg_match('/^\d{4}-\d{2}$/', $month)) {
-        wp_send_json_error(['message' => __('Tháng không hợp lệ.', 'twmp-revenue-shifts')], 400);
+        return new WP_Error('twmp_revenue_invalid_month', __('Invalid month.', 'twmp-revenue-shifts'), ['status' => 400]);
     }
 
     if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) || 0 !== strpos($date, $month . '-')) {
-        wp_send_json_error(['message' => __('Ngày không hợp lệ.', 'twmp-revenue-shifts')], 400);
+        return new WP_Error('twmp_revenue_invalid_date', __('Invalid date.', 'twmp-revenue-shifts'), ['status' => 400]);
     }
 
-    $result = twmp_revenue_shifts_import_orders($branch_id, $month, $date);
+    $result = twmp_revenue_shifts_import_orders($branch_id, $month, $date, array(), $staff_user_id);
 
     foreach (['morning', 'afternoon'] as $shift_key) {
         if (!isset($result['entries'][$date][$shift_key])) {
@@ -766,11 +908,15 @@ function twmp_revenue_shifts_ajax_import_orders()
 
         $result['entries'][$date][$shift_key]['cash_sales'] = isset($result['entries'][$date][$shift_key]['cash_sales']) ? $result['entries'][$date][$shift_key]['cash_sales'] : 0;
         $result['entries'][$date][$shift_key]['bank_transfer_sales'] = isset($result['entries'][$date][$shift_key]['bank_transfer_sales']) ? $result['entries'][$date][$shift_key]['bank_transfer_sales'] : 0;
+
+        if ($staff_user_id) {
+            $result['entries'][$date][$shift_key]['staff_user_id'] = $staff_user_id;
+        }
     }
 
     $saved = twmp_revenue_shifts_save_entries($branch_id, $month, $result['entries'], ['cash_sales', 'bank_transfer_sales']);
 
-    wp_send_json_success([
+    return rest_ensure_response([
         'entries' => $result['entries'],
         'summary' => $result['summary'],
         'saved'   => $saved,
@@ -790,11 +936,12 @@ function twmp_revenue_shifts_get_import_message($summary)
     );
 }
 
-function twmp_revenue_shifts_import_orders($branch_id, $month, $date = '')
+function twmp_revenue_shifts_import_orders($branch_id, $month, $date = '', $exclude_order_ids = array(), $staff_user_id = 0)
 {
     $branch_id = absint($branch_id);
+    $staff_user_id = absint($staff_user_id);
     $range = $date ? twmp_revenue_shifts_get_day_range($date) : twmp_revenue_shifts_get_month_range($month);
-    $orders = twmp_revenue_shifts_get_orders_for_import($branch_id, $range['start'], $range['end']);
+    $orders = twmp_revenue_shifts_get_orders_for_import($branch_id, $range['start'], $range['end'], $exclude_order_ids, $staff_user_id);
     $cash_methods = apply_filters('twmp_revenue_shifts_cash_payment_methods', ['cod']);
     $bank_methods = apply_filters('twmp_revenue_shifts_bank_payment_methods', ['bacs']);
     $entries = [];
@@ -859,12 +1006,14 @@ function twmp_revenue_shifts_import_orders($branch_id, $month, $date = '')
     ];
 }
 
-function twmp_revenue_shifts_get_orders_for_import($branch_id, $start, $end)
+function twmp_revenue_shifts_get_orders_for_import($branch_id, $start, $end, $exclude_order_ids = array(), $staff_user_id = 0)
 {
     $statuses = apply_filters('twmp_revenue_shifts_import_order_statuses', ['on-hold', 'processing', 'completed']);
     $branch_meta_key = defined('TWMP_STAFF_ORDERS_ORDER_BRANCH_META') ? TWMP_STAFF_ORDERS_ORDER_BRANCH_META : '_twmp_branch_id';
+    $exclude_order_ids = array_values(array_filter(array_map('absint', (array) $exclude_order_ids)));
+    $staff_user_id = absint($staff_user_id);
 
-    return wc_get_orders([
+    $args = [
         'limit' => -1,
         'return' => 'objects',
         'status' => $statuses,
@@ -878,7 +1027,102 @@ function twmp_revenue_shifts_get_orders_for_import($branch_id, $start, $end)
                 'compare' => '=',
             ],
         ],
-    ]);
+    ];
+
+    if (!empty($exclude_order_ids)) {
+        $args['exclude'] = $exclude_order_ids;
+    }
+
+    if ($staff_user_id) {
+        $args['customer_id'] = $staff_user_id;
+    }
+
+    return wc_get_orders($args);
+}
+
+function twmp_revenue_shifts_get_import_statuses()
+{
+    return array_values(array_unique(array_map('sanitize_key', (array) apply_filters('twmp_revenue_shifts_import_order_statuses', ['on-hold', 'processing', 'completed']))));
+}
+
+function twmp_revenue_shifts_get_order_branch_id($order)
+{
+    if (!$order instanceof WC_Order) {
+        return 0;
+    }
+
+    $branch_meta_key = defined('TWMP_STAFF_ORDERS_ORDER_BRANCH_META') ? TWMP_STAFF_ORDERS_ORDER_BRANCH_META : '_twmp_branch_id';
+
+    return absint($order->get_meta($branch_meta_key, true));
+}
+
+function twmp_revenue_shifts_sync_order_revenue_from_hook($order_id, $order = null)
+{
+    if (!$order instanceof WC_Order) {
+        $order = wc_get_order($order_id);
+    }
+
+    if (!$order instanceof WC_Order) {
+        return;
+    }
+
+    twmp_revenue_shifts_sync_month_from_order($order);
+}
+
+function twmp_revenue_shifts_maybe_sync_order_revenue($order_id, $from, $to, $order = null)
+{
+    $from = sanitize_key((string) $from);
+    $to   = sanitize_key((string) $to);
+    $import_statuses = twmp_revenue_shifts_get_import_statuses();
+
+    if (!in_array($from, $import_statuses, true) && !in_array($to, $import_statuses, true)) {
+        return;
+    }
+
+    if (!$order instanceof WC_Order) {
+        $order = wc_get_order($order_id);
+    }
+
+    if (!$order instanceof WC_Order) {
+        return;
+    }
+
+    twmp_revenue_shifts_sync_month_from_order($order);
+}
+
+function twmp_revenue_shifts_sync_month_from_order($order)
+{
+    static $synced_months = array();
+
+    if (!$order instanceof WC_Order || !function_exists('wc_get_orders')) {
+        return false;
+    }
+
+    $branch_id = twmp_revenue_shifts_get_order_branch_id($order);
+    $date = $order->get_date_created();
+    $exclude_order_ids = array($order->get_id());
+
+    if (!$branch_id || !$date instanceof WC_DateTime) {
+        return false;
+    }
+
+    $month = $date->date_i18n('Y-m');
+    $sync_key = $branch_id . '|' . $month;
+
+    if (isset($synced_months[$sync_key])) {
+        return true;
+    }
+
+    $result = twmp_revenue_shifts_import_orders($branch_id, $month, '', $exclude_order_ids);
+
+    if (empty($result['entries']) || !is_array($result['entries'])) {
+        return false;
+    }
+
+    twmp_revenue_shifts_save_entries($branch_id, $month, $result['entries'], ['cash_sales', 'bank_transfer_sales']);
+    $synced_months[$sync_key] = true;
+
+    return true;
 }
 
 function twmp_revenue_shifts_get_month_range($month)

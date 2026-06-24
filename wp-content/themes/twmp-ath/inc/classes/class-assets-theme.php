@@ -51,8 +51,13 @@ class Assets_Theme
 		// wp_enqueue_script('twmp-frontend', get_stylesheet_directory_uri() . '/assets/js/frontend.min.js', [], null);
 		// wp_enqueue_script('twmp-woocommerce', get_stylesheet_directory_uri() . '/assets/js/woocommerce.min.js', ['jquery'], $this->theme_version);
 
-		wp_enqueue_style('twmp-frontend', get_stylesheet_directory_uri() . '/assets/css/frontend.css', [], null);
-		wp_enqueue_script('twmp-frontend', get_stylesheet_directory_uri() . '/assets/js/frontend.js', [], null, ['strategy' => 'defer']);
+		$frontend_css_path = get_stylesheet_directory() . '/assets/css/frontend.css';
+		$frontend_js_path  = get_stylesheet_directory() . '/assets/js/frontend.js';
+		$frontend_css_ver  = file_exists($frontend_css_path) ? filemtime($frontend_css_path) : $this->theme_version;
+		$frontend_js_ver   = file_exists($frontend_js_path) ? filemtime($frontend_js_path) : $this->theme_version;
+
+		wp_enqueue_style('twmp-frontend', get_stylesheet_directory_uri() . '/assets/css/frontend.css', [], $frontend_css_ver);
+		wp_enqueue_script('twmp-frontend', get_stylesheet_directory_uri() . '/assets/js/frontend.js', [], $frontend_js_ver, ['strategy' => 'defer']);
 		// wp_enqueue_script('twmp-woocommerce', get_stylesheet_directory_uri() . '/assets/js/woocommerce.js', ['jquery'], $this->theme_version);
 		// if (is_shop() || is_product_category()) {
 		// 	wp_enqueue_script('twmp-woocommerce-shop', get_stylesheet_directory_uri() . '/custom/shop.js', ['jquery'], $this->theme_version);
@@ -71,11 +76,9 @@ class Assets_Theme
 				'checkoutUrl'    => function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : '',
 				'addToCartUrl'    => function_exists('wc_get_cart_url') ? wc_get_cart_url() : '',
 			),
-			'ajax' => array(
-				// 'restUrl'    => get_rest_url(null, 'twmp/v1'),
-				'url'        => admin_url('admin-ajax.php'),
-				// 'ajax_error' => __('Sorry, something went wrong. Please refresh this page and try again!', 'twmp-ath'),
-				// 'nonce'      => wp_create_nonce('twmp-config-nonce'),
+			'rest' => array(
+				'url'   => esc_url_raw(rest_url('twmp-ath/v1')),
+				'nonce' => wp_create_nonce('wp_rest'),
 			),
 			'themePath' => get_template_directory_uri(),
 			'message' => array(

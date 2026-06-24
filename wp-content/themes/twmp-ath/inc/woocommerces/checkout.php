@@ -77,6 +77,26 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
   return $fields;
 }, 20);
 
+add_filter('woocommerce_checkout_get_value', function ($value, $input) {
+  if (!in_array($input, array('billing_first_name', 'billing_phone'), true)) {
+    return $value;
+  }
+
+  if (isset($_POST[$input])) {
+    return $value;
+  }
+
+  return '';
+}, 20, 2);
+
+add_action('woocommerce_checkout_order_processed', function ($order_id) {
+  if (!$order_id || !function_exists('WC') || !WC()->cart) {
+    return;
+  }
+
+  WC()->cart->empty_cart(true);
+}, 100);
+
 function wcs_checkout_page_open()
 {
 
@@ -108,34 +128,34 @@ function wcs_checkout_page_block_close()
   echo '</div>';
 }
 
- add_action('template_redirect', function () {
-    if (!function_exists('is_order_received_page') || !is_order_received_page()) {
-      return;
+add_action('template_redirect', function () {
+  if (!function_exists('is_order_received_page') || !is_order_received_page()) {
+    return;
+  }
+
+  if (!is_user_logged_in()) {
+    wp_safe_redirect(home_url('/'));
+    exit;
+  }
+
+  $user  = wp_get_current_user();
+  $roles = $user instanceof WP_User ? (array) $user->roles : array();
+
+  if (array_intersect(array('administrator', 'shop_manager'), $roles)) {
+    $order_id     = absint(get_query_var('order-received'));
+    $redirect_url = home_url('/staff-orders/');
+
+    if ($order_id) {
+      $redirect_url = add_query_arg(
+        array(
+          'twmp_order_id' => $order_id,
+          'order_status'  => 'all',
+        ),
+        $redirect_url
+      );
     }
 
-    if (!is_user_logged_in()) {
-      wp_safe_redirect(home_url('/'));
-      exit;
-    }
-
-    $user  = wp_get_current_user();
-    $roles = $user instanceof WP_User ? (array) $user->roles : array();
-
-    if (array_intersect(array('administrator', 'shop_manager'), $roles)) {
-      $order_id     = absint(get_query_var('order-received'));
-      $redirect_url = home_url('/staff-orders/');
-
-      if ($order_id) {
-        $redirect_url = add_query_arg(
-          array(
-            'twmp_order_id' => $order_id,
-            'order_status'  => 'all',
-          ),
-          $redirect_url
-        );
-      }
-
-      wp_safe_redirect($redirect_url);
-      exit;
-    }
-  });
+    wp_safe_redirect($redirect_url);
+    exit;
+  }
+});

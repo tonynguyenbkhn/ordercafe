@@ -68,6 +68,7 @@
 .twmp-revenue__filters select,
 .twmp-revenue__filters button,
 .twmp-revenue__export,
+.twmp-revenue__clear,
 .twmp-revenue__import,
 .twmp-revenue__save {
     border: 1px solid #cbd5dd;
@@ -105,6 +106,25 @@
     color: #26323d;
 }
 
+.twmp-revenue__clear-form {
+    margin: 0;
+    display: none;
+}
+
+.twmp-revenue__clear {
+    background: #fff5f5;
+    border-color: #f1b5b5;
+    color: #b42318;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.twmp-revenue__clear:hover {
+    background: #b42318;
+    border-color: #b42318;
+    color: #fff;
+}
+
 .twmp-revenue__import,
 .twmp-revenue__save {
     align-items: center;
@@ -122,6 +142,7 @@
 
 .twmp-revenue__import:hover {
     background: #f5f8fa;
+    border: 1px solid #cbd5dd;
 }
 
 .twmp-revenue__save:hover,

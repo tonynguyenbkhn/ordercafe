@@ -20,10 +20,6 @@
 		text-align: center;
 	}
 
-	#customer_details {
-		display: none !important;
-	}
-
 	.page-block--checkout {
 		.woocommerce-form-coupon-toggle {
 			margin-top: 1em;
@@ -408,10 +404,6 @@
 
 	.woocommerce-billing-fields h3 {
 		display: none;
-	}
-
-	.woocommerce {
-		padding-top: 30px;
 	}
 
 	form.woocommerce-cart-form h3.title-cat {
@@ -829,10 +821,10 @@
 	#order_review .order-review-s,
 	.list-payment-methods,
 	.woocommerce-checkout .col2-set {
-		box-shadow: 0px 3px 7px 1px rgba(0, 0, 0, 0.3), 0px 6px 12px -2px rgba(50, 50, 93, 0.25);
-		border-radius: 8px;
+		// box-shadow: 0px 3px 7px 1px rgba(0, 0, 0, 0.3), 0px 6px 12px -2px rgba(50, 50, 93, 0.25);
+		border-radius: 4px;
 		background-color: #fff;
-		margin-bottom: 20px;
+		margin-bottom: 10px;
 	}
 
 	.order-review-s.order-review-mobile,
@@ -860,8 +852,11 @@
 		font-weight: 400;
 		font-size: 14px;
 		line-height: 20px;
-		width: calc(100% - 24px);
-		height: 44px;
+		height: 36px;
+		outline: none;
+		box-shadow: none;
+		width: calc(100% - 40px);
+		border: 1px solid #ccc;
 	}
 
 	#twmp_branch_id_field {
@@ -918,13 +913,8 @@
 	.woocommerce-checkout .col2-set .woocommerce-billing-fields__field-wrapper #billing_phone_field,
 	.woocommerce-checkout .col2-set .woocommerce-billing-fields__field-wrapper #billing_first_name_field,
 	.woocommerce-checkout .col2-set .woocommerce-billing-fields__field-wrapper #billing_last_name_field {
-		width: 100%;
-		width: 100%;
-		;
-		width: 100%;
-		;
+		width: 50%;
 		margin-bottom: 10px;
-
 	}
 
 	#billing_email_field,
@@ -1123,8 +1113,8 @@
 	}
 
 	.order_review_wrapper {
-		box-shadow: 0px 3px 7px -3px rgba(0, 0, 0, 0.3), 0px 6px 12px -2px rgba(50, 50, 93, 0.25);
-		border-radius: 8px;
+		// box-shadow: 0px 3px 7px -3px rgba(0, 0, 0, 0.3), 0px 6px 12px -2px rgba(50, 50, 93, 0.25);
+		border-radius: 4px;
 		background-color: #fff;
 		margin-bottom: 20px;
 		padding: 10px;
@@ -1166,7 +1156,7 @@
 		background: #ffffff;
 		border: 1px solid #dbe3e8;
 		border-radius: 8px;
-		box-shadow: 0 14px 38px rgba(16, 24, 40, .08);
+		// box-shadow: 0 14px 38px rgba(16, 24, 40, .08);
 		margin: 18px 0;
 		overflow: hidden;
 	}
@@ -1176,12 +1166,12 @@
 		background: #17202a;
 		color: #ffffff;
 		display: flex;
-		font-size: 16px;
-		font-weight: 700;
+		font-size: 14px;
+		font-weight: 500;
 		justify-content: space-between;
 		line-height: 1.25;
 		margin: 0;
-		padding: 14px 16px;
+		padding: 10px;
 	}
 
 	#order_review {
@@ -1245,8 +1235,8 @@
 		.order-total td {
 			background: #fbfcfd;
 			color: #111827;
-			font-size: 16px;
-			font-weight: 800;
+			font-size: 14px;
+			font-weight: 600;
 		}
 
 		.order-total .woocommerce-Price-amount {
@@ -1276,15 +1266,15 @@
 		border-radius: 8px;
 		display: flex;
 		gap: 10px;
-		min-height: 48px;
+		min-height: 36px;
 		padding: 0 12px;
 	}
 
 	.wc_payment_method input[type="radio"] {
 		accent-color: #ef6f1a;
-		height: 18px;
+		height: 16px;
 		margin: 0;
-		width: 18px;
+		width: 16px;
 	}
 
 	.wc_payment_method label {
@@ -1335,30 +1325,86 @@
 	}
 }
 
+.form-row.twmp-checkout-field--hidden {
+	display: none !important;
+}
+
+/* Customer details styles */
+#customer_details {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 10px;
+
+	@media (min-width: 1024px) {
+		flex-direction: row;
+		gap: 24px;
+	}
+
+	.col-1,
+	.col-2 {
+		width: calc(100% - 20px);
+		padding: 10px;
+		background: #fff;
+		border-radius: 4px;
+	}
+
+	/* Ensure billing title is visible in this context */
+	.woocommerce-billing-fields h3 {
+		display: block;
+		font-weight: 500;
+		align-items: center;
+		background: #17202a;
+		color: #fff;
+		display: flex;
+		justify-content: space-between;
+		line-height: 1.25;
+		margin: 0;
+		font-size: 14px;
+		padding: 10px;
+	}
+
+	.woocommerce-billing-fields__field-wrapper {
+		display: flex;
+	}
+
+	p.form-row {
+		margin: 0;
+	}
+
+	.woocommerce-additional-fields {
+		padding: 16px;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	@media (min-width: 1024px) {
+		.col-2 {
+			display: none;
+		}
+	}
+}
+
 @media (max-width: 575px) {
 	.woocommerce-checkout {
 		.order_review_wrapper {
-			margin: 12px 0;
-		}
-
-		#order_review_heading {
-			font-size: 15px;
-			padding: 12px 14px;
+			margin: 10px 0;
 		}
 
 		.woocommerce-checkout-review-order-table {
+
 			th,
 			td {
-				padding: 10px 12px;
+				padding: 10px;
 			}
 
 			.order-total .woocommerce-Price-amount {
-				font-size: 16px;
+				font-size: 14px;
 			}
 		}
 
 		.woocommerce-checkout-payment {
-			padding: 0 12px 12px;
+			padding: 0 10px;
 		}
 	}
 }

@@ -45,7 +45,7 @@ const parseCartItem = node => {
 	}
 }
 
-const post = async (action, data = {}) => {
+const buildAjaxBody = (action, data = {}) => {
 	const body = new URLSearchParams()
 	body.set('action', action)
 	body.set('nonce', config.nonce || '')
@@ -70,16 +70,56 @@ const post = async (action, data = {}) => {
 		body.set(key, value)
 	})
 
-	const response = await fetch(config.ajaxUrl, {
-		method: 'POST',
+	return body
+}
+
+const requestCart = async (action, data = {}, useAjax = false) => {
+	if (useAjax || !config.restUrl) {
+		const response = await fetch(config.ajaxUrl || '/wp-admin/admin-ajax.php', {
+			method: 'POST',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			},
+			body: buildAjaxBody(action, data).toString()
+		})
+
+		return response.json()
+	}
+
+	const routes = {
+		twmp_cafe_menu_get_cart: ['cart', 'GET'],
+		twmp_cafe_menu_add_to_cart: ['cart/add', 'POST'],
+		twmp_cafe_menu_update_cart: ['cart/update', 'PUT'],
+		twmp_cafe_menu_remove_cart: ['cart/remove', 'POST']
+	}
+	const route = routes[action] || [action, 'POST']
+	const baseUrl = config.restUrl || '/wp-json/twmp-ath/v1/cafe-menu/'
+
+	const response = await fetch(baseUrl.replace(/\/$/, '') + '/' + route[0], {
+		method: route[1],
 		credentials: 'same-origin',
 		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			'Content-Type': 'application/json',
+			'X-WP-Nonce': config.nonce || ''
 		},
-		body: body.toString()
+		body: route[1] === 'GET' ? undefined : JSON.stringify(data)
 	})
 
-	return response.json()
+	const payload = await response.json()
+	if (!response.ok) {
+		throw payload
+	}
+
+	return payload
+}
+
+const post = async (action, data = {}) => {
+	try {
+		return await requestCart(action, data)
+	} catch (error) {
+		return requestCart(action, data, true)
+	}
 }
 
 const replaceCart = payload => {

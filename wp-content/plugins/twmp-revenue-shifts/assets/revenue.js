@@ -190,34 +190,41 @@
 
         button.addEventListener('click', function () {
             var config = window.twmpRevenueShifts || {};
-            var body = new FormData();
+            var staffFilter = root.querySelector('[data-revenue-filter-staff]');
+            var body = {
+                branch_id: root.querySelector('[data-revenue-branch]').value || '',
+                month: root.querySelector('[data-revenue-month]').value || '',
+                date: root.querySelector('[data-revenue-date]').value || '',
+                staff_user_id: staffFilter ? staffFilter.value || '' : ''
+            };
 
-            setButtonLoading(button, true, config.i18n && config.i18n.importing ? config.i18n.importing : 'Đang lấy...');
-            setStatus(root, config.i18n && config.i18n.importing ? config.i18n.importing : 'Đang lấy từ đơn hàng...', false);
-            body.append('action', 'twmp_revenue_import_orders');
-            body.append('nonce', config.nonce || '');
-            body.append('branch_id', root.querySelector('[data-revenue-branch]').value || '');
-            body.append('month', root.querySelector('[data-revenue-month]').value || '');
-            body.append('date', root.querySelector('[data-revenue-date]').value || '');
+            setButtonLoading(button, true, config.i18n && config.i18n.importing ? config.i18n.importing : 'Importing...');
+            setStatus(root, config.i18n && config.i18n.importing ? config.i18n.importing : 'Importing orders...', false);
 
-            fetch(config.ajaxUrl || '/wp-admin/admin-ajax.php', {
+            fetch((config.restUrl || '/wp-json/twmp-revenue-shifts/v1') + '/import-orders', {
                 method: 'POST',
                 credentials: 'same-origin',
-                body: body
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-WP-Nonce': config.nonce || ''
+                },
+                body: JSON.stringify(body)
             })
                 .then(function (response) {
-                    return response.json();
+                    return response.json().then(function (payload) {
+                        if (!response.ok) {
+                            throw new Error(payload && payload.message ? payload.message : '');
+                        }
+
+                        return payload;
+                    });
                 })
                 .then(function (payload) {
-                    if (!payload || !payload.success) {
-                        throw new Error(payload && payload.data && payload.data.message ? payload.data.message : '');
-                    }
-
-                    var applied = applyImportedEntries(root, payload.data.entries || {});
-                    var message = payload.data && payload.data.message ? payload.data.message : 'Đã lấy từ đơn hàng.';
+                    var applied = applyImportedEntries(root, payload.entries || {});
+                    var message = payload && payload.message ? payload.message : 'Imported orders.';
 
                     if (!applied) {
-                        message += ' Không có ca nào khớp với bảng hôm nay.';
+                        message += ' No shift matched today table.';
                     }
 
                     setStatus(root, message, false);
@@ -228,6 +235,34 @@
                 .finally(function () {
                     setButtonLoading(button, false);
                 });
+        });
+    }
+
+    function bindFilters(root) {
+        var filters = root.querySelector('[data-revenue-filters]');
+
+        if (!filters) {
+            return;
+        }
+
+        filters.addEventListener('change', function (event) {
+            if (event.target.matches('select, input[type="date"]')) {
+                filters.submit();
+            }
+        });
+    }
+
+    function bindClearForm(root) {
+        var form = root.querySelector('[data-revenue-clear-form]');
+
+        if (!form) {
+            return;
+        }
+
+        form.addEventListener('submit', function (event) {
+            if (!window.confirm('Xoa toan bo data doanh thu va tat ca don hang WooCommerce?')) {
+                event.preventDefault();
+            }
         });
     }
 
@@ -263,6 +298,8 @@
         });
 
         bindImport(root);
+        bindFilters(root);
+        bindClearForm(root);
         window.setTimeout(function () {
             scrollToToday(root);
         }, 0);
@@ -287,31 +324,36 @@
             event.preventDefault();
 
             var config = window.twmpRevenueShifts || {};
-            var body = new FormData();
+            var body = {
+                branch_id: root.querySelector('[data-revenue-branch]').value || '',
+                month: root.querySelector('[data-revenue-month]').value || '',
+                entries: collectEntries(root)
+            };
             var saveButton = form.querySelector('.twmp-revenue__save');
 
-            setButtonLoading(saveButton, true, config.i18n && config.i18n.saving ? config.i18n.saving : 'Đang lưu...');
+            setButtonLoading(saveButton, true, config.i18n && config.i18n.saving ? config.i18n.saving : 'Saving...');
             setStatus(root, config.i18n && config.i18n.saving ? config.i18n.saving : 'Saving...', false);
-            body.append('action', 'twmp_revenue_save_month');
-            body.append('nonce', config.nonce || '');
-            body.append('branch_id', root.querySelector('[data-revenue-branch]').value || '');
-            body.append('month', root.querySelector('[data-revenue-month]').value || '');
-            body.append('entries', JSON.stringify(collectEntries(root)));
 
-            fetch(config.ajaxUrl || '/wp-admin/admin-ajax.php', {
-                method: 'POST',
+            fetch((config.restUrl || '/wp-json/twmp-revenue-shifts/v1') + '/month', {
+                method: 'PUT',
                 credentials: 'same-origin',
-                body: body
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-WP-Nonce': config.nonce || ''
+                },
+                body: JSON.stringify(body)
             })
                 .then(function (response) {
-                    return response.json();
+                    return response.json().then(function (payload) {
+                        if (!response.ok) {
+                            throw new Error(payload && payload.message ? payload.message : '');
+                        }
+
+                        return payload;
+                    });
                 })
                 .then(function (payload) {
-                    if (!payload || !payload.success) {
-                        throw new Error(payload && payload.data && payload.data.message ? payload.data.message : '');
-                    }
-
-                    setStatus(root, payload.data && payload.data.message ? payload.data.message : config.i18n.saved, false);
+                    setStatus(root, payload && payload.message ? payload.message : config.i18n.saved, false);
                 })
                 .catch(function (error) {
                     setStatus(root, error.message || (config.i18n && config.i18n.error ? config.i18n.error : 'Save failed.'), true);
