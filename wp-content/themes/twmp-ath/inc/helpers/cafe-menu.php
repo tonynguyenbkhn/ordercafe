@@ -454,25 +454,19 @@ if (!function_exists('twmp_cafe_menu_get_cart_item_payload')) {
             return [];
         }
 
-        $base_product = $_product->is_type('variation') && $_product->get_parent_id()
-            ? wc_get_product($_product->get_parent_id())
-            : $_product;
-
-        if (!$base_product) {
-            return [];
-        }
-
-        $payload = twmp_cafe_menu_get_product_modal_data($base_product);
-        $payload['cart_item_key'] = (string) $cart_item_key;
-        $payload['quantity'] = isset($cart_item['quantity']) ? (int) $cart_item['quantity'] : 1;
-        $payload['note'] = isset($cart_item['twmp_note']) ? (string) $cart_item['twmp_note'] : '';
-        $payload['staff_notes'] = isset($cart_item['twmp_staff_notes']) && is_array($cart_item['twmp_staff_notes'])
-            ? (array) $cart_item['twmp_staff_notes']
-            : [];
-        $payload['variation_id'] = isset($cart_item['variation_id']) ? (int) $cart_item['variation_id'] : 0;
-        $payload['variation'] = isset($cart_item['variation']) && is_array($cart_item['variation'])
-            ? array_map('strval', $cart_item['variation'])
-            : [];
+        $payload = [
+            'product_id'    => isset($cart_item['product_id']) ? absint($cart_item['product_id']) : $_product->get_id(),
+            'cart_item_key' => (string) $cart_item_key,
+            'quantity'      => isset($cart_item['quantity']) ? (int) $cart_item['quantity'] : 1,
+            'note'          => isset($cart_item['twmp_note']) ? (string) $cart_item['twmp_note'] : '',
+            'staff_notes'   => isset($cart_item['twmp_staff_notes']) && is_array($cart_item['twmp_staff_notes'])
+                ? (array) $cart_item['twmp_staff_notes']
+                : [],
+            'variation_id'  => isset($cart_item['variation_id']) ? (int) $cart_item['variation_id'] : 0,
+            'variation'     => isset($cart_item['variation']) && is_array($cart_item['variation'])
+                ? array_map('strval', $cart_item['variation'])
+                : [],
+        ];
 
         return $payload;
     }

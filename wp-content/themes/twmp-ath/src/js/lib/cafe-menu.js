@@ -45,6 +45,20 @@ const parseCartItem = node => {
 	}
 }
 
+const getProductForCartItem = cartItem => {
+	if (!cartItem?.product_id) {
+		return null
+	}
+
+	const productCard = qsa('[data-cafe-product]').find(card => {
+		const product = parseProduct(card)
+		return product && String(product.product_id) === String(cartItem.product_id)
+	})
+
+	const product = parseProduct(productCard)
+	return product ? { ...product, ...cartItem } : cartItem
+}
+
 const buildAjaxBody = (action, data = {}) => {
 	const body = new URLSearchParams()
 	body.set('action', action)
@@ -810,7 +824,7 @@ document.addEventListener('click', event => {
 		}
 
 		const cartItem = parseCartItem(cartNode)
-		openModal(cartItem, cartItem)
+		openModal(getProductForCartItem(cartItem), cartItem)
 		return
 	}
 
