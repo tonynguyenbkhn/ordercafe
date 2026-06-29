@@ -1147,9 +1147,9 @@ if (!function_exists('twmp_cafe_menu_render_bottom_nav')) {
                     </a>
                 </li>
                 <li class="twmp-bottom-nav__item">
-                    <a class="twmp-bottom-nav__link" href="#">
+                    <a class="twmp-bottom-nav__link" href="<?php echo esc_url( wp_logout_url() ); ?>">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 0h48v48H0z" fill="none"></path> <g id="Shopicon"> <path d="M40,44c2.2,0,4-1.8,4-4V4H4v36c0,2.2,1.8,4,4,4H40z M24,22c2.206,0,4-1.794,4-4v-6h4v6c0,4.411-3.589,8-8,8s-8-3.589-8-8 v-6h4v6C20,20.206,21.794,22,24,22z"></path> </g> </g></svg>
-                        <?php esc_html_e('Checkout', 'twmp-ath'); ?>
+                        <?php esc_html_e('Đăng Xuất', 'twmp-ath'); ?>
                     </a>
                 </li>
             </ul>
