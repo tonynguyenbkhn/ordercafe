@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TWMP Revenue Shifts
  * Description: Shift-based cafe revenue tracking for OrderCafe.
- * Version: 0.1.13
+ * Version: 0.1.14
  * Author: TWMP
  */
 
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('TWMP_REVENUE_SHIFTS_VERSION', '0.1.13');
+define('TWMP_REVENUE_SHIFTS_VERSION', '0.1.14');
 define('TWMP_REVENUE_SHIFTS_FILE', __FILE__);
 define('TWMP_REVENUE_SHIFTS_DIR', plugin_dir_path(__FILE__));
 define('TWMP_REVENUE_SHIFTS_URL', plugin_dir_url(__FILE__));
@@ -19,6 +19,7 @@ register_activation_hook(__FILE__, 'twmp_revenue_shifts_activate');
 
 add_action('wp_enqueue_scripts', 'twmp_revenue_shifts_register_assets');
 add_action('admin_enqueue_scripts', 'twmp_revenue_shifts_register_assets');
+add_action('init', 'twmp_revenue_shifts_maybe_upgrade');
 add_shortcode('twmp_revenue', 'twmp_revenue_shifts_render_shortcode');
 add_action('rest_api_init', 'twmp_revenue_shifts_register_rest_routes');
 add_action('admin_post_twmp_revenue_export_month', 'twmp_revenue_shifts_export_month');
@@ -76,6 +77,7 @@ function twmp_revenue_shifts_create_tables()
         exchange_cash_out bigint(20) NOT NULL DEFAULT 0,
         expenses_cash bigint(20) NOT NULL DEFAULT 0,
         bank_transfer_sales bigint(20) NOT NULL DEFAULT 0,
+        failed_sales bigint(20) NOT NULL DEFAULT 0,
         note text NULL,
         status varchar(20) NOT NULL DEFAULT 'draft',
         closed_at datetime NULL,
@@ -89,6 +91,15 @@ function twmp_revenue_shifts_create_tables()
 
     dbDelta($sql);
     update_option('twmp_revenue_shifts_db_version', TWMP_REVENUE_SHIFTS_VERSION, false);
+}
+
+function twmp_revenue_shifts_maybe_upgrade()
+{
+    if (get_option('twmp_revenue_shifts_db_version') === TWMP_REVENUE_SHIFTS_VERSION) {
+        return;
+    }
+
+    twmp_revenue_shifts_create_tables();
 }
 
 function twmp_revenue_shifts_ensure_page()
@@ -306,6 +317,7 @@ function twmp_revenue_shifts_money_fields()
         'exchange_cash_out',
         'expenses_cash',
         'bank_transfer_sales',
+        'failed_sales',
     ];
 }
 
@@ -365,6 +377,7 @@ function twmp_revenue_shifts_get_period_totals($entries)
     $totals = [
         'cash_sales'          => 0,
         'bank_transfer_sales' => 0,
+        'failed_sales'        => 0,
         'expenses_cash'       => 0,
         'revenue_actual'      => 0,
     ];
@@ -375,6 +388,7 @@ function twmp_revenue_shifts_get_period_totals($entries)
 
             $totals['cash_sales'] += isset($entry['cash_sales']) ? (int) $entry['cash_sales'] : 0;
             $totals['bank_transfer_sales'] += isset($entry['bank_transfer_sales']) ? (int) $entry['bank_transfer_sales'] : 0;
+            $totals['failed_sales'] += isset($entry['failed_sales']) ? (int) $entry['failed_sales'] : 0;
             $totals['expenses_cash'] += isset($entry['expenses_cash']) ? (int) $entry['expenses_cash'] : 0;
             $totals['revenue_actual'] += isset($calc['revenue_actual']) ? (int) $calc['revenue_actual'] : 0;
         }
@@ -536,12 +550,14 @@ function twmp_revenue_shifts_render_shortcode()
     $rows = [
         'cash_sales'          => __('Tiền mặt', 'twmp-revenue-shifts'),
         'bank_transfer_sales' => __('Chuyển khoản', 'twmp-revenue-shifts'),
+        'failed_sales'        => __('Đơn lỗi', 'twmp-revenue-shifts'),
         'expenses_cash'       => __('Chi', 'twmp-revenue-shifts'),
         'revenue_actual'      => __('Doanh thu', 'twmp-revenue-shifts'),
     ];
     $summary_rows = [
         'cash_sales'          => __('Tiền mặt', 'twmp-revenue-shifts'),
         'bank_transfer_sales' => __('Chuyển khoản', 'twmp-revenue-shifts'),
+        'failed_sales'        => __('Đơn lỗi', 'twmp-revenue-shifts'),
         'expenses_cash'       => __('Chi', 'twmp-revenue-shifts'),
         'revenue_actual'      => __('Doanh thu', 'twmp-revenue-shifts'),
     ];
@@ -669,7 +685,7 @@ function twmp_revenue_shifts_render_shortcode()
                                                 if ('staff_user_id' === $field) {
                                                     echo twmp_revenue_shifts_render_staff_select($date, $shift, $value ? $value : $selected_staff_user_id, $staff_users); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                 } elseif (in_array($field, twmp_revenue_shifts_money_fields(), true)) {
-                                                    $is_readonly_money = in_array($field, ['cash_sales', 'bank_transfer_sales'], true);
+                                                    $is_readonly_money = in_array($field, ['cash_sales', 'bank_transfer_sales', 'failed_sales'], true);
                                                     echo twmp_revenue_shifts_render_money_input($date, $shift, $field, $value, $is_readonly_money); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                 } else {
                                                     echo twmp_revenue_shifts_render_readonly_value($date, $shift, $field, $value); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -737,7 +753,7 @@ function twmp_revenue_shifts_export_month()
     fputcsv($output, ['Chi nhánh', $branch_name]);
     fputcsv($output, ['Tháng', $month]);
     fputcsv($output, []);
-    fputcsv($output, ['Ngày', 'Ca', 'Người chốt', 'Tiền mặt', 'Chuyển khoản', 'Chi', 'Doanh thu']);
+    fputcsv($output, ['Ngày', 'Ca', 'Người chốt', 'Tiền mặt', 'Chuyển khoản', 'Đơn lỗi', 'Chi', 'Doanh thu']);
 
     for ($date = $range['start']; $date <= $range['end']; $date = $date->modify('+1 day')) {
         $business_date = $date->format('Y-m-d');
@@ -754,6 +770,7 @@ function twmp_revenue_shifts_export_month()
                 $staff instanceof WP_User ? $staff->display_name : '',
                 isset($entry['cash_sales']) ? (int) $entry['cash_sales'] : 0,
                 isset($entry['bank_transfer_sales']) ? (int) $entry['bank_transfer_sales'] : 0,
+                isset($entry['failed_sales']) ? (int) $entry['failed_sales'] : 0,
                 isset($entry['expenses_cash']) ? (int) $entry['expenses_cash'] : 0,
                 isset($calc['revenue_actual']) ? (int) $calc['revenue_actual'] : 0,
             ]);
@@ -767,6 +784,7 @@ function twmp_revenue_shifts_export_month()
         '',
         $totals['cash_sales'],
         $totals['bank_transfer_sales'],
+        $totals['failed_sales'],
         $totals['expenses_cash'],
         $totals['revenue_actual'],
     ]);
@@ -908,13 +926,14 @@ function twmp_revenue_shifts_rest_import_orders(WP_REST_Request $request)
 
         $result['entries'][$date][$shift_key]['cash_sales'] = isset($result['entries'][$date][$shift_key]['cash_sales']) ? $result['entries'][$date][$shift_key]['cash_sales'] : 0;
         $result['entries'][$date][$shift_key]['bank_transfer_sales'] = isset($result['entries'][$date][$shift_key]['bank_transfer_sales']) ? $result['entries'][$date][$shift_key]['bank_transfer_sales'] : 0;
+        $result['entries'][$date][$shift_key]['failed_sales'] = isset($result['entries'][$date][$shift_key]['failed_sales']) ? $result['entries'][$date][$shift_key]['failed_sales'] : 0;
 
         if ($staff_user_id) {
             $result['entries'][$date][$shift_key]['staff_user_id'] = $staff_user_id;
         }
     }
 
-    $saved = twmp_revenue_shifts_save_entries($branch_id, $month, $result['entries'], ['cash_sales', 'bank_transfer_sales']);
+    $saved = twmp_revenue_shifts_save_entries($branch_id, $month, $result['entries'], ['cash_sales', 'bank_transfer_sales', 'failed_sales']);
 
     return rest_ensure_response([
         'entries' => $result['entries'],
@@ -927,11 +946,12 @@ function twmp_revenue_shifts_rest_import_orders(WP_REST_Request $request)
 function twmp_revenue_shifts_get_import_message($summary)
 {
     return sprintf(
-        /* translators: 1: order count, 2: cash total, 3: bank total, 4: skipped order count */
-        __('Đã lấy %1$d đơn. Tiền mặt: %2$s. Chuyển khoản: %3$s. Bỏ qua: %4$d đơn.', 'twmp-revenue-shifts'),
+        /* translators: 1: order count, 2: cash total, 3: bank total, 4: failed total, 5: skipped order count */
+        __('Đã lấy %1$d đơn. Tiền mặt: %2$s. Chuyển khoản: %3$s. Đơn lỗi: %4$s. Bỏ qua: %5$d đơn.', 'twmp-revenue-shifts'),
         isset($summary['orders_count']) ? (int) $summary['orders_count'] : 0,
         twmp_revenue_shifts_format_money(isset($summary['cash_total']) ? $summary['cash_total'] : 0),
         twmp_revenue_shifts_format_money(isset($summary['bank_total']) ? $summary['bank_total'] : 0),
+        twmp_revenue_shifts_format_money(isset($summary['failed_total']) ? $summary['failed_total'] : 0),
         isset($summary['skipped_orders_count']) ? (int) $summary['skipped_orders_count'] : 0
     );
 }
@@ -949,9 +969,11 @@ function twmp_revenue_shifts_import_orders($branch_id, $month, $date = '', $excl
         'orders_count' => 0,
         'cash_orders_count' => 0,
         'bank_orders_count' => 0,
+        'failed_orders_count' => 0,
         'skipped_orders_count' => 0,
         'cash_total' => 0,
         'bank_total' => 0,
+        'failed_total' => 0,
     ];
 
     foreach ($orders as $order) {
@@ -976,12 +998,20 @@ function twmp_revenue_shifts_import_orders($branch_id, $month, $date = '', $excl
             $entries[$business_date][$shift_key] = [
                 'cash_sales' => 0,
                 'bank_transfer_sales' => 0,
+                'failed_sales' => 0,
             ];
         }
 
         $payment_method = (string) $order->get_payment_method();
         $total = (int) round((float) $order->get_total());
         $summary['orders_count']++;
+
+        if ($order->has_status('failed')) {
+            $entries[$business_date][$shift_key]['failed_sales'] += $total;
+            $summary['failed_orders_count']++;
+            $summary['failed_total'] += $total;
+            continue;
+        }
 
         if (in_array($payment_method, $cash_methods, true)) {
             $entries[$business_date][$shift_key]['cash_sales'] += $total;
@@ -1008,7 +1038,7 @@ function twmp_revenue_shifts_import_orders($branch_id, $month, $date = '', $excl
 
 function twmp_revenue_shifts_get_orders_for_import($branch_id, $start, $end, $exclude_order_ids = array(), $staff_user_id = 0)
 {
-    $statuses = apply_filters('twmp_revenue_shifts_import_order_statuses', ['on-hold', 'processing', 'completed']);
+    $statuses = apply_filters('twmp_revenue_shifts_import_order_statuses', ['on-hold', 'processing', 'completed', 'failed']);
     $branch_meta_key = defined('TWMP_STAFF_ORDERS_ORDER_BRANCH_META') ? TWMP_STAFF_ORDERS_ORDER_BRANCH_META : '_twmp_branch_id';
     $exclude_order_ids = array_values(array_filter(array_map('absint', (array) $exclude_order_ids)));
     $staff_user_id = absint($staff_user_id);
@@ -1042,7 +1072,7 @@ function twmp_revenue_shifts_get_orders_for_import($branch_id, $start, $end, $ex
 
 function twmp_revenue_shifts_get_import_statuses()
 {
-    return array_values(array_unique(array_map('sanitize_key', (array) apply_filters('twmp_revenue_shifts_import_order_statuses', ['on-hold', 'processing', 'completed']))));
+    return array_values(array_unique(array_map('sanitize_key', (array) apply_filters('twmp_revenue_shifts_import_order_statuses', ['on-hold', 'processing', 'completed', 'failed']))));
 }
 
 function twmp_revenue_shifts_get_order_branch_id($order)
@@ -1087,10 +1117,10 @@ function twmp_revenue_shifts_maybe_sync_order_revenue($order_id, $from, $to, $or
         return;
     }
 
-    twmp_revenue_shifts_sync_month_from_order($order);
+    twmp_revenue_shifts_sync_month_from_order($order, false);
 }
 
-function twmp_revenue_shifts_sync_month_from_order($order)
+function twmp_revenue_shifts_sync_month_from_order($order, $exclude_current_order = true)
 {
     static $synced_months = array();
 
@@ -1100,7 +1130,7 @@ function twmp_revenue_shifts_sync_month_from_order($order)
 
     $branch_id = twmp_revenue_shifts_get_order_branch_id($order);
     $date = $order->get_date_created();
-    $exclude_order_ids = array($order->get_id());
+    $exclude_order_ids = $exclude_current_order ? array($order->get_id()) : array();
 
     if (!$branch_id || !$date instanceof WC_DateTime) {
         return false;
@@ -1114,12 +1144,22 @@ function twmp_revenue_shifts_sync_month_from_order($order)
     }
 
     $result = twmp_revenue_shifts_import_orders($branch_id, $month, '', $exclude_order_ids);
+    $business_date = $date->date_i18n('Y-m-d');
+    $shift_key = twmp_revenue_shifts_get_shift_key_for_datetime($date);
 
     if (empty($result['entries']) || !is_array($result['entries'])) {
-        return false;
+        $result['entries'] = array();
     }
 
-    twmp_revenue_shifts_save_entries($branch_id, $month, $result['entries'], ['cash_sales', 'bank_transfer_sales']);
+    if (!isset($result['entries'][$business_date][$shift_key])) {
+        $result['entries'][$business_date][$shift_key] = array(
+            'cash_sales' => 0,
+            'bank_transfer_sales' => 0,
+            'failed_sales' => 0,
+        );
+    }
+
+    twmp_revenue_shifts_save_entries($branch_id, $month, $result['entries'], ['cash_sales', 'bank_transfer_sales', 'failed_sales']);
     $synced_months[$sync_key] = true;
 
     return true;
@@ -1230,6 +1270,7 @@ function twmp_revenue_shifts_save_entries($branch_id, $month, $entries, $allowed
                 'exchange_cash_out'    => isset($existing['exchange_cash_out']) ? (int) $existing['exchange_cash_out'] : 0,
                 'expenses_cash'        => isset($existing['expenses_cash']) ? (int) $existing['expenses_cash'] : 0,
                 'bank_transfer_sales'  => isset($existing['bank_transfer_sales']) ? (int) $existing['bank_transfer_sales'] : 0,
+                'failed_sales'         => isset($existing['failed_sales']) ? (int) $existing['failed_sales'] : 0,
                 'status'               => 'draft',
                 'updated_at'           => $now,
             ];
@@ -1247,7 +1288,7 @@ function twmp_revenue_shifts_save_entries($branch_id, $month, $entries, $allowed
                     $table,
                     $data,
                     ['id' => absint($existing_id)],
-                    ['%d', '%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d', '%s', '%s'],
+                    ['%d', '%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%s', '%s'],
                     ['%d']
                 );
             } else {
@@ -1255,7 +1296,7 @@ function twmp_revenue_shifts_save_entries($branch_id, $month, $entries, $allowed
                 $wpdb->insert(
                     $table,
                     $data,
-                    ['%d', '%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d', '%s', '%s', '%s']
+                    ['%d', '%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%s', '%s', '%s']
                 );
             }
 

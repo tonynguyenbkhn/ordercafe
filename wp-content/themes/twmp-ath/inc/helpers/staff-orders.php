@@ -180,13 +180,24 @@ function twmp_staff_orders_get_allowed_statuses()
     $statuses = wc_get_order_statuses();
     $allowed  = array();
 
-    foreach (array('wc-processing', 'wc-completed') as $status_key) {
+    foreach (array('wc-processing', 'wc-completed', 'wc-failed') as $status_key) {
         if (isset($statuses[$status_key])) {
-            $allowed[$status_key] = $statuses[$status_key];
+            $allowed[$status_key] = 'wc-failed' === $status_key ? __('Đơn lỗi', 'twmp-ath') : $statuses[$status_key];
         }
     }
 
     return apply_filters('twmp_staff_orders_allowed_statuses', $allowed);
+}
+
+function twmp_staff_orders_get_order_status_label($status)
+{
+    $status_key = 0 === strpos((string) $status, 'wc-') ? (string) $status : 'wc-' . sanitize_key((string) $status);
+
+    if ('wc-failed' === $status_key) {
+        return __('Đơn lỗi', 'twmp-ath');
+    }
+
+    return wc_get_order_status_name(str_replace('wc-', '', $status_key));
 }
 
 function twmp_staff_orders_get_payment_methods()
@@ -496,7 +507,7 @@ function twmp_staff_orders_get_order_response_data($order)
     return array(
         'order_id'             => $order->get_id(),
         'status'               => $order->get_status(),
-        'status_name'          => wc_get_order_status_name($order->get_status()),
+        'status_name'          => twmp_staff_orders_get_order_status_label($order->get_status()),
         'payment_method'       => $payment_method,
         'payment_method_label' => twmp_staff_orders_get_payment_method_label($payment_method),
         'signature'            => twmp_staff_orders_get_orders_signature(function_exists('twmp_staff_orders_get_orders_with_fallback') ? twmp_staff_orders_get_orders_with_fallback() : twmp_staff_orders_get_orders()),
@@ -688,7 +699,7 @@ function twmp_staff_orders_rest_create(WP_REST_Request $request)
         'order_id'         => $order->get_id(),
         'order_number'     => $order->get_order_number(),
         'status'           => $order->get_status(),
-        'status_name'      => wc_get_order_status_name($order->get_status()),
+        'status_name'      => twmp_staff_orders_get_order_status_label($order->get_status()),
         'staff_orders_url' => add_query_arg(
             array(
                 'twmp_order_id'      => $order->get_id(),
@@ -753,7 +764,7 @@ function twmp_staff_orders_get_board_statuses()
     }
 
     $statuses = array();
-    $board_statuses = apply_filters('twmp_staff_orders_board_statuses', array('processing', 'completed'));
+    $board_statuses = apply_filters('twmp_staff_orders_board_statuses', array('processing', 'completed', 'failed'));
 
     foreach (array_keys(wc_get_order_statuses()) as $status_key) {
         $status = str_replace('wc-', '', $status_key);
@@ -834,7 +845,7 @@ function twmp_staff_orders_get_orders_with_fallback()
         'orderby'      => 'date',
         'order'        => 'DESC',
         'return'       => 'objects',
-        'status'       => array('processing', 'completed', 'on-hold', 'pending'),
+        'status'       => array('processing', 'completed', 'on-hold', 'pending', 'failed'),
         'date_created' => $range['start']->getTimestamp() . '...' . $range['end']->getTimestamp(),
     );
 
@@ -932,7 +943,7 @@ function twmp_staff_orders_render_table_rows($orders)
                 </ul>
             </td>
             <td><?php echo wp_kses_post($order->get_formatted_order_total()); ?></td>
-            <td style="display: none;"><span class="twmp-staff-orders__status" data-staff-order-status-label><?php echo esc_html(wc_get_order_status_name($order->get_status())); ?></span></td>
+            <td style="display: none;"><span class="twmp-staff-orders__status" data-staff-order-status-label><?php echo esc_html(twmp_staff_orders_get_order_status_label($order->get_status())); ?></span></td>
             <td>
                 <form class="twmp-staff-orders__status-form" method="post" data-staff-order-status-form>
                     <?php wp_nonce_field('twmp_staff_order_update_status', 'twmp_staff_order_nonce'); ?>

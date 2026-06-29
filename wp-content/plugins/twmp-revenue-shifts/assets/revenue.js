@@ -81,6 +81,7 @@
         var summaries = {
             cash_sales: 0,
             bank_transfer_sales: 0,
+            failed_sales: 0,
             expenses_cash: 0,
             revenue_actual: 0
         };
@@ -89,7 +90,7 @@
             summaries.revenue_actual += digits(output.textContent);
         });
 
-        ['cash_sales', 'bank_transfer_sales', 'expenses_cash'].forEach(function (field) {
+        ['cash_sales', 'bank_transfer_sales', 'failed_sales', 'expenses_cash'].forEach(function (field) {
             root.querySelectorAll('[data-revenue-input][data-revenue-money][data-field="' + field + '"]').forEach(function (input) {
                 summaries[field] += digits(input.value);
             });
@@ -160,7 +161,7 @@
     function applyImportedEntries(root, entries) {
         var applied = 0;
 
-        root.querySelectorAll('[data-revenue-input][data-revenue-money][data-field="cash_sales"], [data-revenue-input][data-revenue-money][data-field="bank_transfer_sales"]').forEach(function (input) {
+        root.querySelectorAll('[data-revenue-input][data-revenue-money][data-field="cash_sales"], [data-revenue-input][data-revenue-money][data-field="bank_transfer_sales"], [data-revenue-input][data-revenue-money][data-field="failed_sales"]').forEach(function (input) {
             input.value = '';
             updateTotals(root, input.getAttribute('data-date'), input.getAttribute('data-shift'));
         });
@@ -171,8 +172,9 @@
 
                 var cashApplied = setMoneyInput(root, date, shift, 'cash_sales', digits(entry.cash_sales));
                 var bankApplied = setMoneyInput(root, date, shift, 'bank_transfer_sales', digits(entry.bank_transfer_sales));
+                var failedApplied = setMoneyInput(root, date, shift, 'failed_sales', digits(entry.failed_sales));
 
-                if (cashApplied || bankApplied) {
+                if (cashApplied || bankApplied || failedApplied) {
                     applied += 1;
                 }
             });
