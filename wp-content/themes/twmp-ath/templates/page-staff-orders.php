@@ -133,6 +133,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         justify-content: space-between;
         margin-bottom: 16px;
         padding: 12px 14px;
+        display: none;
     }
 
     .twmp-staff-orders__sound-panel p {
