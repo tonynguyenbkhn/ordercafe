@@ -229,6 +229,11 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         font-weight: bold;
     }
 
+    .wc-failed {
+        background: #f4433614;
+        color: #92400e;
+    }
+
     .wc-processing {
         background: #fef3c7;
         color: #92400e;
