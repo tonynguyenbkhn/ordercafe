@@ -20,7 +20,7 @@ $order_id_filter  = function_exists('twmp_staff_orders_get_query_order_id') ? tw
 $order_date_filter = function_exists('twmp_staff_orders_get_query_order_date') ? twmp_staff_orders_get_query_order_date() : current_time('Y-m-d');
 $orders           = function_exists('twmp_staff_orders_get_orders_with_fallback') ? twmp_staff_orders_get_orders_with_fallback() : (function_exists('twmp_staff_orders_get_orders') ? twmp_staff_orders_get_orders() : array());
 $allowed_statuses = function_exists('twmp_staff_orders_get_allowed_statuses') ? twmp_staff_orders_get_allowed_statuses() : array();
-$payment_methods  = function_exists('twmp_staff_orders_get_payment_methods') ? twmp_staff_orders_get_payment_methods() : array('cod' => __('Tiá»n máº·t', 'twmp-ath'), 'bacs' => __('Chuyá»ƒn khoáº£n', 'twmp-ath'));
+$payment_methods  = function_exists('twmp_staff_orders_get_payment_methods') ? twmp_staff_orders_get_payment_methods() : array('cod' => __('Tiền mặt', 'twmp-ath'), 'bacs' => __('Chuyển khoản', 'twmp-ath'), 'cheque' => __('Chưa thanh toán', 'twmp-ath'));
 $board_statuses   = function_exists('twmp_staff_orders_get_board_statuses') ? twmp_staff_orders_get_board_statuses() : array('processing', 'completed', 'failed');
 $can_manage_all   = function_exists('twmp_staff_orders_current_user_can_manage_all_orders') && twmp_staff_orders_current_user_can_manage_all_orders();
 $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? twmp_staff_orders_get_orders_signature($orders) : '';
@@ -288,7 +288,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
     .twmp-staff-orders__payment-form {
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 5px;
         margin-top: 8px;
     }
 
@@ -301,7 +301,7 @@ $orders_signature = function_exists('twmp_staff_orders_get_orders_signature') ? 
         font-size: 12px;
         font-weight: 500;
         min-height: 32px;
-        padding: 0 10px;
+        padding: 0 5px;
     }
 
     .twmp-staff-orders__payment-button.is-active,

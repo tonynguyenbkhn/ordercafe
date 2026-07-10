@@ -205,8 +205,9 @@ function twmp_staff_orders_get_payment_methods()
     return apply_filters(
         'twmp_staff_orders_payment_methods',
         array(
-            'cod'  => __('Tiền mặt', 'twmp-ath'),
-            'bacs' => __('Chuyển khoản', 'twmp-ath'),
+            'cod'    => __('Tiền mặt', 'twmp-ath'),
+            'bacs'   => __('Chuyển khoản', 'twmp-ath'),
+            'cheque' => __('Chưa thanh toán', 'twmp-ath'),
         )
     );
 }
