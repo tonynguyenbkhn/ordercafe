@@ -226,7 +226,7 @@ if (!function_exists('twmp_cafe_menu_register_rest_routes')) {
 if (!function_exists('twmp_cafe_menu_render_note_field')) {
     function twmp_cafe_menu_render_note_field($product_id)
     {
-        ?>
+?>
         <label class="twmp-cafe-form__field twmp-cafe-form__field--note" for="twmp-cafe-note-<?php echo esc_attr($product_id); ?>">
             <span><?php esc_html_e('Ghi chú', 'twmp-ath'); ?></span>
             <textarea
@@ -235,7 +235,7 @@ if (!function_exists('twmp_cafe_menu_render_note_field')) {
                 rows="2"
                 placeholder="<?php echo esc_attr__('Ít đá, không đường, thêm topping...', 'twmp-ath'); ?>"></textarea>
         </label>
-        <?php
+    <?php
     }
 }
 
@@ -487,7 +487,7 @@ if (!function_exists('twmp_cafe_menu_render_product_card')) {
         $description  = wp_trim_words(wp_strip_all_tags((string) $product->get_short_description()), 18, '...');
         $is_out_stock = !$product->is_in_stock();
         $modal_data   = twmp_cafe_menu_get_product_modal_data($product);
-        ?>
+    ?>
         <article
             class="twmp-cafe-card <?php echo $product->is_type('variable') ? 'twmp-cafe-card--variable' : 'twmp-cafe-card--simple'; ?>"
             data-cafe-product="<?php echo esc_attr(wp_json_encode($modal_data)); ?>">
@@ -512,7 +512,7 @@ if (!function_exists('twmp_cafe_menu_render_product_card')) {
                 </div>
             </div>
         </article>
-        <?php
+    <?php
     }
 }
 
@@ -524,7 +524,7 @@ if (!function_exists('twmp_cafe_menu_render_product_modal_shell')) {
         }
 
         ob_start();
-        ?>
+    ?>
         <div class="twmp-cafe-modal" data-cafe-modal hidden>
             <div class="twmp-cafe-modal__backdrop js-cafe-modal-close" aria-hidden="true"></div>
             <div class="twmp-cafe-modal__panel" role="dialog" aria-modal="true" aria-labelledby="twmp-cafe-modal-title">
@@ -570,7 +570,7 @@ if (!function_exists('twmp_cafe_menu_render_product_modal_shell')) {
                 </div>
             </div>
         </div>
-        <?php
+    <?php
         return ob_get_clean();
     }
 }
@@ -585,7 +585,7 @@ if (!function_exists('twmp_cafe_menu_render_cart_items')) {
         twmp_cafe_menu_maybe_clear_cart_for_new_day();
 
         ob_start();
-        ?>
+    ?>
         <div class="twmp-cafe-cart__content">
             <?php if (WC()->cart->is_empty()) : ?>
                 <div class="twmp-cafe-cart__empty">
@@ -701,14 +701,14 @@ if (!function_exists('twmp_cafe_menu_render_cart_items')) {
                             <div class="twmp-cafe-cart__message" data-cafe-staff-order-message aria-live="polite"></div>
                         </form>
                     <?php else : ?>
-                    <a class="twmp-cafe-cart__checkout button" href="<?php echo esc_url(wc_get_checkout_url()); ?>">
-                        <?php esc_html_e('Đặt hàng', 'twmp-ath'); ?>
-                    </a>
+                        <a class="twmp-cafe-cart__checkout button" href="<?php echo esc_url(wc_get_checkout_url()); ?>">
+                            <?php esc_html_e('Đặt hàng', 'twmp-ath'); ?>
+                        </a>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>
-        <?php
+    <?php
         return ob_get_clean();
     }
 }
@@ -725,7 +725,7 @@ if (!function_exists('twmp_cafe_menu_render_cart_sidebar')) {
         $count = WC()->cart->get_cart_contents_count();
 
         ob_start();
-        ?>
+    ?>
         <aside class="twmp-cafe-cart" data-cafe-cart aria-label="<?php esc_attr_e('Giỏ hàng', 'twmp-ath'); ?>">
             <div class="twmp-cafe-cart__header">
                 <div class="twmp-cafe-cart__heading">
@@ -741,7 +741,7 @@ if (!function_exists('twmp_cafe_menu_render_cart_sidebar')) {
             </div>
             <?php echo twmp_cafe_menu_render_cart_items(); ?>
         </aside>
-        <?php
+    <?php
         return ob_get_clean();
     }
 }
@@ -1110,7 +1110,7 @@ add_action('woocommerce_checkout_create_order_line_item', function ($item, $cart
         foreach ($values['twmp_staff_notes'] as $key => $value) {
             $label = wc_attribute_label($key);
             if ($label === $key) {
-                $label = ucwords(str_replace(['pa_', '-', '_'], ['',' ', ' '], (string) $key));
+                $label = ucwords(str_replace(['pa_', '-', '_'], ['', ' ', ' '], (string) $key));
             }
 
             $item->add_meta_data($label, wc_clean($value), false);
@@ -1121,40 +1121,92 @@ add_action('woocommerce_checkout_create_order_line_item', function ($item, $cart
 if (!function_exists('twmp_cafe_menu_render_bottom_nav')) {
     function twmp_cafe_menu_render_bottom_nav()
     {
-        if (is_admin()) {
+        if (is_admin() || !twmp_current_user_can_access_private_pages()) {
             return;
         }
 
-        ?>
+    ?>
         <nav class="twmp-bottom-nav" role="navigation" aria-label="<?php esc_attr_e('Thanh điều hướng dưới cùng', 'twmp-ath'); ?>">
             <ul class="twmp-bottom-nav__list">
                 <li class="twmp-bottom-nav__item">
-                    <a class="twmp-bottom-nav__link" href="<?php echo esc_url(home_url('/')); ?>">
-                        <svg viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>menu_navigation_grid [#1529]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-99.000000, -200.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M60.85,51 L57.7,51 C55.96015,51 54.55,52.343 54.55,54 L54.55,57 C54.55,58.657 55.96015,60 57.7,60 L60.85,60 C62.58985,60 64,58.657 64,57 L64,54 C64,52.343 62.58985,51 60.85,51 M49.3,51 L46.15,51 C44.41015,51 43,52.343 43,54 L43,57 C43,58.657 44.41015,60 46.15,60 L49.3,60 C51.03985,60 52.45,58.657 52.45,57 L52.45,54 C52.45,52.343 51.03985,51 49.3,51 M60.85,40 L57.7,40 C55.96015,40 54.55,41.343 54.55,43 L54.55,46 C54.55,47.657 55.96015,49 57.7,49 L60.85,49 C62.58985,49 64,47.657 64,46 L64,43 C64,41.343 62.58985,40 60.85,40 M52.45,43 L52.45,46 C52.45,47.657 51.03985,49 49.3,49 L46.15,49 C44.41015,49 43,47.657 43,46 L43,43 C43,41.343 44.41015,40 46.15,40 L49.3,40 C51.03985,40 52.45,41.343 52.45,43" id="menu_navigation_grid-[#1529]"> </path> </g> </g> </g> </g></svg>
+                    <a class="twmp-bottom-nav__link" href="<?php echo esc_url(home_url('/pos/')); ?>">
+                        <svg viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>menu_navigation_grid [#1529]</title>
+                                <desc>Created with Sketch.</desc>
+                                <defs> </defs>
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Dribbble-Light-Preview" transform="translate(-99.000000, -200.000000)" fill="#ffffff">
+                                        <g id="icons" transform="translate(56.000000, 160.000000)">
+                                            <path d="M60.85,51 L57.7,51 C55.96015,51 54.55,52.343 54.55,54 L54.55,57 C54.55,58.657 55.96015,60 57.7,60 L60.85,60 C62.58985,60 64,58.657 64,57 L64,54 C64,52.343 62.58985,51 60.85,51 M49.3,51 L46.15,51 C44.41015,51 43,52.343 43,54 L43,57 C43,58.657 44.41015,60 46.15,60 L49.3,60 C51.03985,60 52.45,58.657 52.45,57 L52.45,54 C52.45,52.343 51.03985,51 49.3,51 M60.85,40 L57.7,40 C55.96015,40 54.55,41.343 54.55,43 L54.55,46 C54.55,47.657 55.96015,49 57.7,49 L60.85,49 C62.58985,49 64,47.657 64,46 L64,43 C64,41.343 62.58985,40 60.85,40 M52.45,43 L52.45,46 C52.45,47.657 51.03985,49 49.3,49 L46.15,49 C44.41015,49 43,47.657 43,46 L43,43 C43,41.343 44.41015,40 46.15,40 L49.3,40 C51.03985,40 52.45,41.343 52.45,43" id="menu_navigation_grid-[#1529]"> </path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
                         <?php esc_html_e('Menu', 'twmp-ath'); ?>
                     </a>
                 </li>
                 <li class="twmp-bottom-nav__item">
                     <a class="twmp-bottom-nav__link" href="<?php echo esc_url(home_url('/staff-orders/')); ?>">
-                        <svg fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M39.3,26.9c0,1-0.9,1.9-1.9,1.9H14.6c-1,0-1.9-0.9-1.9-1.9V25c0-1,0.9-1.9,1.9-1.9h22.9c1,0,1.9,0.9,1.9,1.9 v1.9H39.3z M35.5,38.3c0,1-0.9,1.9-1.9,1.9h-19c-1,0-1.9-0.9-1.9-1.9v-1.9c0-1,0.9-1.9,1.9-1.9h19.1c1,0,1.9,0.9,1.9,1.9v1.9H35.5z M12.7,13.5c0-1,0.9-1.9,1.9-1.9h19.1c1,0,1.9,0.9,1.9,1.9v1.9c0,1-0.9,1.9-1.9,1.9H14.6c-1,0-1.9-0.9-1.9-1.9 C12.7,15.4,12.7,13.5,12.7,13.5z M41.2,4H10.8C7.6,4,5,6.6,5,9.7v32.4c0,3.1,2.6,5.7,5.7,5.7h30.5c3.1,0,5.7-2.6,5.7-5.7V9.7 C47,6.6,44.4,4,41.2,4z"></path> </g></svg>
+                        <svg fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path d="M39.3,26.9c0,1-0.9,1.9-1.9,1.9H14.6c-1,0-1.9-0.9-1.9-1.9V25c0-1,0.9-1.9,1.9-1.9h22.9c1,0,1.9,0.9,1.9,1.9 v1.9H39.3z M35.5,38.3c0,1-0.9,1.9-1.9,1.9h-19c-1,0-1.9-0.9-1.9-1.9v-1.9c0-1,0.9-1.9,1.9-1.9h19.1c1,0,1.9,0.9,1.9,1.9v1.9H35.5z M12.7,13.5c0-1,0.9-1.9,1.9-1.9h19.1c1,0,1.9,0.9,1.9,1.9v1.9c0,1-0.9,1.9-1.9,1.9H14.6c-1,0-1.9-0.9-1.9-1.9 C12.7,15.4,12.7,13.5,12.7,13.5z M41.2,4H10.8C7.6,4,5,6.6,5,9.7v32.4c0,3.1,2.6,5.7,5.7,5.7h30.5c3.1,0,5.7-2.6,5.7-5.7V9.7 C47,6.6,44.4,4,41.2,4z"></path>
+                            </g>
+                        </svg>
                         <?php esc_html_e('Đơn Chờ', 'twmp-ath'); ?>
                     </a>
                 </li>
                 <li class="twmp-bottom-nav__item">
                     <a class="twmp-bottom-nav__link" href="<?php echo esc_url(home_url('/doanh-thu/')); ?>">
-                        <svg fill="#ffffff" height="200px" width="200px" version="1.2" baseProfile="tiny" id="MO0ney_sign_by_Adioma" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M198.2,169.8c0-39.4-42.1-50.6-60.3-55.8c-34.4-9.6-37.3-22-36.8-28.3c1.2-15.5,18.2-19.3,34-15.9 c12.4,2.7,25.2,10,32.3,15.6L189.9,59c-11.1-7.6-25.3-17.4-46.1-21.4V12h-32.9v24.7C79,39.1,57.8,59.1,57.8,86.6 c0,26.8,19.4,39.4,38.8,48.8c16.2,7.7,61.4,15.8,58.8,36.2c-1.4,11.1-13.2,19.3-32.7,16.8c-17-2.1-35.2-16.4-35.2-16.4l-24.9,24.7 c15,12.1,30.9,19.7,48.2,23.2v24.1h32.9v-22.9C175.1,217.7,198.2,196.3,198.2,169.8z"></path> </g></svg>
+                        <svg fill="#ffffff" height="200px" width="200px" version="1.2" baseProfile="tiny" id="MO0ney_sign_by_Adioma" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256" xml:space="preserve">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path d="M198.2,169.8c0-39.4-42.1-50.6-60.3-55.8c-34.4-9.6-37.3-22-36.8-28.3c1.2-15.5,18.2-19.3,34-15.9 c12.4,2.7,25.2,10,32.3,15.6L189.9,59c-11.1-7.6-25.3-17.4-46.1-21.4V12h-32.9v24.7C79,39.1,57.8,59.1,57.8,86.6 c0,26.8,19.4,39.4,38.8,48.8c16.2,7.7,61.4,15.8,58.8,36.2c-1.4,11.1-13.2,19.3-32.7,16.8c-17-2.1-35.2-16.4-35.2-16.4l-24.9,24.7 c15,12.1,30.9,19.7,48.2,23.2v24.1h32.9v-22.9C175.1,217.7,198.2,196.3,198.2,169.8z"></path>
+                            </g>
+                        </svg>
                         <?php esc_html_e('Doanh thu', 'twmp-ath'); ?>
                     </a>
                 </li>
+
+                <?php if (current_user_can('administrator')): ?>
+                    <li class="twmp-bottom-nav__item">
+                        <a class="twmp-bottom-nav__link" href="<?php echo esc_url(home_url('/member-manage/')); ?>">
+                            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#ffffff">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M0 0h48v48H0z" fill="none"></path>
+                                    <g id="Shopicon">
+                                        <path d="M40,44c2.2,0,4-1.8,4-4V4H4v36c0,2.2,1.8,4,4,4H40z M24,22c2.206,0,4-1.794,4-4v-6h4v6c0,4.411-3.589,8-8,8s-8-3.589-8-8 v-6h4v6C20,20.206,21.794,22,24,22z"></path>
+                                    </g>
+                                </g>
+                            </svg>
+                            <?php esc_html_e('Member Manager', 'twmp-ath'); ?>
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li class="twmp-bottom-nav__item">
-                    <a class="twmp-bottom-nav__link" href="<?php echo esc_url( wp_logout_url() ); ?>">
-                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 0h48v48H0z" fill="none"></path> <g id="Shopicon"> <path d="M40,44c2.2,0,4-1.8,4-4V4H4v36c0,2.2,1.8,4,4,4H40z M24,22c2.206,0,4-1.794,4-4v-6h4v6c0,4.411-3.589,8-8,8s-8-3.589-8-8 v-6h4v6C20,20.206,21.794,22,24,22z"></path> </g> </g></svg>
+                    <a class="twmp-bottom-nav__link" href="<?php echo esc_url(wp_logout_url()); ?>">
+                        <svg fill="#ffffff" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>logout</title>
+                                <path d="M0 9.875v12.219c0 1.125 0.469 2.125 1.219 2.906 0.75 0.75 1.719 1.156 2.844 1.156h6.125v-2.531h-6.125c-0.844 0-1.5-0.688-1.5-1.531v-12.219c0-0.844 0.656-1.5 1.5-1.5h6.125v-2.563h-6.125c-1.125 0-2.094 0.438-2.844 1.188-0.75 0.781-1.219 1.75-1.219 2.875zM6.719 13.563v4.875c0 0.563 0.5 1.031 1.063 1.031h5.656v3.844c0 0.344 0.188 0.625 0.5 0.781 0.125 0.031 0.25 0.031 0.313 0.031 0.219 0 0.406-0.063 0.563-0.219l7.344-7.344c0.344-0.281 0.313-0.844 0-1.156l-7.344-7.313c-0.438-0.469-1.375-0.188-1.375 0.563v3.875h-5.656c-0.563 0-1.063 0.469-1.063 1.031z"></path>
+                            </g>
+                        </svg>
                         <?php esc_html_e('Đăng Xuất', 'twmp-ath'); ?>
                     </a>
                 </li>
             </ul>
         </nav>
-        <?php
+<?php
     }
 
     add_action('wp_footer', 'twmp_cafe_menu_render_bottom_nav', 30);

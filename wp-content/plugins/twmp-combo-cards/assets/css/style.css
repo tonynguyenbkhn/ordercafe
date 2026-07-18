@@ -1,0 +1,272 @@
+.twmp-combo-lookup,
+.twmp-combo-manage {
+    max-width: 980px;
+    margin: 20px auto;
+    padding: 1.5rem;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #ffffff 0%, #fff8f1 100%);
+    box-shadow: 0 20px 45px rgba(239, 111, 26, 0.08);
+    border: 1px solid rgba(239, 111, 26, 0.15);
+}
+.twmp-combo-lookup {
+    padding: 10px;
+}
+.twmp-combo-form {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.twmp-combo-form label {
+    font-weight: 700;
+    color: #2a2a2a;
+    font-size: 0.95rem;
+}
+.twmp-combo-form input,
+.twmp-combo-form select,
+.twmp-combo-form button {
+    width: calc( 100% - 20px );
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #f0a375;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+.twmp-combo-form select,
+.twmp-combo-form button {
+    width: 100%;
+}
+.twmp-combo-form input,
+.twmp-combo-form select {
+    background: #fff;
+}
+.twmp-combo-form input:focus,
+.twmp-combo-form select:focus {
+    border-color: #ef6f1a;
+    box-shadow: 0 0 0 4px rgba(239, 111, 26, 0.12);
+}
+.twmp-combo-form button {
+    background: #ef6f1a;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    border-color: #ef6f1a;
+    box-shadow: 0 12px 24px rgba(239, 111, 26, 0.18);
+}
+.twmp-combo-form button:hover {
+    background: #d65914;
+    border-color: #d65914;
+}
+.twmp-combo-card {
+    position: relative;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background: #ffffff;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.06);
+}
+.twmp-combo-card.loading {
+    opacity: 0.85;
+    pointer-events: none;
+}
+.twmp-combo-card.loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: inherit;
+    z-index: 1;
+}
+.twmp-combo-card.loading .twmp-combo-loader {
+    opacity: 1;
+}
+.twmp-combo-card .twmp-combo-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(239, 111, 26, 0.25);
+    border-top-color: #ef6f1a;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    animation: twmp-combo-spin 0.7s linear infinite;
+}
+@keyframes twmp-combo-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.twmp-combo-card h3 {
+    margin-top: 0;
+    font-size: 14px;
+    color: #222222;
+}
+.twmp-combo-card p {
+    margin: 0.45rem 0 0;
+    color: #555;
+    line-height: 1.6;
+    font-size: 14px;
+}
+.twmp-combo-card .twmp-combo-status {
+    display: inline-block;
+    margin-left: 0.35rem;
+    font-size: 14px;
+}
+.twmp-combo-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1.25rem;
+}
+.twmp-combo-slot {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f2a776;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    background: #fff5ee;
+    color: #5a2d0f;
+    font-weight: 700;
+    transition: all 0.15s ease-in-out;
+    font-size: 14px;
+}
+.twmp-combo-slot.active {
+    border-color: #ef6f1a;
+    color: #ef6f1a;
+    background: rgba(239, 111, 26, 0.08);
+}
+.twmp-combo-slot.completed {
+    background: #ef6f1a;
+    color: #fff;
+    border-color: #ef6f1a;
+}
+.twmp-combo-slot.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.twmp-combo-history-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 0 10px;
+    border-radius: 4px;
+    background: #fff5ee;
+    color: #ef6f1a;
+    border: 1px solid rgba(239, 111, 26, 0.2);
+    cursor: pointer;
+    font-weight: 700;
+    font-size:10px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+.twmp-combo-history-toggle:hover {
+    background: #fff2e6;
+    transform: translateY(-1px);
+}
+.twmp-combo-history {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background: #fff6f0;
+    border-radius: 4px;
+    border: 1px solid rgba(239, 111, 26, 0.18);
+}
+.twmp-combo-card.history-open .twmp-combo-history {
+    display: block;
+}
+.twmp-combo-card.history-open .twmp-combo-history-toggle {
+    background: #ef6f1a;
+    color: #ffffff;
+    border-color: #ef6f1a;
+}
+.twmp-combo-history h4 {
+    margin: 0 0 0.85rem;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #2d2d2d;
+}
+.twmp-combo-history ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.65rem;
+}
+.twmp-combo-history li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    background: #ffffff;
+    border: 1px solid rgba(239, 111, 26, 0.12);
+    color: #4d4d4d;
+    font-size: 12px;
+    line-height: 1.4;
+}
+.twmp-combo-history li strong {
+    color: #222222;
+}
+.twmp-combo-history li::before {
+    content: '\2022';
+    margin-right: 0.75rem;
+    color: #ef6f1a;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+.twmp-combo-history li:hover {
+    background: #fff8f3;
+}
+.twmp-combo-status.active {
+    color: #ef6f1a;
+}
+.twmp-combo-status.completed {
+    color: #0b7038;
+}
+.twmp-combo-status.expired {
+    color: #d54810;
+}
+.twmp-combo-status.cancelled {
+    color: #555;
+}
+.twmp-combo-error,
+.twmp-combo-success {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.twmp-combo-error {
+    background: rgba(239, 111, 26, 0.08);
+    color: #b5300d;
+    border: 1px solid rgba(239, 111, 26, 0.2);
+}
+.twmp-combo-success {
+    background: rgba(14, 88, 32, 0.08);
+    color: #0b7038;
+    border: 1px solid rgba(14, 88, 32, 0.18);
+}
+.twmp-combo-actions {
+    display: grid;
+    gap: 10px;
+}
+.twmp-combo-manage-results {
+    margin-top: 1.25rem;
+}
+@media (max-width: 640px) {
+    .twmp-combo-lookup,
+    .twmp-combo-manage {
+        padding: 10px;
+    }
+    .twmp-combo-slot {
+        width: 30px;
+        height: 30px;
+    }
+}

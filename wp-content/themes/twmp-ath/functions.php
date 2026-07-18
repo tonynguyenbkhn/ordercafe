@@ -262,7 +262,7 @@ function twmp_render_access_notice($args = array())
 }
 
 add_action('template_redirect', function () {
-    if (is_admin() || wp_doing_ajax() || is_user_logged_in() || !is_page()) {
+    if (is_admin() || wp_doing_ajax() || is_user_logged_in() || !is_page() || is_page('member') || is_front_page()) {
         return;
     }
 
