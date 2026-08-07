@@ -17,12 +17,17 @@
 
     function renderCard(card, allowActions) {
         var statusClass = escapeHtml(card.status);
+        var hideStatus = card.status === 'expired' || card.status === 'completed';
         var html = '<div class="twmp-combo-card">';
         html += '<h3>' + escapeHtml(card.customer_name) + ' (' + escapeHtml(card.phone) + ')</h3>';
         if (card.item_name) {
             html += '<p>Tên món: ' + escapeHtml(card.item_name) + '</p>';
         }
-        html += '<p>Combo: ' + escapeHtml(card.combo_size) + ' lượt – Trạng thái: <span class="twmp-combo-status ' + statusClass + '">' + escapeHtml(card.status) + '</span></p>';
+        html += '<p>Combo: ' + escapeHtml(card.combo_size) + ' lượt';
+        if (!hideStatus) {
+            html += ' – Trạng thái: <span class="twmp-combo-status ' + statusClass + '">' + escapeHtml(card.status) + '</span>';
+        }
+        html += '</p>';
         html += '<p>Ngày mua: ' + escapeHtml(card.purchased_at) + ' • Hết hạn: ' + escapeHtml(card.expires_at) + '</p>';
         html += '<div class="twmp-combo-slots">';
         var nextSlot = 1;
